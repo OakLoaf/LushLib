@@ -2,6 +2,7 @@ package me.dave.platyutils.gui.inventory;
 
 import org.bukkit.entity.Player;
 
+@SuppressWarnings("unused")
 public abstract class PagedChestGui extends ChestGui {
     protected int page = 1;
 

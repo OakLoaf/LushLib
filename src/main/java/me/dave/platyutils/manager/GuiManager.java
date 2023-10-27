@@ -6,27 +6,31 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class GuiManager extends Manager {
-    private HashMap<UUID, ChestGui> playerInventoryMap = null;
+    private HashMap<UUID, ChestGui> playerGuiMap = null;
 
     @Override
     public void onEnable() {
-        playerInventoryMap = new HashMap<>();
+        playerGuiMap = new HashMap<>();
     }
 
     @Override
     public void onDisable() {
-
+        if (playerGuiMap != null) {
+            playerGuiMap.values().forEach(ChestGui::close);
+            playerGuiMap.clear();
+            playerGuiMap = null;
+        }
     }
 
     public ChestGui getGui(UUID uuid) {
-        return playerInventoryMap.get(uuid);
+        return playerGuiMap.get(uuid);
     }
 
-    public void addInventory(UUID uuid, ChestGui gui) {
-        playerInventoryMap.put(uuid, gui);
+    public void addGui(UUID uuid, ChestGui gui) {
+        playerGuiMap.put(uuid, gui);
     }
 
-    public void removeInventory(UUID uuid) {
-        playerInventoryMap.remove(uuid);
+    public void removeGui(UUID uuid) {
+        playerGuiMap.remove(uuid);
     }
 }

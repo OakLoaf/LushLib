@@ -1,65 +1,113 @@
 package me.dave.platyutils;
 
+import me.dave.platyutils.listener.InventoryListener;
+import me.dave.platyutils.listener.PlayerListener;
 import me.dave.platyutils.manager.GuiManager;
 import me.dave.platyutils.manager.Manager;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+import space.arim.morepaperlib.MorePaperLib;
 
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.logging.Logger;
 
 public final class PlatyUtils {
-    private static PlatyUtils instance = null;
-    private static Logger logger = null;
-    private HashMap<Class<? extends Manager>, Manager> managers;
+    private static boolean enabled = false;
 
-    public PlatyUtils(JavaPlugin plugin) {
-        instance = this;
+    private static JavaPlugin plugin = null;
+    private static Logger logger = null;
+    private static MorePaperLib morePaperLib = null;
+
+    private static HashMap<Class<? extends Manager>, Manager> managers;
+
+    public void enable(@NotNull JavaPlugin plugin) {
+        enabled = true;
+
+        PlatyUtils.plugin = plugin;
         logger = plugin.getLogger();
 
         registerManager(new GuiManager());
+
+        registerEvents(
+            new InventoryListener(),
+            new PlayerListener()
+        );
+
+        logger.info("Successfully enabled PlatyUtils");
     }
 
-    public void shutdown() {
+    public static void disable() {
         if (managers != null) {
-            managers.values().forEach(Manager::disable);
+            managers.keySet().forEach(PlatyUtils::unregisterManager);
             managers.clear();
             managers = null;
         }
 
-        instance = null;
+        if (morePaperLib != null) {
+            morePaperLib.scheduling().cancelGlobalTasks();
+            morePaperLib = null;
+        }
+
+        logger.info("Successfully disabled PlatyUtils");
+        logger = null;
+        plugin = null;
+
+        enabled = false;
+    }
+
+    private void registerEvents(Listener... listeners) {
+        for (Listener listener : listeners) {
+            plugin.getServer().getPluginManager().registerEvents(listener, plugin);
+        }
+    }
+
+    public static boolean isEnabled() {
+        return enabled;
+    }
+
+    public static JavaPlugin getPlugin() {
+        return plugin;
+    }
+
+    public static Logger getLogger() {
+        return logger;
+    }
+
+    public static MorePaperLib getMorePaperLib() {
+        if (isEnabled()) {
+            if (morePaperLib == null) {
+                morePaperLib = new MorePaperLib(plugin);
+            }
+
+            return morePaperLib;
+        } else {
+            throw new IllegalStateException("PlatyUtils is not enabled");
+        }
     }
 
     @SuppressWarnings("unchecked")
-    public <T extends Manager> Optional<T> getManager(Class<T> clazz) {
+    public static <T extends Manager> Optional<T> getManager(Class<T> clazz) {
         return managers.containsKey(clazz) ? Optional.of((T) managers.get(clazz)) : Optional.empty();
     }
 
-    public void registerManager(@NotNull Manager... managers) {
-        if (this.managers == null) {
-            this.managers = new HashMap<>();
+    public static void registerManager(@NotNull Manager... managers) {
+        if (PlatyUtils.managers == null) {
+            PlatyUtils.managers = new HashMap<>();
         }
 
         for (Manager manager : managers) {
-            this.managers.put(manager.getClass(), manager);
+            PlatyUtils.managers.put(manager.getClass(), manager);
             manager.enable();
         }
     }
 
-    public void unregisterManager(Class<? extends Manager> clazz) {
+    public static void unregisterManager(Class<? extends Manager> clazz) {
         Manager manager = managers.get(clazz);
         if (manager != null) {
             manager.disable();
             managers.remove(clazz);
         }
-    }
-
-    public static PlatyUtils getInstance() {
-        return instance;
-    }
-
-    public static Logger getLogger() {
-        return logger;
     }
 }
