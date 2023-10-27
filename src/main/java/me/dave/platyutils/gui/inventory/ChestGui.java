@@ -72,10 +72,14 @@ public abstract class ChestGui {
 
     public abstract void recalculateContents();
 
-    public void openInventory() {
+    public void open() {
         recalculateContents();
         player.openInventory(inventory);
-        PlatyUtils.getInstance().getManager(GuiManager.class).ifPresent(manager -> manager.addInventory(player.getUniqueId(), this));
+        PlatyUtils.getManager(GuiManager.class).ifPresent(guiManager -> guiManager.addGui(player.getUniqueId(), this));
+    }
+
+    public void close() {
+        player.closeInventory();
     }
 
 
@@ -83,7 +87,7 @@ public abstract class ChestGui {
     public void onOpen(InventoryOpenEvent event) {}
 
     public void onClose(InventoryCloseEvent event) {
-        PlatyUtils.getInstance().getManager(GuiManager.class).ifPresent(manager -> manager.removeInventory(player.getUniqueId()));
+        PlatyUtils.getManager(GuiManager.class).ifPresent(guiManager -> guiManager.removeGui(player.getUniqueId()));
     }
 
     public void onClick(InventoryClickEvent event) {

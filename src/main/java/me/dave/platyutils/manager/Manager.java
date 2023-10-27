@@ -6,13 +6,23 @@ public abstract class Manager {
     public abstract void onEnable();
     public abstract void onDisable();
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
     public void enable() {
-        this.enabled = true;
-        onEnable();
+        if (!isEnabled()) {
+            this.enabled = true;
+            onEnable();
+        } else {
+            throw new IllegalStateException("This Manager is already enabled");
+        }
     }
 
     public void disable() {
-        this.enabled = false;
-        onDisable();
+        if (isEnabled()) {
+            this.enabled = false;
+            onDisable();
+        }
     }
 }
