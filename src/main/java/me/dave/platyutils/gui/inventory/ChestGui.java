@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("unused")
 public abstract class ChestGui {
     protected final Inventory inventory;
     protected final Player player;
