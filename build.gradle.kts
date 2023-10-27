@@ -10,13 +10,14 @@ version = "1.0-BETA"
 repositories {
     mavenCentral()
     mavenLocal()
+    maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots/") }
     maven { url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots/") }
     maven { url = uri("https://mvn-repo.arim.space/lesser-gpl3/") }
     maven { url = uri("https://jitpack.io") }
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot:1.20-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot:1.20.1-R0.1-SNAPSHOT")
     implementation("space.arim.morepaperlib:morepaperlib:0.4.3")
     implementation("com.github.CoolDCB:ChatColorHandler:v2.1.5")
 }
