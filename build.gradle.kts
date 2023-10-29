@@ -1,3 +1,5 @@
+import java.net.URI
+
 plugins {
     java
     `maven-publish`
@@ -36,5 +38,18 @@ tasks {
         relocate("me.dave.chatcolorhandler", "me.dave.platyutils.libraries.chatcolor")
 
         archiveFileName.set("${project.name}-${project.version}.jar")
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = URI.create("https://maven.pkg.github.com/CoolDCB/PlatyUtils")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
     }
 }
