@@ -52,4 +52,13 @@ publishing {
             }
         }
     }
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = "me.dave";
+            artifactId = "PlatyUtils"
+            version = project.version.toString();
+
+            from(components["java"])
+        }
+    }
 }
