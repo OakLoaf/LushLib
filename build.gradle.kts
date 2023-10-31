@@ -18,7 +18,7 @@ repositories {
 dependencies {
     compileOnly("org.spigotmc:spigot:1.20-R0.1-SNAPSHOT")
     implementation("space.arim.morepaperlib:morepaperlib:0.4.3")
-    implementation("com.github.CoolDCB:ChatColorHandler:v2.1.5")
+    implementation("com.github.CoolDCB:ChatColorHandler:v2.2.0")
 }
 
 java {
