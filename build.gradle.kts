@@ -53,12 +53,27 @@ publishing {
         }
     }
     publications {
-        create<MavenPublication>("maven") {
-            groupId = "me.dave";
-            artifactId = "PlatyUtils"
-            version = project.version.toString();
-
-            from(components["java"])
+        repositories {
+            maven {
+                name = "PlatyUtils"
+                url = uri("https://maven.pkg.github.com/CoolDCB/PlatyUtils")
+                credentials {
+                    username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
+                    password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
+                }
+            }
         }
+        publications {
+            register<MavenPublication>("gpr") {
+                from(components["java"])
+            }
+        }
+//        create<MavenPublication>("maven") {
+//            groupId = "me.dave";
+//            artifactId = "PlatyUtils"
+//            version = project.version.toString();
+//
+//            from(components["java"])
+//        }
     }
 }
