@@ -44,7 +44,7 @@ tasks {
 publishing {
     repositories {
         maven {
-            name = "PlatyUtils"
+            name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/CoolDCB/PlatyUtils")
             credentials {
                 username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
