@@ -56,7 +56,7 @@ publishing {
         create<MavenPublication>("maven") {
             groupId = "me.dave";
             artifactId = "PlatyUtils"
-            version = project.version.toString();
+            version = "1.0-BETA"
 
             from(components["java"])
         }
