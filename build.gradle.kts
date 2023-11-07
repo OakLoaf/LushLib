@@ -44,36 +44,17 @@ tasks {
 publishing {
     repositories {
         maven {
-            name = "GitHubPackages"
-            url = URI.create("https://maven.pkg.github.com/CoolDCB/PlatyUtils")
+            name = "PlatyUtils"
+            url = uri("https://maven.pkg.github.com/CoolDCB/PlatyUtils")
             credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
+                username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
+                password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
             }
         }
     }
     publications {
-        repositories {
-            maven {
-                name = "PlatyUtils"
-                url = uri("https://maven.pkg.github.com/CoolDCB/PlatyUtils")
-                credentials {
-                    username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
-                    password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
-                }
-            }
+        register<MavenPublication>("gpr") {
+            from(components["java"])
         }
-        publications {
-            register<MavenPublication>("gpr") {
-                from(components["java"])
-            }
-        }
-//        create<MavenPublication>("maven") {
-//            groupId = "me.dave";
-//            artifactId = "PlatyUtils"
-//            version = project.version.toString();
-//
-//            from(components["java"])
-//        }
     }
 }
