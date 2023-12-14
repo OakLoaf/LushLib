@@ -5,10 +5,7 @@ import me.dave.platyutils.manager.GuiManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryDragEvent;
-import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -17,13 +14,18 @@ import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("unused")
-public abstract class ChestGui {
+public abstract class Gui {
     protected final Inventory inventory;
     protected final Player player;
     private final HashMap<Integer, Boolean> slotLockMap = new HashMap<>();
 
-    public ChestGui(int size, String title, Player player) {
-        inventory = Bukkit.createInventory(null, size, title);
+    public Gui(int size, String title, Player player) {
+        inventory = Bukkit.getServer().createInventory(null, size, title);
+        this.player = player;
+    }
+
+    public Gui(InventoryType inventoryType, String title, Player player) {
+        inventory = Bukkit.getServer().createInventory(null, inventoryType, title);
         this.player = player;
     }
 

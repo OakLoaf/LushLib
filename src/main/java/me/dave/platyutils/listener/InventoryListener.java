@@ -1,7 +1,7 @@
 package me.dave.platyutils.listener;
 
 import me.dave.platyutils.PlatyUtils;
-import me.dave.platyutils.gui.inventory.ChestGui;
+import me.dave.platyutils.gui.inventory.Gui;
 import me.dave.platyutils.manager.GuiManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,7 +21,7 @@ public class InventoryListener implements Listener {
         Player player = (Player) event.getPlayer();
 
         PlatyUtils.getManager(GuiManager.class).ifPresent(guiManager -> {
-            ChestGui gui = guiManager.getGui(player.getUniqueId());
+            Gui gui = guiManager.getGui(player.getUniqueId());
             if (gui == null || !event.getInventory().equals(gui.getInventory())) {
                 return;
             }
@@ -35,7 +35,7 @@ public class InventoryListener implements Listener {
         Player player = (Player) event.getPlayer();
 
         PlatyUtils.getManager(GuiManager.class).ifPresent(guiManager -> {
-            ChestGui gui = guiManager.getGui(player.getUniqueId());
+            Gui gui = guiManager.getGui(player.getUniqueId());
             if (gui == null || !event.getInventory().equals(gui.getInventory())) {
                 return;
             }
@@ -49,7 +49,7 @@ public class InventoryListener implements Listener {
         Player player = (Player) event.getWhoClicked();
 
         PlatyUtils.getManager(GuiManager.class).ifPresent(guiManager -> {
-            ChestGui gui = guiManager.getGui(player.getUniqueId());
+            Gui gui = guiManager.getGui(player.getUniqueId());
             if (gui == null) {
                 return;
             }
@@ -69,7 +69,7 @@ public class InventoryListener implements Listener {
         UUID playerUUID = player.getUniqueId();
 
         PlatyUtils.getManager(GuiManager.class).ifPresent(guiManager -> {
-            ChestGui gui = guiManager.getGui(playerUUID);
+            Gui gui = guiManager.getGui(playerUUID);
             if (gui == null || !player.getOpenInventory().getTopInventory().equals(gui.getInventory())) {
                 return;
             }
