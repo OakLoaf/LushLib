@@ -1,5 +1,3 @@
-import java.net.URI
-
 plugins {
     java
     `maven-publish`
@@ -7,7 +5,7 @@ plugins {
 }
 
 group = "me.dave"
-version = "1.0-BETA"
+version = "1.0.1-BETA"
 
 repositories {
     mavenCentral()
