@@ -47,6 +47,11 @@ public abstract class Gui {
         inventory.setItem(slot, item);
     }
 
+    public void addButton(int slot, ItemStack item, Consumer<InventoryClickEvent> task) {
+        addItem(slot, item);
+        buttons.put(slot, task);
+    }
+
     public void addButton(int slot, Consumer<InventoryClickEvent> task) {
         buttons.put(slot, task);
     }
