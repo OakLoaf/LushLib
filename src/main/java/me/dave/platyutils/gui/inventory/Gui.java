@@ -39,7 +39,7 @@ public abstract class Gui {
         return player;
     }
 
-    protected void setItem(int slot, ItemStack item) {
+    protected void addItem(int slot, ItemStack item) {
         if (item == null) {
             item = new ItemStack(Material.AIR);
         }
