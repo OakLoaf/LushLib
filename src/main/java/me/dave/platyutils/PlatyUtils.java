@@ -22,7 +22,7 @@ public final class PlatyUtils {
 
     private static HashMap<Class<? extends Manager>, Manager> managers;
 
-    public void enable(@NotNull JavaPlugin plugin) {
+    public static void enable(@NotNull JavaPlugin plugin) {
         enabled = true;
 
         PlatyUtils.plugin = plugin;
@@ -57,7 +57,7 @@ public final class PlatyUtils {
         enabled = false;
     }
 
-    private void registerEvents(Listener... listeners) {
+    public static void registerEvents(Listener... listeners) {
         for (Listener listener : listeners) {
             plugin.getServer().getPluginManager().registerEvents(listener, plugin);
         }
