@@ -141,11 +141,11 @@ public class SimpleItemStack implements Cloneable {
         }
     }
 
-    public ItemStack getItemStack() {
-        return getItemStack(null);
+    public ItemStack asItemStack() {
+        return asItemStack(null);
     }
 
-    public ItemStack getItemStack(@Nullable Player player) {
+    public ItemStack asItemStack(@Nullable Player player) {
         ItemStack itemStack = new ItemStack(material, amount);
         ItemMeta itemMeta = itemStack.getItemMeta();
 
