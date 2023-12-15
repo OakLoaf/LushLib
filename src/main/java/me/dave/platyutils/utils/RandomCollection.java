@@ -21,6 +21,11 @@ public class RandomCollection<E> {
         return map.higherEntry(value).getValue();
     }
 
+    public void clear() {
+        map.clear();
+        total = 0;
+    }
+
     public boolean isEmpty() {
         return map.isEmpty();
     }
