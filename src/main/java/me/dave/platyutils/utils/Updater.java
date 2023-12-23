@@ -58,7 +58,17 @@ public class Updater {
         updaters.add(this);
     }
 
-    public void check() throws IOException {
+    public void queueCheck() {
+        updateExecutor.schedule(() -> {
+            try {
+                check();
+            } catch (Exception e) {
+                PlatyUtils.getLogger().info("Unable to check for update: " + e.getMessage());
+            }
+        }, 0, TimeUnit.SECONDS);
+    }
+
+    private void check() throws IOException {
         if (!enabled) {
             return;
         }
