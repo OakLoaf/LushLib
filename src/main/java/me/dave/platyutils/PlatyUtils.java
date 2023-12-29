@@ -9,10 +9,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import space.arim.morepaperlib.MorePaperLib;
 
-import java.util.HashMap;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
+@SuppressWarnings("unused")
 public final class PlatyUtils {
     private static boolean enabled = false;
 
@@ -20,7 +21,7 @@ public final class PlatyUtils {
     private static Logger logger = null;
     private static MorePaperLib morePaperLib = null;
 
-    private static HashMap<Class<? extends Manager>, Manager> managers;
+    private static ConcurrentHashMap<Class<? extends Manager>, Manager> managers;
 
     public static void enable(@NotNull JavaPlugin plugin) {
         enabled = true;
@@ -94,7 +95,7 @@ public final class PlatyUtils {
 
     public static void registerManager(@NotNull Manager... managers) {
         if (PlatyUtils.managers == null) {
-            PlatyUtils.managers = new HashMap<>();
+            PlatyUtils.managers = new ConcurrentHashMap<>();
         }
 
         for (Manager manager : managers) {
