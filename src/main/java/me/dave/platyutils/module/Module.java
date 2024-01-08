@@ -29,4 +29,12 @@ public abstract class Module {
         this.onDisable();
         this.enabled = false;
     }
+
+    public final void reload() {
+        if (enabled) {
+            disable();
+        }
+
+        enable();
+    }
 }
