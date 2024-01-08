@@ -16,14 +16,14 @@ public abstract class Module {
         return enabled;
     }
 
-    abstract protected void onEnable();
+    protected void onEnable() {}
 
     public final void enable() {
         this.onEnable();
         this.enabled = true;
     }
 
-    abstract protected void onDisable();
+    protected void onDisable() {}
 
     public final void disable() {
         this.onDisable();
