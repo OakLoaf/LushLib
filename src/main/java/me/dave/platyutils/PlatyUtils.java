@@ -40,6 +40,8 @@ public final class PlatyUtils {
     }
 
     public static void disable() {
+        // TODO: Unregister listeners
+
         if (managers != null) {
             managers.keySet().forEach(PlatyUtils::unregisterManager);
             managers.clear();
