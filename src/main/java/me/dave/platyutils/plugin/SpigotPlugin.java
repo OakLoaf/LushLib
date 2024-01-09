@@ -7,6 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
@@ -36,6 +37,10 @@ public abstract class SpigotPlugin extends JavaPlugin {
         }
     }
 
+    public Collection<Module> getModules() {
+        return modules.values();
+    }
+
     public Optional<Module> getModule(String moduleId) {
         return Optional.ofNullable(modules.get(moduleId));
     }
@@ -45,13 +50,19 @@ public abstract class SpigotPlugin extends JavaPlugin {
     }
 
     public void unregisterModule(String moduleId) {
-        modules.get(moduleId).disable();
-        modules.remove(moduleId);
+        if (modules.containsKey(moduleId)) {
+            modules.get(moduleId).disable();
+            modules.remove(moduleId);
+        }
     }
 
     public void unregisterAllModules() {
         modules.values().forEach(Module::disable);
         modules.clear();
+    }
+
+    public Collection<Hook> getHooks() {
+        return hooks.values();
     }
 
     public Optional<Hook> getHook(String hookId) {
@@ -63,8 +74,10 @@ public abstract class SpigotPlugin extends JavaPlugin {
     }
 
     public void unregisterHook(String hookId) {
-        hooks.get(hookId).disable();
-        hooks.remove(hookId);
+        if (hooks.containsKey(hookId)) {
+            hooks.get(hookId).disable();
+            hooks.remove(hookId);
+        }
     }
 
     public void unregisterAllHooks() {
