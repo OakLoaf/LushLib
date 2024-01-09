@@ -3,10 +3,13 @@ package me.dave.platyutils.plugin;
 import me.dave.platyutils.PlatyUtils;
 import me.dave.platyutils.hook.Hook;
 import me.dave.platyutils.module.Module;
+import org.apache.commons.io.FilenameUtils;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -92,6 +95,15 @@ public abstract class SpigotPlugin extends JavaPlugin {
         if (!new File(PlatyUtils.getPlugin().getDataFolder(), path).exists()) {
             saveResource(path, false);
             PlatyUtils.getPlugin().getLogger().info("File Created: " + path);
+        }
+    }
+
+    public void backupFile(File file) {
+        File parent = file.getParentFile();
+        String name = file.getName();
+
+        if (!file.renameTo(new File(parent, FilenameUtils.removeExtension(name) + "-old-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy--HH-mm-ss")) + ".yml"))) {
+            this.getLogger().severe("Failed to rename file '" + name + "'");
         }
     }
 }
