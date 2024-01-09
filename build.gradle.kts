@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "me.dave"
-version = "0.1.15-BETA"
+version = "0.1.17"
 
 repositories {
     mavenCentral()
@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot:1.20-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot:1.20.2-R0.1-SNAPSHOT")
     compileOnly("com.google.code.gson:gson:2.10")
     compileOnly("org.geysermc.floodgate:api:2.2.2-SNAPSHOT") {
         exclude("com.google.code.gson", "gson")
