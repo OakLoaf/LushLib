@@ -9,8 +9,11 @@ public class RandomCollection<E> {
     private final NavigableMap<Double, E> map = new TreeMap<>();
     private double total = 0;
 
-    public RandomCollection<E> add(double weight, E result) {
-        if (weight <= 0) return this;
+    public RandomCollection<E> add(E result, double weight) {
+        if (weight <= 0) {
+            return this;
+        }
+
         total += weight;
         map.put(total, result);
         return this;
