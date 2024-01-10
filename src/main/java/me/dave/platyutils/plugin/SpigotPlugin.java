@@ -24,14 +24,6 @@ public abstract class SpigotPlugin extends JavaPlugin {
         log(Level.FINE, message, throwable);
     }
 
-    public void warn(@NotNull String message, @NotNull Throwable... throwable) {
-        log(Level.WARNING, message, throwable);
-    }
-
-    public void severe(@NotNull String message, @NotNull Throwable... throwable) {
-        log(Level.SEVERE, message, throwable);
-    }
-
     public void log(@NotNull Level level, @NotNull String message, @NotNull Throwable... throwable) {
         if (throwable.length > 0) {
             getLogger().log(level, message, throwable);
@@ -49,6 +41,11 @@ public abstract class SpigotPlugin extends JavaPlugin {
     }
 
     public void registerModule(Module module) {
+        if (modules.containsKey(module.getId())) {
+            log(Level.SEVERE, "Failed to register module with id '" + module.getId() + "', a module with this id is already running");
+            return;
+        }
+
         modules.put(module.getId(), module);
     }
 
