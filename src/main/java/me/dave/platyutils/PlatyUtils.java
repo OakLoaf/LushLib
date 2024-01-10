@@ -4,7 +4,6 @@ import me.dave.platyutils.listener.InventoryListener;
 import me.dave.platyutils.listener.PlayerListener;
 import me.dave.platyutils.manager.GuiManager;
 import me.dave.platyutils.manager.Manager;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import space.arim.morepaperlib.MorePaperLib;
@@ -31,17 +30,13 @@ public final class PlatyUtils {
 
         registerManager(new GuiManager());
 
-        registerEvents(
-            new InventoryListener(),
-            new PlayerListener()
-        );
+        new InventoryListener().registerListeners();
+        new PlayerListener().registerListeners();
 
         logger.info("Successfully enabled PlatyUtils");
     }
 
     public static void disable() {
-        // TODO: Unregister listeners
-
         if (managers != null) {
             managers.keySet().forEach(PlatyUtils::unregisterManager);
             managers.clear();
@@ -58,12 +53,6 @@ public final class PlatyUtils {
         plugin = null;
 
         enabled = false;
-    }
-
-    public static void registerEvents(Listener... listeners) {
-        for (Listener listener : listeners) {
-            plugin.getServer().getPluginManager().registerEvents(listener, plugin);
-        }
     }
 
     public static boolean isEnabled() {

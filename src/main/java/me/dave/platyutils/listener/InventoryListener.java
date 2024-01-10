@@ -5,7 +5,6 @@ import me.dave.platyutils.gui.inventory.Gui;
 import me.dave.platyutils.manager.GuiManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
@@ -14,7 +13,7 @@ import org.bukkit.inventory.Inventory;
 
 import java.util.UUID;
 
-public class InventoryListener implements Listener {
+public class InventoryListener implements EventListener {
 
     @EventHandler
     public void onInventoryOpen(InventoryOpenEvent event) {
