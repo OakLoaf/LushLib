@@ -4,6 +4,10 @@ import me.dave.platyutils.PlatyUtils;
 import me.dave.platyutils.hook.Hook;
 import me.dave.platyutils.module.Module;
 import org.apache.commons.io.FilenameUtils;
+import org.bukkit.Bukkit;
+import org.bukkit.event.Cancellable;
+import org.bukkit.event.Event;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -83,6 +87,23 @@ public abstract class SpigotPlugin extends JavaPlugin {
     public void unregisterAllHooks() {
         hooks.values().forEach(Hook::disable);
         hooks.clear();
+    }
+
+    protected void addHook(String pluginName, Runnable runnable) {
+        PluginManager pluginManager = getServer().getPluginManager();
+        if (pluginManager.getPlugin(pluginName) instanceof JavaPlugin hookPlugin && hookPlugin.isEnabled()) {
+            getLogger().info("Found plugin \"" + pluginName +"\". Enabling " + pluginName + " support.");
+            runnable.run();
+        }
+    }
+
+    public boolean callEvent(Event event) {
+        Bukkit.getServer().getPluginManager().callEvent(event);
+        if (event instanceof Cancellable cancellable) {
+            return !cancellable.isCancelled();
+        } else {
+            return true;
+        }
     }
 
     /**
