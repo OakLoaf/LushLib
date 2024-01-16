@@ -7,7 +7,7 @@ import java.util.logging.Level;
 
 @SuppressWarnings("unused")
 public abstract class Module {
-    private final String id;
+    protected final String id;
     private boolean enabled = false;
 
     public Module(String id) {
