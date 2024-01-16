@@ -25,27 +25,32 @@ public abstract class Module {
     protected void onEnable() {}
 
     public final void enable() {
-        try {
-            this.onEnable();
-        } catch (Throwable e) {
-            PlatyUtils.getPlugin().log(Level.SEVERE, "Error when enabling module '" + id + "' at:");
-            e.printStackTrace();
-            PlatyUtils.getPlugin().log(Level.SEVERE, "Disabling module '" + id + "'");
-            disable();
-            return;
-        }
+        if (!this.enabled) {
+            this.enabled = true;
 
-        if (this instanceof EventListener listener) {
-            listener.registerListeners();
-        }
+            try {
+                this.onEnable();
+            } catch (Throwable e) {
+                PlatyUtils.getPlugin().log(Level.SEVERE, "Error when enabling module '" + id + "' at:");
+                e.printStackTrace();
+                PlatyUtils.getPlugin().log(Level.SEVERE, "Disabling module '" + id + "'");
+                disable();
+                return;
+            }
 
-        this.enabled = true;
-        PlatyUtils.getPlugin().log(Level.INFO, "Successfully enabled module '" + id + "'");
+            if (enabled && this instanceof EventListener listener) {
+                listener.registerListeners();
+            }
+
+            PlatyUtils.getPlugin().log(Level.INFO, "Successfully enabled module '" + id + "'");
+        }
     }
 
     protected void onDisable() {}
 
     public final void disable() {
+        this.enabled = false;
+
         try {
             this.onDisable();
         } catch (Throwable e) {
@@ -53,11 +58,9 @@ public abstract class Module {
             e.printStackTrace();
         }
 
-        if (this instanceof EventListener listener) {
+        if (!enabled && this instanceof EventListener listener) {
             listener.unregisterListeners();
         }
-
-        this.enabled = false;
     }
 
     public final void reload() {
