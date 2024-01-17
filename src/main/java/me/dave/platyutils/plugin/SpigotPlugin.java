@@ -46,7 +46,7 @@ public abstract class SpigotPlugin extends JavaPlugin {
 
     public void registerModule(Module module) {
         if (modules.containsKey(module.getId())) {
-            log(Level.SEVERE, "Failed to register module with id '" + module.getId() + "', a module with this id is already running");
+            log(Level.SEVERE, "Failed to register module with id '" + module.getId() + "', a module with this id is already registered");
             return;
         }
 
@@ -74,6 +74,11 @@ public abstract class SpigotPlugin extends JavaPlugin {
     }
 
     public void registerHook(Hook hook) {
+        if (hooks.containsKey(hook.getId())) {
+            log(Level.SEVERE, "Failed to register hook with id '" + hook.getId() + "', a hook with this id is already registered");
+            return;
+        }
+
         hooks.put(hook.getId(), hook);
     }
 
