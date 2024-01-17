@@ -113,6 +113,10 @@ public abstract class Gui {
     }
 
     public void onClick(InventoryClickEvent event) {
+        this.onClick(event, false);
+    }
+
+    public void onClick(InventoryClickEvent event, boolean cancelAll) {
         Inventory clickedInventory = event.getClickedInventory();
         if (clickedInventory == null) {
             return;
@@ -123,6 +127,11 @@ public abstract class Gui {
         Consumer<InventoryClickEvent> button = buttons.get(slot);
         if (button != null) {
             button.accept(event);
+        }
+
+        if (cancelAll) {
+            event.setCancelled(true);
+            return;
         }
 
         switch (event.getAction()) {
