@@ -1,16 +1,18 @@
 package me.dave.platyutils.manager;
 
 import me.dave.platyutils.gui.inventory.Gui;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
-import java.util.HashMap;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class GuiManager extends Manager {
-    private HashMap<UUID, Gui> playerGuiMap = null;
+    private ConcurrentHashMap<UUID, Gui> playerGuiMap = null;
 
     @Override
     public void onEnable() {
-        playerGuiMap = new HashMap<>();
+        playerGuiMap = new ConcurrentHashMap<>();
     }
 
     @Override
@@ -32,5 +34,15 @@ public class GuiManager extends Manager {
 
     public void removeGui(UUID uuid) {
         playerGuiMap.remove(uuid);
+    }
+
+    public void closeAll() {
+        playerGuiMap.keySet().forEach(uuid -> {
+            Player player = Bukkit.getPlayer(uuid);
+
+            if (player != null) {
+                player.closeInventory();
+            }
+        });
     }
 }
