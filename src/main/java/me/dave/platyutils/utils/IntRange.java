@@ -10,7 +10,7 @@ public class IntRange {
 
     /**
      * @param min Minimum value (inclusive)
-     * @param max Maximum vale in range (inclusive)
+     * @param max Maximum value in range (inclusive)
      */
     public IntRange(int min, int max) {
         this.min = min;
