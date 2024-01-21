@@ -335,7 +335,7 @@ public class SimpleItemStack implements Cloneable {
                 StringUtils.getEnum((String) configurationMap.get("material"), Material.class).ifPresent(simpleItemStack::setType);
             }
             if (configurationMap.containsKey("amount")) {
-                simpleItemStack.setAmountRange(IntRange.parseIntRange((String) configurationMap.get("amount")));
+                simpleItemStack.setAmountRange(IntRange.valueOf(configurationMap.get("amount")));
             }
             if (configurationMap.containsKey("display-name")) {
                 simpleItemStack.setDisplayName((String) configurationMap.get("display-name"));
@@ -353,7 +353,7 @@ public class SimpleItemStack implements Cloneable {
                 simpleItemStack.setSkullTexture((String) configurationMap.get("skull-texture"));
             }
         } catch(ClassCastException exc) {
-            throw new IllegalArgumentException("Invalid format at '" + configurationMap + "', could not parse data");
+            throw new IllegalArgumentException("Invalid format at '" + configurationMap + "', could not parse data", exc);
         }
 
         return simpleItemStack;
