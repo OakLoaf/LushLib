@@ -5,13 +5,12 @@ import me.dave.platyutils.PlatyUtils;
 import me.dave.platyutils.utils.Updater;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 
-public class PlayerListener implements Listener {
+public class PlayerListener implements EventListener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {

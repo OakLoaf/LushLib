@@ -3,10 +3,10 @@ package me.dave.platyutils.gui.inventory;
 import org.bukkit.entity.Player;
 
 @SuppressWarnings("unused")
-public abstract class PagedChestGui extends ChestGui {
+public abstract class PagedGui extends Gui {
     protected int page = 1;
 
-    public PagedChestGui(int size, String title, Player player) {
+    public PagedGui(int size, String title, Player player) {
         super(size, title, player);
     }
 

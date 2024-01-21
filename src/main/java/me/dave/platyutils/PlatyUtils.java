@@ -4,25 +4,25 @@ import me.dave.platyutils.listener.InventoryListener;
 import me.dave.platyutils.listener.PlayerListener;
 import me.dave.platyutils.manager.GuiManager;
 import me.dave.platyutils.manager.Manager;
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.java.JavaPlugin;
+import me.dave.platyutils.plugin.SpigotPlugin;
 import org.jetbrains.annotations.NotNull;
 import space.arim.morepaperlib.MorePaperLib;
 
-import java.util.HashMap;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
+@SuppressWarnings("unused")
 public final class PlatyUtils {
     private static boolean enabled = false;
 
-    private static JavaPlugin plugin = null;
+    private static SpigotPlugin plugin = null;
     private static Logger logger = null;
     private static MorePaperLib morePaperLib = null;
 
-    private static HashMap<Class<? extends Manager>, Manager> managers;
+    private static ConcurrentHashMap<Class<? extends Manager>, Manager> managers;
 
-    public void enable(@NotNull JavaPlugin plugin) {
+    public static void enable(@NotNull SpigotPlugin plugin) {
         enabled = true;
 
         PlatyUtils.plugin = plugin;
@@ -30,10 +30,8 @@ public final class PlatyUtils {
 
         registerManager(new GuiManager());
 
-        registerEvents(
-            new InventoryListener(),
-            new PlayerListener()
-        );
+        new InventoryListener().registerListeners();
+        new PlayerListener().registerListeners();
 
         logger.info("Successfully enabled PlatyUtils");
     }
@@ -57,17 +55,11 @@ public final class PlatyUtils {
         enabled = false;
     }
 
-    private void registerEvents(Listener... listeners) {
-        for (Listener listener : listeners) {
-            plugin.getServer().getPluginManager().registerEvents(listener, plugin);
-        }
-    }
-
     public static boolean isEnabled() {
         return enabled;
     }
 
-    public static JavaPlugin getPlugin() {
+    public static SpigotPlugin getPlugin() {
         return plugin;
     }
 
@@ -94,7 +86,7 @@ public final class PlatyUtils {
 
     public static void registerManager(@NotNull Manager... managers) {
         if (PlatyUtils.managers == null) {
-            PlatyUtils.managers = new HashMap<>();
+            PlatyUtils.managers = new ConcurrentHashMap<>();
         }
 
         for (Manager manager : managers) {

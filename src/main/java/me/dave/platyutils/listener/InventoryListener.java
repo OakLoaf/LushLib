@@ -1,11 +1,10 @@
 package me.dave.platyutils.listener;
 
 import me.dave.platyutils.PlatyUtils;
-import me.dave.platyutils.gui.inventory.ChestGui;
+import me.dave.platyutils.gui.inventory.Gui;
 import me.dave.platyutils.manager.GuiManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
@@ -14,14 +13,14 @@ import org.bukkit.inventory.Inventory;
 
 import java.util.UUID;
 
-public class InventoryListener implements Listener {
+public class InventoryListener implements EventListener {
 
     @EventHandler
     public void onInventoryOpen(InventoryOpenEvent event) {
         Player player = (Player) event.getPlayer();
 
         PlatyUtils.getManager(GuiManager.class).ifPresent(guiManager -> {
-            ChestGui gui = guiManager.getGui(player.getUniqueId());
+            Gui gui = guiManager.getGui(player.getUniqueId());
             if (gui == null || !event.getInventory().equals(gui.getInventory())) {
                 return;
             }
@@ -35,7 +34,7 @@ public class InventoryListener implements Listener {
         Player player = (Player) event.getPlayer();
 
         PlatyUtils.getManager(GuiManager.class).ifPresent(guiManager -> {
-            ChestGui gui = guiManager.getGui(player.getUniqueId());
+            Gui gui = guiManager.getGui(player.getUniqueId());
             if (gui == null || !event.getInventory().equals(gui.getInventory())) {
                 return;
             }
@@ -49,7 +48,7 @@ public class InventoryListener implements Listener {
         Player player = (Player) event.getWhoClicked();
 
         PlatyUtils.getManager(GuiManager.class).ifPresent(guiManager -> {
-            ChestGui gui = guiManager.getGui(player.getUniqueId());
+            Gui gui = guiManager.getGui(player.getUniqueId());
             if (gui == null) {
                 return;
             }
@@ -69,7 +68,7 @@ public class InventoryListener implements Listener {
         UUID playerUUID = player.getUniqueId();
 
         PlatyUtils.getManager(GuiManager.class).ifPresent(guiManager -> {
-            ChestGui gui = guiManager.getGui(playerUUID);
+            Gui gui = guiManager.getGui(playerUUID);
             if (gui == null || !player.getOpenInventory().getTopInventory().equals(gui.getInventory())) {
                 return;
             }
