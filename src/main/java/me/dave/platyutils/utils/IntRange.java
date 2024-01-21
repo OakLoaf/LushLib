@@ -17,6 +17,14 @@ public class IntRange {
         this.max = max;
     }
 
+    /**
+     * @param value Minimum and maximum value (inclusive)
+     */
+    public IntRange(int value) {
+        this.min = value;
+        this.max = value;
+    }
+
     public int getMin() {
         return min;
     }
