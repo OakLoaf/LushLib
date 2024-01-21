@@ -305,7 +305,7 @@ public class SimpleItemStack implements Cloneable {
             StringUtils.getEnum(configurationSection.getString("material", null), Material.class).ifPresent(simpleItemStack::setType);
         }
         if (configurationSection.contains("amount")) {
-            simpleItemStack.setAmount(configurationSection.getInt("amount", 1));
+            simpleItemStack.setAmountRange(IntRange.parseIntRange(configurationSection.getString("amount", "1")));
         }
         if (configurationSection.contains("display-name")) {
             simpleItemStack.setDisplayName(configurationSection.getString("display-name", null));
@@ -335,7 +335,7 @@ public class SimpleItemStack implements Cloneable {
                 StringUtils.getEnum((String) configurationMap.get("material"), Material.class).ifPresent(simpleItemStack::setType);
             }
             if (configurationMap.containsKey("amount")) {
-                simpleItemStack.setAmount((int) configurationMap.get("amount"));
+                simpleItemStack.setAmountRange(IntRange.parseIntRange((String) configurationMap.get("amount")));
             }
             if (configurationMap.containsKey("display-name")) {
                 simpleItemStack.setDisplayName((String) configurationMap.get("display-name"));
