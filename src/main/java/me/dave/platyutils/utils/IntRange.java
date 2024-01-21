@@ -63,6 +63,31 @@ public class IntRange {
         }
     }
 
+    public static IntRange valueOf(Object object) throws NumberFormatException {
+        String s;
+        try {
+            s = (String) object;
+        } catch (ClassCastException e) {
+            return new IntRange((int) object);
+        }
+
+        if (s == null) {
+            throw new NumberFormatException("Cannot parse null string");
+        }
+
+        String[] values = s.split("-");
+        switch (values.length) {
+            case 1 -> {
+                int value = Integer.parseInt(values[0]);
+                return new IntRange(value, value);
+            }
+            case 2 -> {
+                return new IntRange(Integer.parseInt(values[0]), Integer.parseInt(values[1]));
+            }
+            default -> throw new NumberFormatException("Cannot parse invalid range format");
+        }
+    }
+
     @Override
     public String toString() {
         return min + "-" + max;
