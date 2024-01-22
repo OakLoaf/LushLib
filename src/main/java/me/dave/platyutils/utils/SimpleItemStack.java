@@ -19,7 +19,7 @@ import java.util.Map;
 @SuppressWarnings("unused")
 public class SimpleItemStack implements Cloneable {
     private Material material = null;
-    private int amount = 1;
+    private IntRange amount = new IntRange(1);
     private String displayName = null;
     private List<String> lore = null;
     private Boolean enchanted = null;
@@ -34,7 +34,7 @@ public class SimpleItemStack implements Cloneable {
 
     public SimpleItemStack(@Nullable Material material, int amount) {
         this.material = material;
-        this.amount = amount;
+        this.amount = new IntRange(amount);
     }
 
     @Nullable
@@ -50,12 +50,20 @@ public class SimpleItemStack implements Cloneable {
         this.material = material;
     }
 
-    public int getAmount() {
+    public IntRange getAmount() {
         return amount;
     }
 
     public void setAmount(int amount) {
-        this.amount = amount;
+        this.amount = new IntRange(amount);
+    }
+
+    public void setAmountRange(int minAmount, int maxAmount) {
+        this.amount = new IntRange(minAmount, maxAmount);
+    }
+
+    public void setAmountRange(IntRange range) {
+        this.amount = range;
     }
 
     @Nullable
@@ -124,7 +132,8 @@ public class SimpleItemStack implements Cloneable {
     public boolean isBlank() {
         return
             material == null
-                && amount == 1
+                && amount.getMin() == 1
+                && amount.getMax() == 1
                 && displayName == null
                 && lore == null
                 && enchanted == null
@@ -146,7 +155,7 @@ public class SimpleItemStack implements Cloneable {
     }
 
     public ItemStack asItemStack(@Nullable Player player) {
-        ItemStack itemStack = new ItemStack(material, amount);
+        ItemStack itemStack = new ItemStack(material, amount.next());
         ItemMeta itemMeta = itemStack.getItemMeta();
 
         if (itemMeta != null) {
@@ -184,7 +193,7 @@ public class SimpleItemStack implements Cloneable {
         if (material != null) {
             configurationSection.set("material", material.name());
         }
-        if (amount != 1) {
+        if (amount.getMin() != 1 && amount.getMax() != 1) {
             configurationSection.set("amount", amount);
         }
         if (displayName != null) {
@@ -210,7 +219,7 @@ public class SimpleItemStack implements Cloneable {
         if (material != null) {
             map.put("material", material.name());
         }
-        if (amount != 1) {
+        if (amount.getMin() != 1 && amount.getMax() != 1) {
             map.put("amount", amount);
         }
         if (displayName != null) {
@@ -244,7 +253,7 @@ public class SimpleItemStack implements Cloneable {
             result.setCustomModelData(original.getCustomModelData());
         }
 
-        result.setAmount(overwrite.getAmount() != 1 ? overwrite.getAmount() : original.getAmount());
+        result.setAmountRange(overwrite.getAmount().getMin() != 1 && overwrite.getAmount().getMax() != 1 ? overwrite.getAmount() : original.getAmount());
         result.setDisplayName(overwrite.hasDisplayName() ? overwrite.getDisplayName() : original.getDisplayName());
         result.setLore(overwrite.hasLore() ? overwrite.getLore() : original.getLore());
         result.setEnchanted(overwrite.hasEnchant() ? overwrite.getEnchanted() : original.getEnchanted());
@@ -296,7 +305,7 @@ public class SimpleItemStack implements Cloneable {
             StringUtils.getEnum(configurationSection.getString("material", null), Material.class).ifPresent(simpleItemStack::setType);
         }
         if (configurationSection.contains("amount")) {
-            simpleItemStack.setAmount(configurationSection.getInt("amount", 1));
+            simpleItemStack.setAmountRange(IntRange.parseIntRange(configurationSection.getString("amount", "1")));
         }
         if (configurationSection.contains("display-name")) {
             simpleItemStack.setDisplayName(configurationSection.getString("display-name", null));
@@ -326,7 +335,7 @@ public class SimpleItemStack implements Cloneable {
                 StringUtils.getEnum((String) configurationMap.get("material"), Material.class).ifPresent(simpleItemStack::setType);
             }
             if (configurationMap.containsKey("amount")) {
-                simpleItemStack.setAmount((int) configurationMap.get("amount"));
+                simpleItemStack.setAmountRange(IntRange.valueOf(configurationMap.get("amount")));
             }
             if (configurationMap.containsKey("display-name")) {
                 simpleItemStack.setDisplayName((String) configurationMap.get("display-name"));
@@ -344,7 +353,7 @@ public class SimpleItemStack implements Cloneable {
                 simpleItemStack.setSkullTexture((String) configurationMap.get("skull-texture"));
             }
         } catch(ClassCastException exc) {
-            throw new IllegalArgumentException("Invalid format at '" + configurationMap + "', could not parse data");
+            throw new IllegalArgumentException("Invalid format at '" + configurationMap + "', could not parse data", exc);
         }
 
         return simpleItemStack;
