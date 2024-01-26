@@ -1,6 +1,7 @@
 package me.dave.platyutils.manager;
 
 import me.dave.platyutils.gui.inventory.Gui;
+import me.dave.platyutils.listener.InventoryListener;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -13,6 +14,7 @@ public class GuiManager extends Manager {
     @Override
     public void onEnable() {
         playerGuiMap = new ConcurrentHashMap<>();
+        new InventoryListener().registerListeners();
     }
 
     @Override

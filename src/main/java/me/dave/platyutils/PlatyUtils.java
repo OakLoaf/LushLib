@@ -1,8 +1,5 @@
 package me.dave.platyutils;
 
-import me.dave.platyutils.listener.InventoryListener;
-import me.dave.platyutils.listener.PlayerListener;
-import me.dave.platyutils.manager.GuiManager;
 import me.dave.platyutils.manager.Manager;
 import me.dave.platyutils.plugin.SpigotPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -27,11 +24,6 @@ public final class PlatyUtils {
 
         PlatyUtils.plugin = plugin;
         logger = plugin.getLogger();
-
-        registerManager(new GuiManager());
-
-        new InventoryListener().registerListeners();
-        new PlayerListener().registerListeners();
 
         logger.info("Successfully enabled PlatyUtils");
     }

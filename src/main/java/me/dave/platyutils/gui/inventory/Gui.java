@@ -16,6 +16,10 @@ import java.util.function.Consumer;
 
 @SuppressWarnings("unused")
 public abstract class Gui {
+    static {
+        PlatyUtils.registerManager(new GuiManager());
+    }
+
     protected final Inventory inventory;
     protected final Player player;
     protected final ConcurrentHashMap<Integer, Consumer<InventoryClickEvent>> buttons = new ConcurrentHashMap<>();

@@ -3,8 +3,13 @@ package me.dave.platyutils.utils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import me.dave.chatcolorhandler.ChatColorHandler;
 import me.dave.platyutils.PlatyUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.*;
@@ -12,6 +17,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
@@ -245,5 +252,28 @@ public class Updater {
 
     public static HashSet<Updater> getUpdaters() {
         return updaters;
+    }
+
+    public static class UpdaterListener implements Listener {
+
+        @EventHandler
+        public void onPlayerJoin(PlayerJoinEvent event) {
+            Player player = event.getPlayer();
+
+            updaters.forEach(updater -> {
+                if (player.hasPermission(updater.getPermission())) {
+                    if (updater.isUpdateAvailable() && !updater.isAlreadyDownloaded()) {
+                        PlatyUtils.getMorePaperLib().scheduling().asyncScheduler().runDelayed(() -> {
+                            String message = updater.getUpdateMessage()
+                                .replace("%modrinth_slug%", updater.getModrinthProjectSlug())
+                                .replace("%plugin_name%", PlatyUtils.getPlugin().getName())
+                                .replace("%download_command%", updater.getDownloadCommand());
+
+                            ChatColorHandler.sendMessage(player, message);
+                        }, Duration.of(2, ChronoUnit.SECONDS));
+                    }
+                }
+            });
+        }
     }
 }
