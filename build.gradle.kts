@@ -13,7 +13,7 @@ repositories {
     maven { url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots/") } // Spigot
     maven { url = uri("https://mvn-repo.arim.space/lesser-gpl3/") } // MorePaperLib
     maven { url = uri("https://repo.opencollab.dev/main/") } // Floodgate
-    maven { url = uri("https://repo.smrt-1.com") } // ChatColorHandler
+    maven { url = uri("https://repo.smrt-1.com/releases") } // ChatColorHandler
 }
 
 dependencies {
@@ -22,8 +22,9 @@ dependencies {
     compileOnly("org.geysermc.floodgate:api:2.2.2-SNAPSHOT") {
         exclude("com.google.code.gson", "gson")
     }
-    implementation("space.arim.morepaperlib:morepaperlib:0.4.3")
     implementation("me.dave:ChatColorHandler:v2.5.3")
+    implementation("org.jetbrains:annotations:24.0.0")
+    implementation("space.arim.morepaperlib:morepaperlib:0.4.3")
 }
 
 java {
