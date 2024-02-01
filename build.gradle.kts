@@ -13,7 +13,7 @@ repositories {
     maven { url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots/") } // Spigot
     maven { url = uri("https://mvn-repo.arim.space/lesser-gpl3/") } // MorePaperLib
     maven { url = uri("https://repo.opencollab.dev/main/") } // Floodgate
-    maven { url = uri("https://jitpack.io") } // ChatColorHandler
+    maven { url = uri("https://repo.smrt-1.com") } // ChatColorHandler
 }
 
 dependencies {
@@ -23,7 +23,7 @@ dependencies {
         exclude("com.google.code.gson", "gson")
     }
     implementation("space.arim.morepaperlib:morepaperlib:0.4.3")
-    implementation("com.github.CoolDCB:ChatColorHandler:v2.2.0")
+    implementation("me.dave:ChatColorHandler:v2.5.3")
 }
 
 java {
@@ -46,17 +46,32 @@ tasks {
 publishing {
     repositories {
         maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/CoolDCB/PlatyUtils")
-            credentials {
-                username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
-                password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
+            name = "smrt1Releases"
+            url = uri("https://repo.smrt-1.com/releases")
+            credentials(PasswordCredentials::class)
+            authentication {
+                isAllowInsecureProtocol = true
+                create<BasicAuthentication>("basic")
+            }
+        }
+
+        maven {
+            name = "smrt1Snapshots"
+            url = uri("https://repo.smrt-1.com/snapshots")
+            credentials(PasswordCredentials::class)
+            authentication {
+                isAllowInsecureProtocol = true
+                create<BasicAuthentication>("basic")
             }
         }
     }
+
     publications {
-        register<MavenPublication>("gpr") {
-            from(components["java"])
+        create<MavenPublication>("maven") {
+            groupId = rootProject.group.toString()
+            artifactId = rootProject.name
+            version = rootProject.version.toString()
+            from(project.components["java"])
         }
     }
 }
