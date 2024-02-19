@@ -5,6 +5,8 @@ import me.dave.platyutils.hook.Hook;
 import me.dave.platyutils.module.Module;
 import org.apache.commons.io.FilenameUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.plugin.PluginManager;
@@ -109,6 +111,10 @@ public abstract class SpigotPlugin extends JavaPlugin {
         } else {
             return true;
         }
+    }
+
+    public FileConfiguration getConfigResource(String path) {
+        return YamlConfiguration.loadConfiguration(new File(PlatyUtils.getPlugin().getDataFolder(), path));
     }
 
     /**
