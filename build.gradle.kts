@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "me.dave"
-version = "0.1.0.35"
+version = "0.1.0.38"
 
 repositories {
     mavenCentral()
@@ -77,17 +77,17 @@ publishing {
             version = rootProject.version.toString()
             from(project.components["java"])
 
-            pom.withXml {
-                val pomNode = asNode()
-                val dependencyNodes: NodeList = pomNode.get("dependencies") as NodeList
-                dependencyNodes.forEach {
-                    val node = it as Node
-                    if (node.get("scope") as String == "runtime") {
-                        node.parent().remove(it)
-                    }
-                }
-
-            }
+//            pom.withXml {
+//                val pomNode = asNode()
+//                val dependencyNodes: NodeList = ((pomNode.get("dependencies") as NodeList)[0] as Node).get("dependency") as NodeList
+//                dependencyNodes.forEach {
+//                    val dependency = it as Node
+//                    val test = (((dependency.get("scope") as NodeList)[0] as Node).value() as NodeList)[0] as String
+//                    if (test == "runtime") {
+//                        dependency.parent().remove(it)
+//                    }
+//                }
+//            }
         }
     }
 }
