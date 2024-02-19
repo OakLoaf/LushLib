@@ -1,3 +1,6 @@
+import groovy.util.Node
+import groovy.util.NodeList
+
 plugins {
     java
     `maven-publish`
@@ -73,6 +76,18 @@ publishing {
             artifactId = rootProject.name
             version = rootProject.version.toString()
             from(project.components["java"])
+
+            pom.withXml {
+                val pomNode = asNode()
+                val dependencyNodes: NodeList = pomNode.get("dependencies") as NodeList
+                dependencyNodes.forEach {
+                    val node = it as Node
+                    if (node.get("scope") as String == "runtime") {
+                        node.parent().remove(it)
+                    }
+                }
+
+            }
         }
     }
 }
