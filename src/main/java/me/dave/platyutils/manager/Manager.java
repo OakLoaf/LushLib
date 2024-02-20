@@ -3,14 +3,14 @@ package me.dave.platyutils.manager;
 public abstract class Manager {
     private boolean enabled = false;
 
-    public abstract void onEnable();
-    public abstract void onDisable();
+    public void onEnable() {}
+    public void onDisable() {}
 
-    public boolean isEnabled() {
+    public final boolean isEnabled() {
         return enabled;
     }
 
-    public void enable() {
+    public final void enable() {
         if (!isEnabled()) {
             this.enabled = true;
             onEnable();
@@ -19,7 +19,7 @@ public abstract class Manager {
         }
     }
 
-    public void disable() {
+    public final void disable() {
         if (isEnabled()) {
             this.enabled = false;
             onDisable();
