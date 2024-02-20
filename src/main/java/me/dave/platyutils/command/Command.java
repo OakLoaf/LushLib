@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public abstract class Command extends SubCommand implements CommandExecutor, TabCompleter {
@@ -40,7 +41,7 @@ public abstract class Command extends SubCommand implements CommandExecutor, Tab
             }
         }
 
-        return currSubCommand.execute();
+        return currSubCommand.execute(sender, command, label, args);
     }
 
     @Nullable
@@ -48,18 +49,20 @@ public abstract class Command extends SubCommand implements CommandExecutor, Tab
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         List<String> tabComplete = new ArrayList<>();
 
-        SubCommand currSubCommand = this;
-        for (String arg : args) {
-            for (SubCommand subCommand : currSubCommand.getSubCommands()) {
-                if (subCommand.getName().equals(arg)) {
-                    currSubCommand = subCommand;
+        SubCommand activeSubCommand = this;
+        String[] subCommandArgs = null;
+        for (int i = 0; i < args.length; i++) {
+            for (SubCommand subCommand : activeSubCommand.getSubCommands()) {
+                if (subCommand.getName().equals(args[i])) {
+                    activeSubCommand = subCommand;
+                    subCommandArgs = Arrays.copyOfRange(args, i, args.length);
                     break;
                 }
             }
         }
 
-        currSubCommand.getSubCommands().forEach(subCommand -> tabComplete.add(subCommand.getName()));
-        tabComplete.addAll(currSubCommand.tabComplete());
+        activeSubCommand.getSubCommands().forEach(subCommand -> tabComplete.add(subCommand.getName()));
+        tabComplete.addAll(activeSubCommand.tabComplete(sender, command, label, subCommandArgs));
 
         List<String> wordCompletion = new ArrayList<>();
         boolean wordCompletionSuccess = false;
