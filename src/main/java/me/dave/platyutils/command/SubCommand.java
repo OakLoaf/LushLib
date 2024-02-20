@@ -28,10 +28,7 @@ public abstract class SubCommand {
      * @param args Passed command arguments
      * @return true if a valid command, otherwise false
      */
-    @SuppressWarnings("unused")
-    public boolean execute(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        return false;
-    }
+    public abstract boolean execute(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args);
 
     /**
      * Requests a list of possible completions for a command argument.
