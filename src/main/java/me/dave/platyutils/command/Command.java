@@ -25,12 +25,14 @@ public abstract class Command extends SubCommand implements CommandExecutor, Tab
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         SubCommand currSubCommand = this;
-        for (String arg : args) {
+        String[] subCommandArgs = new String[0];
+        for (int i = 0; i < args.length; i++) {
             boolean found = false;
 
             for (SubCommand subCommand : currSubCommand.getSubCommands()) {
-                if (subCommand.getName().equals(arg)) {
+                if (subCommand.getName().equals(args[i])) {
                     currSubCommand = subCommand;
+                    subCommandArgs = Arrays.copyOfRange(args, i + 1, args.length);
                     found = true;
                     break;
                 }
@@ -41,7 +43,7 @@ public abstract class Command extends SubCommand implements CommandExecutor, Tab
             }
         }
 
-        return currSubCommand.execute(sender, command, label, args);
+        return currSubCommand.execute(sender, command, label, subCommandArgs);
     }
 
     @Nullable
@@ -50,7 +52,7 @@ public abstract class Command extends SubCommand implements CommandExecutor, Tab
         List<String> tabComplete = new ArrayList<>();
 
         SubCommand activeSubCommand = this;
-        String[] subCommandArgs = null;
+        String[] subCommandArgs = new String[0];
         for (int i = 0; i < args.length; i++) {
             for (SubCommand subCommand : activeSubCommand.getSubCommands()) {
                 if (subCommand.getName().equals(args[i])) {
