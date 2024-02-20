@@ -55,7 +55,7 @@ public abstract class Command extends SubCommand implements CommandExecutor, Tab
             for (SubCommand subCommand : activeSubCommand.getSubCommands()) {
                 if (subCommand.getName().equals(args[i])) {
                     activeSubCommand = subCommand;
-                    subCommandArgs = Arrays.copyOfRange(args, i, args.length);
+                    subCommandArgs = Arrays.copyOfRange(args, i + 1, args.length);
                     break;
                 }
             }
