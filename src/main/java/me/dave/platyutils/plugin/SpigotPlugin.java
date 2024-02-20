@@ -1,10 +1,13 @@
 package me.dave.platyutils.plugin;
 
 import me.dave.platyutils.PlatyUtils;
+import me.dave.platyutils.command.Command;
 import me.dave.platyutils.hook.Hook;
 import me.dave.platyutils.module.Module;
 import org.apache.commons.io.FilenameUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Cancellable;
@@ -35,6 +38,19 @@ public abstract class SpigotPlugin extends JavaPlugin {
             getLogger().log(level, message, throwable);
         } else {
             getLogger().log(level, message);
+        }
+    }
+
+    public void registerCommand(Command command) {
+        registerCommand(command.getName(), command);
+    }
+
+    public void registerCommand(String command, CommandExecutor executor) {
+        try {
+            getServer().getPluginCommand(command).setExecutor(executor);
+        } catch (NullPointerException e) {
+            getLogger().severe("Failed to register command '" + command + "', make sure the command has been defined in the plugin.yml");
+            e.printStackTrace();
         }
     }
 
