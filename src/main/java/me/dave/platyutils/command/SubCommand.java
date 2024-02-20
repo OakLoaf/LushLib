@@ -3,6 +3,7 @@ package me.dave.platyutils.command;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +45,7 @@ public abstract class SubCommand {
      *     to default to the command executor
      */
     @SuppressWarnings("unused")
+    @Nullable
     public List<String> tabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         return List.of();
     }
