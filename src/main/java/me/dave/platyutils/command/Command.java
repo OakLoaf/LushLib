@@ -1,5 +1,7 @@
 package me.dave.platyutils.command;
 
+import me.dave.chatcolorhandler.ChatColorHandler;
+import me.dave.platyutils.language.LanguageManager;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -43,7 +45,12 @@ public abstract class Command extends SubCommand implements CommandExecutor, Tab
             }
         }
 
-        return currSubCommand.execute(sender, command, label, subCommandArgs);
+        if (currSubCommand.hasRequiredPermissions(sender)) {
+            return currSubCommand.execute(sender, command, label, subCommandArgs);
+        } else {
+            ChatColorHandler.sendMessage(sender, LanguageManager.getMessage("insufficient-permissions"));
+            return true;
+        }
     }
 
     @Nullable
@@ -63,7 +70,13 @@ public abstract class Command extends SubCommand implements CommandExecutor, Tab
             }
         }
 
-        activeSubCommand.getSubCommands().forEach(subCommand -> tabComplete.add(subCommand.getName()));
+        if (activeSubCommand.hasRequiredPermissions(sender)) {
+            activeSubCommand.getSubCommands().forEach(subCommand -> {
+                if (subCommand.hasRequiredPermissions(sender)) {
+                    tabComplete.add(subCommand.getName());
+                }
+            });
+        }
 
         List<String> subCommandTabComplete = activeSubCommand.tabComplete(sender, command, label, subCommandArgs);
         if (subCommandTabComplete != null) {

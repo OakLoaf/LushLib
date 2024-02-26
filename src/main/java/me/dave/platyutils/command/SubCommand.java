@@ -11,6 +11,7 @@ import java.util.List;
 public abstract class SubCommand {
     private final String name;
     private final List<SubCommand> subCommands = new ArrayList<>();
+    private final List<String> requiredPermissions = new ArrayList<>();
     private boolean isChild = false;
 
     public SubCommand(String name) {
@@ -67,6 +68,26 @@ public abstract class SubCommand {
         subCommands.add(subCommand);
         subCommand.setIsChild(true);
         return this;
+    }
+
+    public boolean hasRequiredPermissions(CommandSender sender) {
+        for (String permission : requiredPermissions) {
+            if (!sender.hasPermission(permission)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    @SuppressWarnings("UnusedReturnValue")
+    public SubCommand addRequiredPermission(String permission) {
+        requiredPermissions.add(permission);
+        return this;
+    }
+
+    public void removeRequiredPermission(String permission) {
+        requiredPermissions.remove(permission);
     }
 
     public boolean isChild() {
