@@ -27,7 +27,8 @@ public abstract class Command extends SubCommand implements CommandExecutor, Tab
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         SubCommand currSubCommand = this;
-        String[] subCommandArgs = new String[0];
+        String[] subCommandArgs = args;
+
         for (int i = 0; i < args.length; i++) {
             boolean found = false;
 
