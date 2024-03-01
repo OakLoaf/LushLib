@@ -70,8 +70,7 @@ public abstract class Timer {
                 onDurationChange();
 
                 if (duration >= totalDuration) {
-                    onFinish();
-                    stop();
+                    remove();
                 }
             }, 1, 1);
         } else {
@@ -95,5 +94,10 @@ public abstract class Timer {
 
         duration = 0;
         start();
+    }
+
+    public void remove() {
+        onFinish();
+        stop();
     }
 }
