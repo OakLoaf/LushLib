@@ -93,8 +93,6 @@ public abstract class Timer {
                     remove();
                 }
             }, 1, 1);
-        } else {
-            throw new IllegalStateException("Timer is already active");
         }
     }
 
@@ -102,8 +100,6 @@ public abstract class Timer {
         if (task != null) {
             task.cancel();
             task = null;
-        } else {
-            throw new IllegalStateException("Timer is not active");
         }
     }
 
