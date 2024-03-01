@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
 
+@SuppressWarnings("unused")
 public abstract class Timer {
     private final Plugin plugin;
     private BukkitTask task;

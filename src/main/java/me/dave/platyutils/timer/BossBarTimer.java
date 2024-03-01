@@ -5,8 +5,10 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.KeyedBossBar;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
+@SuppressWarnings("unused")
 public class BossBarTimer extends Timer {
     private static int currId = 0;
     private final KeyedBossBar bossBar;
@@ -42,8 +44,6 @@ public class BossBarTimer extends Timer {
     @Override
     public void onStart() {
         bossBar.setProgress(1.0);
-        Bukkit.getOnlinePlayers().forEach(bossBar::addPlayer);
-        // TODO: Add/remove players on join/leave
     }
 
     @Override
@@ -68,5 +68,17 @@ public class BossBarTimer extends Timer {
     @Override
     public void onFinish() {
         Bukkit.removeBossBar(bossBar.getKey());
+    }
+
+    public void addPlayer(Player player) {
+        bossBar.addPlayer(player);
+    }
+
+    public void addOnlinePlayers() {
+        Bukkit.getOnlinePlayers().forEach(bossBar::addPlayer);
+    }
+
+    public void removePlayer(Player player) {
+        bossBar.removePlayer(player);
     }
 }
