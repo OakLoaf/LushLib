@@ -71,6 +71,7 @@ public class BossBarTimer extends Timer {
     protected void onFinish() {
         super.onFinish();
 
+        bossBar.removeAll();
         Bukkit.removeBossBar(bossBar.getKey());
     }
 
