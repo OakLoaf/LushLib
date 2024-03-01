@@ -1,5 +1,6 @@
 package me.dave.platyutils.timer;
 
+import com.google.common.collect.HashMultimap;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
@@ -8,6 +9,7 @@ import org.bukkit.scheduler.BukkitTask;
 public abstract class Timer {
     private final Plugin plugin;
     private BukkitTask task;
+    private final HashMultimap<TaskType, Runnable> runnables = HashMultimap.create();
     protected int duration = 0;
     protected int totalDuration;
 
@@ -49,17 +51,35 @@ public abstract class Timer {
     /**
      * Ran when the timer is started
      */
-    public abstract void onStart();
+    protected void onStart() {
+        runnables.get(TaskType.START).forEach(Runnable::run);
+    }
 
     /**
      * Ran when the timer's duration changing
      */
-    public abstract void onDurationChange();
+    protected void onDurationChange() {
+        runnables.get(TaskType.DURATION_CHANGE).forEach(Runnable::run);
+    }
 
     /**
      * Ran when the timer ends
      */
-    public abstract void onFinish();
+    protected void onFinish() {
+        runnables.get(TaskType.FINISH).forEach(Runnable::run);
+    }
+
+    public void onStart(Runnable runnable) {
+        runnables.put(TaskType.START, runnable);
+    }
+
+    public void onDurationChange(Runnable runnable) {
+        runnables.put(TaskType.DURATION_CHANGE, runnable);
+    }
+
+    public void onFinish(Runnable runnable) {
+        runnables.put(TaskType.FINISH, runnable);
+    }
 
     public void start() {
         if (task == null) {
@@ -99,5 +119,11 @@ public abstract class Timer {
     public void remove() {
         onFinish();
         stop();
+    }
+
+    private enum TaskType {
+        START,
+        DURATION_CHANGE,
+        FINISH
     }
 }

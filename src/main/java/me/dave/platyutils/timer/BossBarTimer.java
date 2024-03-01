@@ -36,18 +36,20 @@ public class BossBarTimer extends Timer {
      * @param totalDuration Total duration of timer in seconds
      */
     public BossBarTimer(String title, BarColor barColor, BarStyle barStyle, Plugin plugin, int totalDuration) {
-        super(plugin, totalDuration);
-        bossBar = Bukkit.createBossBar(new NamespacedKey(plugin, String.valueOf(currId++)), title, barColor, barStyle);
-        containsPlaceholders = title.contains("%current_duration%") || title.contains("%total_duration%");
+        this(String.valueOf(currId++), title, barColor, barStyle, plugin, totalDuration);
     }
 
     @Override
-    public void onStart() {
+    protected void onStart() {
+        super.onStart();
+
         bossBar.setProgress(1.0);
     }
 
     @Override
-    public void onDurationChange() {
+    protected void onDurationChange() {
+        super.onDurationChange();
+
         double progress = (double) duration / totalDuration;
         if (progress < 0) {
             progress = 0;
@@ -66,7 +68,9 @@ public class BossBarTimer extends Timer {
     }
 
     @Override
-    public void onFinish() {
+    protected void onFinish() {
+        super.onFinish();
+
         Bukkit.removeBossBar(bossBar.getKey());
     }
 
