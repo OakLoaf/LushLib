@@ -92,7 +92,7 @@ public abstract class Timer {
                 if (duration >= totalDuration) {
                     remove();
                 }
-            }, 1, 1);
+            }, 20, 20);
         }
     }
 
