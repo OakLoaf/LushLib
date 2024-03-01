@@ -64,7 +64,7 @@ public class BossBarTimer extends Timer {
             );
         }
 
-        bossBar.setProgress(progress);
+        bossBar.setProgress(1 - progress);
     }
 
     @Override
