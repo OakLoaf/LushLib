@@ -47,7 +47,7 @@ public abstract class SpigotPlugin extends JavaPlugin {
 
     public void registerCommand(String command, CommandExecutor executor) {
         try {
-            getServer().getPluginCommand(command).setExecutor(executor);
+            getCommand(command).setExecutor(executor);
         } catch (NullPointerException e) {
             getLogger().severe("Failed to register command '" + command + "', make sure the command has been defined in the plugin.yml");
             e.printStackTrace();
