@@ -98,6 +98,10 @@ public abstract class SubCommand {
         return args;
     }
 
+    public int getRequiredArgCount() {
+        return requiredArgs.size();
+    }
+
     public void addRequiredArgs(int index, Callable<List<String>> argsCallable) {
         requiredArgs.put(index, argsCallable);
     }
