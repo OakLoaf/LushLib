@@ -30,7 +30,7 @@ public abstract class Command extends SubCommand implements CommandExecutor, Tab
         String[] subCommandArgs = args;
 
         for (int i = 0; i < args.length; i++) {
-            if (currSubCommand.getArgs(i).contains(args[i])) {
+            if (currSubCommand.getRequiredArgs(i).contains(args[i])) {
                 subCommandArgs = Arrays.copyOfRange(args, i + 1, args.length);
                 continue;
             }
@@ -66,7 +66,7 @@ public abstract class Command extends SubCommand implements CommandExecutor, Tab
         SubCommand activeSubCommand = this;
         String[] subCommandArgs = new String[0];
         for (int i = 0; i < args.length; i++) {
-            if (activeSubCommand.getArgs(i).contains(args[i])) {
+            if (activeSubCommand.getRequiredArgs(i).contains(args[i])) {
                 continue;
             }
 
@@ -93,7 +93,7 @@ public abstract class Command extends SubCommand implements CommandExecutor, Tab
         }
 
         if (subCommandArgs.length > 0) {
-            tabComplete.addAll(activeSubCommand.getArgs(subCommandArgs.length - 1));
+            tabComplete.addAll(activeSubCommand.getRequiredArgs(subCommandArgs.length - 1));
         }
 
         List<String> wordCompletion = new ArrayList<>();

@@ -16,7 +16,7 @@ import java.util.concurrent.Callable;
 public abstract class SubCommand {
     private final String name;
     private final HashMap<String, SubCommand> subCommands = new HashMap<>();
-    private final HashMultimap<Integer, Callable<List<String>>> args = HashMultimap.create();
+    private final HashMultimap<Integer, Callable<List<String>>> requiredArgs = HashMultimap.create();
     private final List<String> requiredPermissions = new ArrayList<>();
     private boolean isChild = false;
 
@@ -84,10 +84,10 @@ public abstract class SubCommand {
         subCommands.remove(subCommand);
     }
 
-    public List<String> getArgs(int index) {
+    public List<String> getRequiredArgs(int index) {
         List<String> args = new ArrayList<>();
 
-        for (Callable<List<String>> callable: this.args.get(index)) {
+        for (Callable<List<String>> callable: this.requiredArgs.get(index)) {
             try {
                 args.addAll(callable.call());
             } catch (Exception e) {
@@ -98,12 +98,12 @@ public abstract class SubCommand {
         return args;
     }
 
-    public void addArgs(int index, Callable<List<String>> argsCallable) {
-        args.put(index, argsCallable);
+    public void addRequiredArgs(int index, Callable<List<String>> argsCallable) {
+        requiredArgs.put(index, argsCallable);
     }
 
-    public void removeArgs(int index) {
-        args.removeAll(index);
+    public void removeRequiredArgs(int index) {
+        requiredArgs.removeAll(index);
     }
 
     public boolean hasRequiredPermissions(CommandSender sender) {
