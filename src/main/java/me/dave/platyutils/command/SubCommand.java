@@ -84,6 +84,10 @@ public abstract class SubCommand {
         subCommands.remove(subCommand);
     }
 
+    public boolean hasRequiredArgs() {
+        return requiredArgs.size() > 0;
+    }
+
     public List<String> getRequiredArgs(int index) {
         List<String> args = new ArrayList<>();
 

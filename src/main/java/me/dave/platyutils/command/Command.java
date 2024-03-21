@@ -85,14 +85,14 @@ public abstract class Command extends SubCommand implements CommandExecutor, Tab
                 tabComplete.addAll(subCommandTabComplete);
             }
 
-            if (subCommandArgs.length >= activeSubCommand.getRequiredArgCount()) {
+            if (activeSubCommand.hasRequiredArgs() && subCommandArgs.length <= activeSubCommand.getRequiredArgCount()) {
+                tabComplete.addAll(activeSubCommand.getRequiredArgs(subCommandArgs.length - 1));
+            } else {
                 activeSubCommand.getSubCommands().forEach(subCommand -> {
                     if (subCommand.hasRequiredPermissions(sender)) {
                         tabComplete.add(subCommand.getName());
                     }
                 });
-            } else {
-                tabComplete.addAll(activeSubCommand.getRequiredArgs(subCommandArgs.length - 1));
             }
         }
 
