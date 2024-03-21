@@ -28,12 +28,14 @@ public abstract class Command extends SubCommand implements CommandExecutor, Tab
     public boolean onCommand(@NotNull CommandSender sender, @NotNull org.bukkit.command.Command command, @NotNull String label, @NotNull String[] args) {
         SubCommand currSubCommand = this;
         String[] subCommandArgs = args;
+        int subCommandIndex = 0;
 
         for (int i = 0; i < args.length; i++) {
-            if (currSubCommand.getRequiredArgs(i).contains(args[i])) {
-                subCommandArgs = Arrays.copyOfRange(args, i + 1, args.length);
+            if (currSubCommand.getRequiredArgs(subCommandIndex).contains(args[i])) {
+                subCommandIndex++;
                 continue;
             }
+            subCommandIndex = 0;
 
             boolean found = false;
             for (SubCommand subCommand : currSubCommand.getSubCommands()) {

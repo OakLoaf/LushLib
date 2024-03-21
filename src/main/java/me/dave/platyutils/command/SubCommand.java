@@ -54,7 +54,7 @@ public abstract class SubCommand {
     @SuppressWarnings("unused")
     @Nullable
     public List<String> tabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        return List.of();
+        return null;
     }
 
     public String getName() {
