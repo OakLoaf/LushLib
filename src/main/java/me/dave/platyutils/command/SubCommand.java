@@ -1,5 +1,6 @@
 package me.dave.platyutils.command;
 
+import com.google.common.collect.HashMultimap;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.jetbrains.annotations.NotNull;
@@ -9,11 +10,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 @SuppressWarnings("unused")
 public abstract class SubCommand {
     private final String name;
     private final HashMap<String, SubCommand> subCommands = new HashMap<>();
+    private final HashMultimap<Integer, Callable<List<String>>> args = HashMultimap.create();
     private final List<String> requiredPermissions = new ArrayList<>();
     private boolean isChild = false;
 
@@ -79,6 +82,28 @@ public abstract class SubCommand {
 
     public void removeSubCommand(String subCommand) {
         subCommands.remove(subCommand);
+    }
+
+    public List<String> getArgs(int index) {
+        List<String> args = new ArrayList<>();
+
+        for (Callable<List<String>> callable: this.args.get(index)) {
+            try {
+                args.addAll(callable.call());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return args;
+    }
+
+    public void addArgs(int index, Callable<List<String>> argsCallable) {
+        args.put(index, argsCallable);
+    }
+
+    public void removeArgs(int index) {
+        args.removeAll(index);
     }
 
     public boolean hasRequiredPermissions(CommandSender sender) {

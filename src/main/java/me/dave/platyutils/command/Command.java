@@ -30,8 +30,12 @@ public abstract class Command extends SubCommand implements CommandExecutor, Tab
         String[] subCommandArgs = args;
 
         for (int i = 0; i < args.length; i++) {
-            boolean found = false;
+            if (currSubCommand.getArgs(i).contains(args[i])) {
+                subCommandArgs = Arrays.copyOfRange(args, i + 1, args.length);
+                continue;
+            }
 
+            boolean found = false;
             for (SubCommand subCommand : currSubCommand.getSubCommands()) {
                 if (subCommand.getName().equals(args[i])) {
                     currSubCommand = subCommand;
@@ -62,6 +66,11 @@ public abstract class Command extends SubCommand implements CommandExecutor, Tab
         SubCommand activeSubCommand = this;
         String[] subCommandArgs = new String[0];
         for (int i = 0; i < args.length; i++) {
+            if (activeSubCommand.getArgs(i).contains(args[i])) {
+                subCommandArgs = Arrays.copyOfRange(args, i + 1, args.length);
+                continue;
+            }
+
             for (SubCommand subCommand : activeSubCommand.getSubCommands()) {
                 if (subCommand.getName().equals(args[i])) {
                     activeSubCommand = subCommand;
