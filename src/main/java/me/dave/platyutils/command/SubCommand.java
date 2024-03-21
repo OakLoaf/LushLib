@@ -58,6 +58,10 @@ public abstract class SubCommand {
         return name;
     }
 
+    public SubCommand getSubCommand(String name) {
+        return subCommands.get(name);
+    }
+
     public Collection<SubCommand> getSubCommands() {
         return subCommands.values();
     }

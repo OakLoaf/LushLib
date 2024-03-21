@@ -28,6 +28,7 @@ import java.util.logging.Level;
 public abstract class SpigotPlugin extends JavaPlugin {
     protected ConcurrentHashMap<String, Module> modules = new ConcurrentHashMap<>();
     protected ConcurrentHashMap<String, Hook> hooks = new ConcurrentHashMap<>();
+    protected ConcurrentHashMap<String, Command> commands = new ConcurrentHashMap<>();
 
     public void debug(@NotNull String message, @NotNull Throwable... throwable) {
         log(Level.FINE, message, throwable);
@@ -39,6 +40,10 @@ public abstract class SpigotPlugin extends JavaPlugin {
         } else {
             getLogger().log(level, message);
         }
+    }
+
+    public Command getLushCommand(String name) {
+        return commands.get(name);
     }
 
     public void registerCommand(Command command) {
