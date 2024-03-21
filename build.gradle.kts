@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "me.dave"
-version = "0.1.0.63"
+version = "0.1.0.66"
 
 repositories {
     mavenCentral()
