@@ -6,11 +6,14 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public abstract class SubCommand {
     private final String name;
-    private final List<SubCommand> subCommands = new ArrayList<>();
+    private final HashMap<String, SubCommand> subCommands = new HashMap<>();
     private final List<String> requiredPermissions = new ArrayList<>();
     private boolean isChild = false;
 
@@ -55,19 +58,23 @@ public abstract class SubCommand {
         return name;
     }
 
-    public List<SubCommand> getSubCommands() {
-        return subCommands;
+    public Collection<SubCommand> getSubCommands() {
+        return subCommands.values();
     }
 
     @SuppressWarnings("UnusedReturnValue")
     public SubCommand addSubCommand(SubCommand subCommand) {
-        if (subCommand.isChild()) {
+        if (subCommand.isChild() || subCommands.containsKey(subCommand.getName())) {
             throw new IllegalStateException("This sub-command already has a parent");
         }
 
-        subCommands.add(subCommand);
+        subCommands.put(subCommand.getName(), subCommand);
         subCommand.setIsChild(true);
         return this;
+    }
+
+    public void removeSubCommand(String subCommand) {
+        subCommands.remove(subCommand);
     }
 
     public boolean hasRequiredPermissions(CommandSender sender) {
