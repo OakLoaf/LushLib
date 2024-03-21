@@ -80,20 +80,20 @@ public abstract class Command extends SubCommand implements CommandExecutor, Tab
         }
 
         if (activeSubCommand.hasRequiredPermissions(sender)) {
-            activeSubCommand.getSubCommands().forEach(subCommand -> {
-                if (subCommand.hasRequiredPermissions(sender)) {
-                    tabComplete.add(subCommand.getName());
-                }
-            });
-        }
-
-        if (subCommandArgs.length > activeSubCommand.getRequiredArgCount()) {
             List<String> subCommandTabComplete = activeSubCommand.tabComplete(sender, command, label, subCommandArgs);
             if (subCommandTabComplete != null) {
                 tabComplete.addAll(subCommandTabComplete);
             }
-        } else {
-            tabComplete.addAll(activeSubCommand.getRequiredArgs(subCommandArgs.length - 1));
+
+            if (subCommandArgs.length > activeSubCommand.getRequiredArgCount()) {
+                activeSubCommand.getSubCommands().forEach(subCommand -> {
+                    if (subCommand.hasRequiredPermissions(sender)) {
+                        tabComplete.add(subCommand.getName());
+                    }
+                });
+            } else {
+                tabComplete.addAll(activeSubCommand.getRequiredArgs(subCommandArgs.length - 1));
+            }
         }
 
         List<String> wordCompletion = new ArrayList<>();
