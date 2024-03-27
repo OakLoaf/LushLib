@@ -42,8 +42,8 @@ tasks {
     }
 
     shadowJar {
-        relocate("space.arim", "me.dave.platyutils.libraries.paperlib")
-        relocate("me.dave.chatcolorhandler", "me.dave.platyutils.libraries.chatcolor")
+        relocate("space.arim", "me.dave.lushlib.libraries.paperlib")
+        relocate("me.dave.chatcolorhandler", "me.dave.lushlib.libraries.chatcolor")
 
         archiveFileName.set("${project.name}-${project.version}.jar")
     }

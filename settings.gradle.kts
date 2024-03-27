@@ -1,1 +1,1 @@
-rootProject.name = "PlatyUtils"
+rootProject.name = "LushLibrary"
