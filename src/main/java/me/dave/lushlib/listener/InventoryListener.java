@@ -19,7 +19,7 @@ public class InventoryListener implements EventListener {
     public void onInventoryOpen(InventoryOpenEvent event) {
         Player player = (Player) event.getPlayer();
 
-        LushLib.getInstance().getManager(GuiManager.class).ifPresent(guiManager -> {
+        LushLib.getInstance().getPlugin().getManager(GuiManager.class).ifPresent(guiManager -> {
             Gui gui = guiManager.getGui(player.getUniqueId());
             if (gui == null || !event.getInventory().equals(gui.getInventory())) {
                 return;
@@ -33,7 +33,7 @@ public class InventoryListener implements EventListener {
     public void onInventoryClose(InventoryCloseEvent event) {
         Player player = (Player) event.getPlayer();
 
-        LushLib.getInstance().getManager(GuiManager.class).ifPresent(guiManager -> {
+        LushLib.getInstance().getPlugin().getManager(GuiManager.class).ifPresent(guiManager -> {
             Gui gui = guiManager.getGui(player.getUniqueId());
             if (gui == null || !event.getInventory().equals(gui.getInventory())) {
                 return;
@@ -47,7 +47,7 @@ public class InventoryListener implements EventListener {
     public void onInventoryClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
 
-        LushLib.getInstance().getManager(GuiManager.class).ifPresent(guiManager -> {
+        LushLib.getInstance().getPlugin().getManager(GuiManager.class).ifPresent(guiManager -> {
             Gui gui = guiManager.getGui(player.getUniqueId());
             if (gui == null) {
                 return;
@@ -67,7 +67,7 @@ public class InventoryListener implements EventListener {
         Player player = (Player) event.getWhoClicked();
         UUID playerUUID = player.getUniqueId();
 
-        LushLib.getInstance().getManager(GuiManager.class).ifPresent(guiManager -> {
+        LushLib.getInstance().getPlugin().getManager(GuiManager.class).ifPresent(guiManager -> {
             Gui gui = guiManager.getGui(playerUUID);
             if (gui == null || !player.getOpenInventory().getTopInventory().equals(gui.getInventory())) {
                 return;
