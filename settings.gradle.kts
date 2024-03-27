@@ -1,1 +1,1 @@
-rootProject.name = "LushLibrary"
+rootProject.name = "LushLib"
