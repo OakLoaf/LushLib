@@ -100,11 +100,13 @@ public class PlaceholderHandler {
         return null;
     }
 
-    public void registerPlaceholder(Placeholder placeholder) {
+    public PlaceholderHandler registerPlaceholder(Placeholder placeholder) {
         placeholders.put(placeholder.getContent(), placeholder);
+        return this;
     }
 
-    public void unregisterPlaceholder(String content) {
+    public PlaceholderHandler unregisterPlaceholder(String content) {
         placeholders.remove(content);
+        return this;
     }
 }
