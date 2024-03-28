@@ -2,7 +2,7 @@ import groovy.util.Node
 import groovy.util.NodeList
 
 plugins {
-    java
+    `java-library`
     `maven-publish`
     id("com.github.johnrengelman.shadow") version("8.1.1")
 }
@@ -25,9 +25,9 @@ dependencies {
     compileOnly("org.geysermc.floodgate:api:2.2.2-SNAPSHOT") {
         exclude("com.google.code.gson", "gson")
     }
-    implementation("me.dave:ChatColorHandler:v2.5.3")
-    implementation("org.jetbrains:annotations:24.0.0")
-    implementation("space.arim.morepaperlib:morepaperlib:0.4.3")
+    api("me.dave:ChatColorHandler:v2.5.3")
+    api("org.jetbrains:annotations:24.0.0")
+    api("space.arim.morepaperlib:morepaperlib:0.4.3")
 }
 
 java {
