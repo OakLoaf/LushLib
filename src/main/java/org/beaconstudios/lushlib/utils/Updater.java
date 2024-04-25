@@ -17,8 +17,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
-import java.time.Duration;
-import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
@@ -27,9 +25,8 @@ import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings("unused")
 public class Updater {
+    private static final ScheduledExecutorService updateExecutor = Executors.newScheduledThreadPool(1);
     private static final HashSet<Updater> updaters = new HashSet<>();
-
-    private final ScheduledExecutorService updateExecutor = Executors.newScheduledThreadPool(1);
 
     private final String modrinthProjectSlug;
     private final String currentVersion;
@@ -183,7 +180,7 @@ public class Updater {
 
         CompletableFuture<Boolean> completableFuture = new CompletableFuture<>();
 
-        LushLib.getInstance().getMorePaperLib().scheduling().asyncScheduler().run(() -> {
+        updateExecutor.schedule(() -> {
             try {
                 URL url = new URL(downloadUrl);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -209,7 +206,7 @@ public class Updater {
                 e.printStackTrace();
                 completableFuture.complete(false);
             }
-        });
+        }, 0, TimeUnit.SECONDS);
 
         return completableFuture;
     }
@@ -263,14 +260,14 @@ public class Updater {
             updaters.forEach(updater -> {
                 if (player.hasPermission(updater.getPermission())) {
                     if (updater.isUpdateAvailable() && !updater.isAlreadyDownloaded()) {
-                        LushLib.getInstance().getMorePaperLib().scheduling().asyncScheduler().runDelayed(() -> {
+                        updateExecutor.schedule(() -> {
                             String message = updater.getUpdateMessage()
                                 .replace("%modrinth_slug%", updater.getModrinthProjectSlug())
                                 .replace("%plugin_name%", LushLib.getInstance().getPlugin().getName())
                                 .replace("%download_command%", updater.getDownloadCommand());
 
                             ChatColorHandler.sendMessage(player, message);
-                        }, Duration.of(2, ChronoUnit.SECONDS));
+                        }, 2, TimeUnit.SECONDS);
                     }
                 }
             });
