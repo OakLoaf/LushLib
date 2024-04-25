@@ -4,7 +4,7 @@ plugins {
     id("com.github.johnrengelman.shadow") version("8.1.1")
 }
 
-group = "org.beaconstudios"
+group = "org.lushplugins"
 version = "0.1.3"
 
 repositories {
