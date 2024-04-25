@@ -1,33 +1,29 @@
-import groovy.util.Node
-import groovy.util.NodeList
-
 plugins {
     `java-library`
     `maven-publish`
     id("com.github.johnrengelman.shadow") version("8.1.1")
 }
 
-group = "me.dave"
-version = "0.1.2.1"
+group = "org.beaconstudios"
+version = "0.1.3"
 
 repositories {
     mavenCentral()
     mavenLocal()
-    maven { url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots/") } // Spigot
-    maven { url = uri("https://mvn-repo.arim.space/lesser-gpl3/") } // MorePaperLib
-    maven { url = uri("https://repo.opencollab.dev/main/") } // Floodgate
-    maven { url = uri("https://repo.smrt-1.com/releases") } // ChatColorHandler
+    maven(url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/") // Spigot
+    maven(url = "https://repo.smrt-1.com/releases") // ChatColorHandler
+    maven(url = "https://repo.opencollab.dev/main/") // Floodgate
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot:1.20.1-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc:spigot:${findProperty("minecraftVersion")}-R0.1-SNAPSHOT")
     compileOnly("com.google.code.gson:gson:2.10")
-    compileOnly("org.geysermc.floodgate:api:2.2.2-SNAPSHOT") {
+    compileOnly("org.geysermc.floodgate:api:${findProperty("floodgateVersion")}-SNAPSHOT") {
         exclude("com.google.code.gson", "gson")
     }
-    api("me.dave:ChatColorHandler:v2.5.3")
+
+    api("me.dave:ChatColorHandler:v${findProperty("chatcolorhandlerVersion")}")
     api("org.jetbrains:annotations:24.0.0")
-    api("space.arim.morepaperlib:morepaperlib:0.4.3")
 }
 
 java {
@@ -42,8 +38,8 @@ tasks {
     }
 
     shadowJar {
-        relocate("space.arim", "me.dave.lushlib.libraries.paperlib")
-        relocate("me.dave.chatcolorhandler", "me.dave.lushlib.libraries.chatcolor")
+        relocate("space.arim", "org.beaconstudios.lushlib.libraries.paperlib")
+        relocate("me.dave.chatcolorhandler", "org.beaconstudios.lushlib.libraries.chatcolor")
 
         archiveFileName.set("${project.name}-${project.version}.jar")
     }
@@ -78,18 +74,6 @@ publishing {
             artifactId = rootProject.name
             version = rootProject.version.toString()
             from(project.components["java"])
-
-//            pom.withXml {
-//                val pomNode = asNode()
-//                val dependencyNodes: NodeList = ((pomNode.get("dependencies") as NodeList)[0] as Node).get("dependency") as NodeList
-//                dependencyNodes.forEach {
-//                    val dependency = it as Node
-//                    val test = (((dependency.get("scope") as NodeList)[0] as Node).value() as NodeList)[0] as String
-//                    if (test == "runtime") {
-//                        dependency.parent().remove(it)
-//                    }
-//                }
-//            }
         }
     }
 }
