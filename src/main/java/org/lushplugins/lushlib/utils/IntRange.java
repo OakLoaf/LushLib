@@ -45,12 +45,12 @@ public class IntRange {
         return RANDOM.nextInt(min, max + 1);
     }
 
-    public static IntRange parseIntRange(String s) throws NumberFormatException {
-        if (s == null) {
+    public static IntRange parseIntRange(String string) throws NumberFormatException {
+        if (string == null) {
             throw new NumberFormatException("Cannot parse null string");
         }
 
-        String[] values = s.split("-");
+        String[] values = string.split("-");
         switch (values.length) {
             case 1 -> {
                 int value = Integer.parseInt(values[0]);
