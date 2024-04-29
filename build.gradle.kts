@@ -38,8 +38,8 @@ tasks {
     }
 
     shadowJar {
-        relocate("space.arim", "org.beaconstudios.lushlib.libraries.paperlib")
-        relocate("me.dave.chatcolorhandler", "org.beaconstudios.lushlib.libraries.chatcolor")
+        relocate("space.arim", "org.lushplugins.lushlib.libraries.paperlib")
+        relocate("me.dave.chatcolorhandler", "org.lushplugins.lushlib.libraries.chatcolor")
 
         archiveFileName.set("${project.name}-${project.version}.jar")
     }
