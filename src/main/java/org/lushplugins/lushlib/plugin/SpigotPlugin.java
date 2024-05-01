@@ -1,6 +1,5 @@
 package org.lushplugins.lushlib.plugin;
 
-import org.lushplugins.lushlib.LushLib;
 import org.lushplugins.lushlib.command.Command;
 import org.lushplugins.lushlib.hook.Hook;
 import org.lushplugins.lushlib.manager.Manager;
@@ -160,16 +159,16 @@ public abstract class SpigotPlugin extends JavaPlugin {
     }
 
     public FileConfiguration getConfigResource(String path) {
-        return YamlConfiguration.loadConfiguration(new File(LushLib.getInstance().getPlugin().getDataFolder(), path));
+        return YamlConfiguration.loadConfiguration(new File(this.getDataFolder(), path));
     }
 
     /**
      * @param path Path within resources folder
      */
     public void saveDefaultResource(String path) {
-        if (!new File(LushLib.getInstance().getPlugin().getDataFolder(), path).exists()) {
+        if (!new File(this.getDataFolder(), path).exists()) {
             saveResource(path, false);
-            LushLib.getInstance().getPlugin().getLogger().info("File Created: " + path);
+            this.getLogger().info("File Created: " + path);
         }
     }
 
