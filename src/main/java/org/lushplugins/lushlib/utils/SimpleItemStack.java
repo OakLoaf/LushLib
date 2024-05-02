@@ -2,6 +2,7 @@ package org.lushplugins.lushlib.utils;
 
 import me.dave.chatcolorhandler.ChatColorHandler;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -22,7 +23,8 @@ public class SimpleItemStack implements Cloneable {
     private IntRange amount = new IntRange(1);
     private String displayName = null;
     private List<String> lore = null;
-    private Boolean enchanted = null;
+    private Map<Enchantment, Integer> enchantments = new HashMap<>();
+    private Boolean enchantGlow = null;
     private int customModelData = 0;
     private String skullTexture = null;
 
@@ -92,17 +94,29 @@ public class SimpleItemStack implements Cloneable {
         this.lore = lore;
     }
 
+    public Map<Enchantment, Integer> getEnchantments() {
+        return enchantments;
+    }
+
+    public boolean hasEnchantments() {
+        return !enchantments.isEmpty();
+    }
+
+    public void setEnchantments(Map<Enchantment, Integer> enchantments) {
+        this.enchantments = enchantments;
+    }
+
     @Nullable
-    public Boolean getEnchanted() {
-        return enchanted;
+    public Boolean getEnchantGlow() {
+        return enchantGlow;
     }
 
-    public boolean hasEnchant() {
-        return enchanted != null;
+    public boolean hasEnchantGlow() {
+        return enchantGlow != null;
     }
 
-    public void setEnchanted(@Nullable Boolean enchanted) {
-        this.enchanted = enchanted;
+    public void setEnchantGlow(@Nullable Boolean enchantGlow) {
+        this.enchantGlow = enchantGlow;
     }
 
     public int getCustomModelData() {
@@ -136,7 +150,8 @@ public class SimpleItemStack implements Cloneable {
                 && amount.getMax() == 1
                 && displayName == null
                 && lore == null
-                && enchanted == null
+                && enchantments.isEmpty()
+                && enchantGlow == null
                 && customModelData == 0
                 && skullTexture == null;
     }
@@ -158,6 +173,10 @@ public class SimpleItemStack implements Cloneable {
         ItemStack itemStack = new ItemStack(material, amount.next());
         ItemMeta itemMeta = itemStack.getItemMeta();
 
+        if (!enchantments.isEmpty()) {
+            enchantments.forEach(itemStack::addEnchantment);
+        }
+
         if (itemMeta != null) {
             if (displayName != null) {
                 itemMeta.setDisplayName(displayName);
@@ -165,7 +184,7 @@ public class SimpleItemStack implements Cloneable {
             if (lore != null) {
                 itemMeta.setLore(lore);
             }
-            if (enchanted != null && enchanted) {
+            if (enchantments.isEmpty() && enchantGlow != null && enchantGlow) {
                 itemMeta.addEnchant(Enchantment.DURABILITY, 1, false);
                 itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
             }
@@ -202,8 +221,13 @@ public class SimpleItemStack implements Cloneable {
         if (lore != null) {
             configurationSection.set("lore", lore);
         }
-        if (enchanted != null) {
-            configurationSection.set("enchanted", enchanted);
+        if (!enchantments.isEmpty()) {
+            configurationSection.set("enchantments", enchantments);
+        }
+        if (enchantGlow != null) {
+            Map<String, Object> enchantmentMap = new HashMap<>();
+            enchantments.forEach((enchantment, level) -> enchantmentMap.put(enchantment.toString().toLowerCase(), level));
+            configurationSection.set("enchanted", enchantmentMap);
         }
         if (customModelData != 0) {
             configurationSection.set("custom-model-data", customModelData);
@@ -228,8 +252,13 @@ public class SimpleItemStack implements Cloneable {
         if (lore != null) {
             map.put("lore", lore);
         }
-        if (enchanted != null) {
-            map.put("enchanted", enchanted);
+        if (!enchantments.isEmpty()) {
+            Map<String, Object> enchantmentMap = new HashMap<>();
+            enchantments.forEach((enchantment, level) -> enchantmentMap.put(enchantment.toString().toLowerCase(), level));
+            map.put("enchantments", enchantmentMap);
+        }
+        if (enchantGlow != null) {
+            map.put("enchanted", enchantGlow);
         }
         if (customModelData != 0) {
             map.put("custom-model-data", customModelData);
@@ -256,7 +285,8 @@ public class SimpleItemStack implements Cloneable {
         result.setAmountRange(overwrite.getAmount().getMin() != 1 && overwrite.getAmount().getMax() != 1 ? overwrite.getAmount() : original.getAmount());
         result.setDisplayName(overwrite.hasDisplayName() ? overwrite.getDisplayName() : original.getDisplayName());
         result.setLore(overwrite.hasLore() ? overwrite.getLore() : original.getLore());
-        result.setEnchanted(overwrite.hasEnchant() ? overwrite.getEnchanted() : original.getEnchanted());
+        result.setEnchantments(overwrite.hasEnchantments() ? overwrite.getEnchantments() : original.getEnchantments());
+        result.setEnchantGlow(overwrite.hasEnchantGlow() ? overwrite.getEnchantGlow() : original.getEnchantGlow());
         result.setSkullTexture(overwrite.hasSkullTexture() ? overwrite.getSkullTexture() : original.getSkullTexture());
 
         return result;
@@ -276,6 +306,7 @@ public class SimpleItemStack implements Cloneable {
         SimpleItemStack simpleItemStack = new SimpleItemStack();
         simpleItemStack.setType(itemStack.getType());
         simpleItemStack.setAmount(itemStack.getAmount());
+        simpleItemStack.setEnchantments(itemStack.getEnchantments());
 
         ItemMeta itemMeta = itemStack.getItemMeta();
         if (itemMeta != null) {
@@ -285,8 +316,8 @@ public class SimpleItemStack implements Cloneable {
             if (itemMeta.hasLore()) {
                 simpleItemStack.setLore(itemMeta.getLore());
             }
-            if (itemMeta.hasEnchants()) {
-                simpleItemStack.setEnchanted(true);
+            if (itemMeta.hasEnchants() && itemMeta.hasItemFlag(ItemFlag.HIDE_ENCHANTS)) {
+                simpleItemStack.setEnchantGlow(true);
             }
             if (itemMeta.hasCustomModelData()) {
                 simpleItemStack.setCustomModelData(itemMeta.getCustomModelData());
@@ -313,8 +344,18 @@ public class SimpleItemStack implements Cloneable {
         if (configurationSection.contains("lore")) {
             simpleItemStack.setLore(configurationSection.getStringList("lore"));
         }
+        if (configurationSection.contains("enchantments")) {
+            Map<Enchantment, Integer> enchantments = new HashMap<>();
+
+            configurationSection.getConfigurationSection("enchantments").getValues(false).forEach((enchantmentRaw, level) -> {
+                Enchantment enchantment = Enchantment.getByKey(NamespacedKey.minecraft(enchantmentRaw));
+                enchantments.put(enchantment, (int) level);
+            });
+
+            simpleItemStack.setEnchantments(enchantments);
+        }
         if (configurationSection.contains("enchanted")) {
-            simpleItemStack.setEnchanted(configurationSection.getBoolean("enchanted", false));
+            simpleItemStack.setEnchantGlow(configurationSection.getBoolean("enchanted", false));
         }
         if (configurationSection.contains("custom-model-data")) {
             simpleItemStack.setCustomModelData(configurationSection.getInt("custom-model-data"));
@@ -343,8 +384,18 @@ public class SimpleItemStack implements Cloneable {
             if (configurationMap.containsKey("lore")) {
                 simpleItemStack.setLore((List<String>) configurationMap.get("lore"));
             }
+            if (configurationMap.containsKey("enchantments")) {
+                Map<Enchantment, Integer> enchantments = new HashMap<>();
+
+                ((Map<String, Object>) configurationMap.get("enchantments")).forEach((enchantmentRaw, level) -> {
+                    Enchantment enchantment = Enchantment.getByKey(NamespacedKey.minecraft(enchantmentRaw));
+                    enchantments.put(enchantment, (int) level);
+                });
+
+                simpleItemStack.setEnchantments(enchantments);
+            }
             if (configurationMap.containsKey("enchanted")) {
-                simpleItemStack.setEnchanted((boolean) configurationMap.get("enchanted"));
+                simpleItemStack.setEnchantGlow((boolean) configurationMap.get("enchanted"));
             }
             if (configurationMap.containsKey("custom-model-data")) {
                 simpleItemStack.setCustomModelData((int) configurationMap.get("custom-model-data"));
