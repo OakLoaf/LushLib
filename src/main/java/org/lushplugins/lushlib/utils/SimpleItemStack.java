@@ -8,6 +8,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
@@ -102,6 +103,10 @@ public class SimpleItemStack implements Cloneable {
         return !enchantments.isEmpty();
     }
 
+    public void setEnchantment(Enchantment enchantment, int level) {
+        this.enchantments.put(enchantment, level);
+    }
+
     public void setEnchantments(Map<Enchantment, Integer> enchantments) {
         this.enchantments = enchantments;
     }
@@ -173,7 +178,7 @@ public class SimpleItemStack implements Cloneable {
         ItemStack itemStack = new ItemStack(material, amount.next());
         ItemMeta itemMeta = itemStack.getItemMeta();
 
-        if (!enchantments.isEmpty()) {
+        if (!(itemMeta instanceof EnchantmentStorageMeta) && !enchantments.isEmpty()) {
             enchantments.forEach(itemStack::addEnchantment);
         }
 
@@ -184,7 +189,9 @@ public class SimpleItemStack implements Cloneable {
             if (lore != null) {
                 itemMeta.setLore(lore);
             }
-            if (enchantments.isEmpty() && enchantGlow != null && enchantGlow) {
+            if (itemMeta instanceof EnchantmentStorageMeta enchantmentMeta) {
+                enchantments.forEach((enchantment, level) -> enchantmentMeta.addStoredEnchant(enchantment, level, true));
+            } else if (enchantments.isEmpty() && enchantGlow != null && enchantGlow) {
                 itemMeta.addEnchant(Enchantment.DURABILITY, 1, false);
                 itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
             }
@@ -318,6 +325,9 @@ public class SimpleItemStack implements Cloneable {
             }
             if (itemMeta.hasEnchants() && itemMeta.hasItemFlag(ItemFlag.HIDE_ENCHANTS)) {
                 simpleItemStack.setEnchantGlow(true);
+            }
+            if (itemMeta instanceof EnchantmentStorageMeta enchantmentMeta) {
+                enchantmentMeta.getEnchants().forEach(simpleItemStack::setEnchantment);
             }
             if (itemMeta.hasCustomModelData()) {
                 simpleItemStack.setCustomModelData(itemMeta.getCustomModelData());
