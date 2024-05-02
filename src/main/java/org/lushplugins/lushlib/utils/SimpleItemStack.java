@@ -171,10 +171,14 @@ public class SimpleItemStack implements Cloneable {
     }
 
     public ItemStack asItemStack() {
-        return asItemStack(null);
+        return asItemStack(null, true);
     }
 
     public ItemStack asItemStack(@Nullable Player player) {
+        return asItemStack(player, true);
+    }
+
+    public ItemStack asItemStack(@Nullable Player player, boolean parseColors) {
         ItemStack itemStack = new ItemStack(material, amount.next());
         ItemMeta itemMeta = itemStack.getItemMeta();
 
@@ -184,10 +188,10 @@ public class SimpleItemStack implements Cloneable {
 
         if (itemMeta != null) {
             if (displayName != null) {
-                itemMeta.setDisplayName(displayName);
+                itemMeta.setDisplayName(parseColors ? ChatColorHandler.translate(displayName, player) : displayName);
             }
             if (lore != null) {
-                itemMeta.setLore(lore);
+                itemMeta.setLore(parseColors ? lore.stream().map(line -> ChatColorHandler.translate(line, player)).toList() : lore);
             }
             if (itemMeta instanceof EnchantmentStorageMeta enchantmentMeta) {
                 enchantments.forEach((enchantment, level) -> enchantmentMeta.addStoredEnchant(enchantment, level, true));
