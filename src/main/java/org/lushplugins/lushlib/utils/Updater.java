@@ -132,7 +132,10 @@ public class Updater {
                     updateAvailable = true;
                     break;
                 }
+            } else if (newVersion < currVersion) {
+                break;
             }
+
             i++;
         }
 
