@@ -28,7 +28,7 @@ public class Updater {
     private static final ScheduledExecutorService updateExecutor = Executors.newScheduledThreadPool(1);
     private static final HashSet<Updater> updaters = new HashSet<>();
 
-    private final String modrinthProjectSlug;
+    private final String modrinthProjectId;
     private final String currentVersion;
     private final String jarName;
     private final String permission;
@@ -43,8 +43,8 @@ public class Updater {
     private boolean ready = false;
     private boolean alreadyDownloaded = false;
 
-    public Updater(JavaPlugin plugin, String modrinthProjectSlug, String permission, String downloadCommand) {
-        this.modrinthProjectSlug = modrinthProjectSlug;
+    public Updater(JavaPlugin plugin, String modrinthProjectId, String permission, String downloadCommand) {
+        this.modrinthProjectId = modrinthProjectId;
         String currentVersion = plugin.getDescription().getVersion();
         this.currentVersion = currentVersion.contains("-") ? currentVersion.split("-")[0] : currentVersion;
         this.jarName = plugin.getDescription().getName();
@@ -77,7 +77,7 @@ public class Updater {
             return;
         }
 
-        URL url = new URL("https://api.modrinth.com/v2/project/" + modrinthProjectSlug + "/version?featured=true");
+        URL url = new URL("https://api.modrinth.com/v2/project/" + modrinthProjectId + "/version?featured=true");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.addRequestProperty("User-Agent", jarName + "/" + currentVersion);
 
@@ -226,8 +226,8 @@ public class Updater {
         return updateDir;
     }
 
-    public String getModrinthProjectSlug() {
-        return modrinthProjectSlug;
+    public String getModrinthProjectId() {
+        return modrinthProjectId;
     }
 
     public String getPermission() {
@@ -262,7 +262,7 @@ public class Updater {
                     if (updater.isUpdateAvailable() && !updater.isAlreadyDownloaded()) {
                         updateExecutor.schedule(() -> {
                             String message = updater.getUpdateMessage()
-                                .replace("%modrinth_slug%", updater.getModrinthProjectSlug())
+                                .replace("%modrinth_slug%", updater.getModrinthProjectId())
                                 .replace("%plugin_name%", LushLib.getInstance().getPlugin().getName())
                                 .replace("%download_command%", updater.getDownloadCommand());
 
