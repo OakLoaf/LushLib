@@ -183,7 +183,11 @@ public class SimpleItemStack implements Cloneable {
         ItemMeta itemMeta = itemStack.getItemMeta();
 
         if (!(itemMeta instanceof EnchantmentStorageMeta) && !enchantments.isEmpty()) {
-            enchantments.forEach(itemStack::addEnchantment);
+            enchantments.forEach((enchantment, level) -> {
+                try {
+                    itemStack.addEnchantment(enchantment, level);
+                } catch (IllegalArgumentException ignored) {}
+            });
         }
 
         if (itemMeta != null) {
