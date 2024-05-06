@@ -233,12 +233,12 @@ public class SimpleItemStack implements Cloneable {
             configurationSection.set("lore", lore);
         }
         if (!enchantments.isEmpty()) {
-            configurationSection.set("enchantments", enchantments);
-        }
-        if (enchantGlow != null) {
             Map<String, Object> enchantmentMap = new HashMap<>();
             enchantments.forEach((enchantment, level) -> enchantmentMap.put(enchantment.toString().toLowerCase(), level));
-            configurationSection.set("enchanted", enchantmentMap);
+            configurationSection.set("enchantments", enchantmentMap);
+        }
+        if (enchantGlow != null) {
+            configurationSection.set("enchanted", enchantGlow);
         }
         if (customModelData != 0) {
             configurationSection.set("custom-model-data", customModelData);
