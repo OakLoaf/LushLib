@@ -34,9 +34,10 @@ public abstract class SubCommand {
      * @param command Command which was executed
      * @param label Alias of the command which was used
      * @param args Passed command arguments
+     * @param fullArgs The arguments passed to the highest parent command
      * @return true if a valid command, otherwise false
      */
-    public abstract boolean execute(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args);
+    public abstract boolean execute(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args, @NotNull String[] fullArgs);
 
     /**
      * Requests a list of possible completions for a command argument.
@@ -46,14 +47,15 @@ public abstract class SubCommand {
      *     the command block.
      * @param command Command which was executed
      * @param label Alias of the command which was used
-     * @param args The arguments passed to the command, including final
+     * @param args The arguments passed to the sub-command, including final
      *     partial argument to be completed
+     * @param fullArgs The arguments passed to the highest parent command
      * @return A List of possible completions for the final argument, or null
      *     to default to the command executor
      */
     @SuppressWarnings("unused")
     @Nullable
-    public List<String> tabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public List<String> tabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args, @NotNull String[] fullArgs) {
         return null;
     }
 

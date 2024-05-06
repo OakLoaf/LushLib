@@ -53,7 +53,7 @@ public abstract class Command extends SubCommand implements CommandExecutor, Tab
         }
 
         if (currSubCommand.hasRequiredPermissions(sender)) {
-            return currSubCommand.execute(sender, command, label, subCommandArgs);
+            return currSubCommand.execute(sender, command, label, subCommandArgs, args);
         } else {
             ChatColorHandler.sendMessage(sender, LanguageManager.getMessage("insufficient-permissions"));
             return true;
@@ -82,7 +82,7 @@ public abstract class Command extends SubCommand implements CommandExecutor, Tab
         }
 
         if (activeSubCommand.hasRequiredPermissions(sender)) {
-            List<String> subCommandTabComplete = activeSubCommand.tabComplete(sender, command, label, subCommandArgs);
+            List<String> subCommandTabComplete = activeSubCommand.tabComplete(sender, command, label, subCommandArgs, args);
             if (subCommandTabComplete != null) {
                 tabComplete.addAll(subCommandTabComplete);
             }
