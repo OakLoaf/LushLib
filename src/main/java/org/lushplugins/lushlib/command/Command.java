@@ -1,7 +1,6 @@
 package org.lushplugins.lushlib.command;
 
 import me.dave.chatcolorhandler.ChatColorHandler;
-import org.lushplugins.lushlib.language.LanguageManager;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -55,7 +54,7 @@ public abstract class Command extends SubCommand implements CommandExecutor, Tab
         if (currSubCommand.hasRequiredPermissions(sender)) {
             return currSubCommand.execute(sender, command, label, subCommandArgs, args);
         } else {
-            ChatColorHandler.sendMessage(sender, LanguageManager.getMessage("insufficient-permissions"));
+            ChatColorHandler.sendMessage(sender, "&cInsufficient permissions");
             return true;
         }
     }
