@@ -1,5 +1,7 @@
 package org.lushplugins.lushlib.plugin;
 
+import org.bukkit.command.PluginCommand;
+import org.jetbrains.annotations.Nullable;
 import org.lushplugins.lushlib.command.Command;
 import org.lushplugins.lushlib.hook.Hook;
 import org.lushplugins.lushlib.manager.Manager;
@@ -137,16 +139,18 @@ public abstract class SpigotPlugin extends JavaPlugin {
     }
 
     public void registerCommand(Command command) {
-        registerCommand(command.getName(), command);
+        registerCommand(command.getName(), command, command.getRequiredPermission());
     }
 
-    public void registerCommand(String command, CommandExecutor executor) {
-        try {
-            getCommand(command).setExecutor(executor);
-        } catch (NullPointerException e) {
-            getLogger().severe("Failed to register command '" + command + "', make sure the command has been defined in the plugin.yml");
-            e.printStackTrace();
+    public void registerCommand(String commandName, CommandExecutor executor, @Nullable String permission) {
+        PluginCommand command = getCommand(commandName);
+        if (command == null) {
+            getLogger().severe("Failed to register command '" + commandName + "', make sure the command has been defined in the plugin.yml");
+            return;
         }
+
+        command.setExecutor(executor);
+        command.setPermission(permission);
     }
 
     public boolean callEvent(Event event) {

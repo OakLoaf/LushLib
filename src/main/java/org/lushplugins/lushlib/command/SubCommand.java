@@ -86,6 +86,16 @@ public abstract class SubCommand {
         subCommands.remove(subCommand);
     }
 
+    @Nullable
+    public String getRequiredPermission() {
+        return !requiredPermissions.isEmpty() ? requiredPermissions.get(0) : null;
+    }
+
+    @NotNull
+    public List<String> getRequiredPermissions() {
+        return requiredPermissions;
+    }
+
     public boolean hasRequiredArgs() {
         return requiredArgs.size() > 0;
     }
