@@ -13,7 +13,11 @@ public class MaterialUtils {
     @NotNull
     public static List<Material> from(List<String> stringList) {
         List<Material> materials = new ArrayList<>();
-        stringList.forEach(materialRaw -> materials.addAll(from(materialRaw)));
+
+        for (String string : stringList) {
+            materials.addAll(from(string));
+        }
+
         return materials;
     }
 

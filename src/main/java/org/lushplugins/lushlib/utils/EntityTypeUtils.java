@@ -14,7 +14,11 @@ public class EntityTypeUtils {
     @NotNull
     public static List<EntityType> from(List<String> stringList) {
         List<EntityType> entityTypes = new ArrayList<>();
-        stringList.forEach(entityTypeRaw -> entityTypes.addAll(from(entityTypeRaw)));
+
+        for (String string : stringList) {
+            entityTypes.addAll(from(string));
+        }
+
         return entityTypes;
     }
 
