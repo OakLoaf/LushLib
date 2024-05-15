@@ -2,6 +2,7 @@ package org.lushplugins.lushlib;
 
 import org.lushplugins.lushlib.plugin.SpigotPlugin;
 import org.jetbrains.annotations.NotNull;
+import org.lushplugins.lushlib.utils.LushLogger;
 
 import java.util.logging.Logger;
 
@@ -11,20 +12,19 @@ public final class LushLib {
 
     private boolean enabled = false;
     private SpigotPlugin plugin = null;
-    private Logger logger = null;
 
     public void enable(@NotNull SpigotPlugin plugin) {
         enabled = true;
 
         this.plugin = plugin;
-        logger = plugin.getLogger();
+        Logger logger = plugin.getLogger();
+        LushLogger.setLogger(logger);
 
         logger.info("Successfully enabled LushLib");
     }
 
     public void disable() {
-        logger.info("Successfully disabled LushLib");
-        logger = null;
+        LushLogger.getLogger().info("Successfully disabled LushLib");
         plugin = null;
 
         enabled = false;
@@ -39,7 +39,7 @@ public final class LushLib {
     }
 
     public Logger getLogger() {
-        return logger;
+        return LushLogger.getLogger();
     }
 
     public static LushLib getInstance() {
