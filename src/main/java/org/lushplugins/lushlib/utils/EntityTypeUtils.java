@@ -24,11 +24,16 @@ public class EntityTypeUtils {
 
     @NotNull
     public static Collection<EntityType> from(String string) {
+        NamespacedKey namespacedKey = NamespacedKey.fromString(string);
+        if (namespacedKey == null) {
+            return Collections.emptyList();
+        }
+
         if (string.charAt(0) == '#') {
-            Tag<EntityType> tag = Bukkit.getTag(Tag.REGISTRY_ENTITY_TYPES, NamespacedKey.minecraft(string.substring(1)), EntityType.class);
+            Tag<EntityType> tag = Bukkit.getTag(Tag.REGISTRY_ENTITY_TYPES, namespacedKey, EntityType.class);
             return tag != null ? tag.getValues() : Collections.emptyList();
         } else {
-            EntityType entityType = Registry.ENTITY_TYPE.get(NamespacedKey.minecraft(string));
+            EntityType entityType = Registry.ENTITY_TYPE.get(namespacedKey);
             return entityType != null ? List.of(entityType) : Collections.emptyList();
         }
     }

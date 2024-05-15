@@ -23,12 +23,17 @@ public class MaterialUtils {
 
     @NotNull
     public static Collection<Material> from(String string) {
+        NamespacedKey namespacedKey = NamespacedKey.fromString(string);
+        if (namespacedKey == null) {
+            return Collections.emptyList();
+        }
+
         if (string.charAt(0) == '#') {
             String[] registries = {Tag.REGISTRY_BLOCKS, Tag.REGISTRY_ITEMS};
 
             Tag<Material> tag = null;
             for (String registry : registries) {
-                tag = Bukkit.getTag(registry, NamespacedKey.minecraft(string.substring(1)), Material.class);
+                tag = Bukkit.getTag(registry, namespacedKey, Material.class);
                 if (tag != null) {
                     break;
                 }
@@ -36,7 +41,7 @@ public class MaterialUtils {
 
             return tag != null ? tag.getValues() : Collections.emptyList();
         } else {
-            Material material = Registry.MATERIAL.get(NamespacedKey.minecraft(string));
+            Material material = Registry.MATERIAL.get(namespacedKey);
             return material != null ? List.of(material) : Collections.emptyList();
         }
     }
