@@ -23,7 +23,7 @@ public class TagUtils {
     public static <T extends Keyed> Collection<T> parseString(String string, TagType<T> tagType) {
         NamespacedKey namespacedKey = NamespacedKey.fromString(string.charAt(0) == '#' ? string.substring(1) : string.toLowerCase());
         if (namespacedKey == null) {
-            LushLogger.getLogger().warning("'" + string + "' is not a valid entity type or tag");
+            LushLogger.getLogger().warning("'" + string + "' is not a valid " + tagType.dataType().getSimpleName() +  " or tag");
             return Collections.emptyList();
         }
 
