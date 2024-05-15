@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "org.lushplugins"
-version = "0.1.7.9"
+version = "0.2"
 
 repositories {
     mavenCentral()
