@@ -4,8 +4,6 @@ import org.lushplugins.lushlib.plugin.SpigotPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.lushplugins.lushlib.utils.LushLogger;
 
-import java.util.logging.Logger;
-
 @SuppressWarnings("unused")
 public final class LushLib {
     private static LushLib instance;
@@ -17,10 +15,8 @@ public final class LushLib {
         enabled = true;
 
         this.plugin = plugin;
-        Logger logger = plugin.getLogger();
-        LushLogger.setLogger(logger);
-
-        logger.info("Successfully enabled LushLib");
+        LushLogger.setLogger(plugin.getLogger());
+        LushLogger.getLogger().info("Successfully enabled LushLib");
     }
 
     public void disable() {
@@ -36,10 +32,6 @@ public final class LushLib {
 
     public SpigotPlugin getPlugin() {
         return plugin;
-    }
-
-    public Logger getLogger() {
-        return LushLogger.getLogger();
     }
 
     public static LushLib getInstance() {

@@ -2,7 +2,7 @@ package org.lushplugins.lushlib.utils.skullcreator;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import org.lushplugins.lushlib.LushLib;
+import org.lushplugins.lushlib.utils.LushLogger;
 import org.lushplugins.lushlib.utils.SkullCreator;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -60,9 +60,9 @@ public class NewSkullCreator implements SkullCreator.Interface {
             id = new UUID(b64.substring(b64.length() - 20).hashCode(), b64.substring(b64.length() - 10).hashCode());
         } catch (StringIndexOutOfBoundsException ex) {
             if (b64.length() == 0) {
-                LushLib.getInstance().getLogger().warning("Missing base64 texture found - check your config");
+                LushLogger.getLogger().warning("Missing base64 texture found - check your config");
             } else {
-                LushLib.getInstance().getLogger().warning("Invalid base64 texture (" + b64 + ") found - check your config");
+                LushLogger.getLogger().warning("Invalid base64 texture (" + b64 + ") found - check your config");
             }
         }
 
@@ -86,7 +86,7 @@ public class NewSkullCreator implements SkullCreator.Interface {
         try {
             decoded = data.get("textures").getAsJsonObject().get("skin").getAsJsonObject().get("url").getAsString();
         } catch (NullPointerException e) {
-            LushLib.getInstance().getLogger().severe(base64 + " does not appear to be a valid texture.");
+            LushLogger.getLogger().severe(base64 + " does not appear to be a valid texture.");
             return null;
         }
 

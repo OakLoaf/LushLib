@@ -4,7 +4,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import me.dave.chatcolorhandler.ChatColorHandler;
-import org.lushplugins.lushlib.LushLib;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -28,11 +27,13 @@ public class Updater {
     private static final ScheduledExecutorService updateExecutor = Executors.newScheduledThreadPool(1);
     private static final HashSet<Updater> updaters = new HashSet<>();
 
+    private final String pluginName;
     private final String modrinthProjectId;
     private final String currentVersion;
     private final String jarName;
     private final String permission;
     private final String downloadCommand;
+    private final File updateFolder;
     private String updateMessage = "&#ffe27aA new &#e0c01b%plugin_name% &#ffe27aupdate is now available, type &#e0c01b'%download_command%' &#ffe27ato download it!";
 
     private boolean enabled;
@@ -44,18 +45,20 @@ public class Updater {
     private boolean alreadyDownloaded = false;
 
     public Updater(JavaPlugin plugin, String modrinthProjectId, String permission, String downloadCommand) {
+        this.pluginName = plugin.getName();
         this.modrinthProjectId = modrinthProjectId;
         String currentVersion = plugin.getDescription().getVersion();
         this.currentVersion = currentVersion.contains("-") ? currentVersion.split("-")[0] : currentVersion;
         this.jarName = plugin.getDescription().getName();
         this.permission = permission;
         this.downloadCommand = downloadCommand;
+        this.updateFolder = new File(plugin.getDataFolder().getParentFile(), Bukkit.getUpdateFolder());
 
         updateExecutor.scheduleAtFixedRate(() -> {
             try {
                 check();
             } catch (Exception e) {
-                LushLib.getInstance().getLogger().info("Unable to check for update: " + e.getMessage());
+                LushLogger.getLogger().info("Unable to check for update: " + e.getMessage());
             }
         }, 2, 600, TimeUnit.SECONDS);
 
@@ -67,7 +70,7 @@ public class Updater {
             try {
                 check();
             } catch (Exception e) {
-                LushLib.getInstance().getLogger().info("Unable to check for update: " + e.getMessage());
+                LushLogger.getLogger().info("Unable to check for update: " + e.getMessage());
             }
         }, 0, TimeUnit.SECONDS);
     }
@@ -140,9 +143,9 @@ public class Updater {
         }
 
         if (updateAvailable && !ready) {
-            LushLib.getInstance().getLogger().info("An update is available! (" + latestVersion + ") Do /" + downloadCommand + " to download it!");
+            LushLogger.getLogger().info("An update is available! (" + latestVersion + ") Do /" + downloadCommand + " to download it!");
         } else if (!ready) {
-            LushLib.getInstance().getLogger().info("You are up to date! (" + latestVersion + ")");
+            LushLogger.getLogger().info("You are up to date! (" + latestVersion + ")");
         }
 
         ready = true;
@@ -167,17 +170,17 @@ public class Updater {
     public CompletableFuture<Boolean> downloadUpdate() {
 
         if (!isEnabled()) {
-            LushLib.getInstance().getLogger().warning("Updater is disabled");
+            LushLogger.getLogger().warning("Updater is disabled");
             return CompletableFuture.completedFuture(false);
         }
 
         if (!isUpdateAvailable()) {
-            LushLib.getInstance().getLogger().warning("No update is available!");
+            LushLogger.getLogger().warning("No update is available!");
             return CompletableFuture.completedFuture(false);
         }
 
         if (isAlreadyDownloaded()) {
-            LushLib.getInstance().getLogger().warning("The update has already been downloaded!");
+            LushLogger.getLogger().warning("The update has already been downloaded!");
             return CompletableFuture.completedFuture(false);
         }
 
@@ -197,7 +200,7 @@ public class Updater {
 
                 ReadableByteChannel rbc = Channels.newChannel(connection.getInputStream());
                 File out = new File(getUpdateFolder(), jarName + "-" + latestVersion + ".jar");
-                LushLib.getInstance().getLogger().info(out.getAbsolutePath());
+                LushLogger.getLogger().info(out.getAbsolutePath());
                 FileOutputStream fos = new FileOutputStream(out);
                 fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
                 fos.close();
@@ -219,14 +222,8 @@ public class Updater {
         updaters.remove(this);
     }
 
-    private File getUpdateFolder() {
-        File updateDir = new File(LushLib.getInstance().getPlugin().getDataFolder().getParentFile(), Bukkit.getUpdateFolder());
-
-        if (!updateDir.exists()) {
-            updateDir.mkdir();
-        }
-
-        return updateDir;
+    public String getPluginName() {
+        return pluginName;
     }
 
     public String getModrinthProjectId() {
@@ -239,6 +236,14 @@ public class Updater {
 
     public String getDownloadCommand() {
         return downloadCommand;
+    }
+
+    public File getUpdateFolder() {
+        if (!updateFolder.exists()) {
+            updateFolder.mkdir();
+        }
+
+        return updateFolder;
     }
 
     public String getUpdateMessage() {
@@ -266,7 +271,7 @@ public class Updater {
                         updateExecutor.schedule(() -> {
                             String message = updater.getUpdateMessage()
                                 .replace("%modrinth_slug%", updater.getModrinthProjectId())
-                                .replace("%plugin_name%", LushLib.getInstance().getPlugin().getName())
+                                .replace("%plugin_name%", updater.getPluginName())
                                 .replace("%download_command%", updater.getDownloadCommand());
 
                             ChatColorHandler.sendMessage(player, message);
