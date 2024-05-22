@@ -11,7 +11,7 @@ repositories {
     mavenCentral()
     mavenLocal()
     maven(url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/") // Spigot
-    maven(url = "https://repo.smrt-1.com/releases") // ChatColorHandler
+    maven(url = "https://repo.lushplugins.org/releases") // ChatColorHandler
     maven(url = "https://repo.opencollab.dev/main/") // Floodgate
 }
 
@@ -22,7 +22,7 @@ dependencies {
         exclude("com.google.code.gson", "gson")
     }
 
-    api("me.dave:ChatColorHandler:v${findProperty("chatcolorhandlerVersion")}")
+    api("org.lushplugins:ChatColorHandler:${findProperty("chatcolorhandlerVersion")}")
     api("org.jetbrains:annotations:24.0.0")
 }
 
@@ -38,7 +38,7 @@ tasks {
     }
 
     shadowJar {
-        relocate("me.dave.chatcolorhandler", "org.lushplugins.lushlib.libraries.chatcolor")
+        relocate("org.lushplugins.chatcolorhandler", "org.lushplugins.lushlib.libraries.chatcolor")
 
         archiveFileName.set("${project.name}-${project.version}.jar")
     }

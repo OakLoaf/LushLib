@@ -1,6 +1,6 @@
 package org.lushplugins.lushlib.utils;
 
-import me.dave.chatcolorhandler.ChatColorHandler;
+import org.lushplugins.chatcolorhandler.ChatColorHandler;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;

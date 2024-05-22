@@ -3,7 +3,7 @@ package org.lushplugins.lushlib.utils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import me.dave.chatcolorhandler.ChatColorHandler;
+import org.lushplugins.chatcolorhandler.ChatColorHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

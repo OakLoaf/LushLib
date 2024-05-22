@@ -1,6 +1,6 @@
 package org.lushplugins.lushlib.command;
 
-import me.dave.chatcolorhandler.ChatColorHandler;
+import org.lushplugins.chatcolorhandler.ChatColorHandler;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
