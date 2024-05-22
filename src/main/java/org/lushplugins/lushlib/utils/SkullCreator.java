@@ -33,7 +33,7 @@ public class SkullCreator {
         return skullCreator.getB64(itemStack);
     }
 
-    public static String getTexture(Player player) {
+    public static String getTexture(OfflinePlayer player) {
         return skullCreator.getTexture(player);
     }
 
