@@ -2,6 +2,7 @@ package org.lushplugins.lushlib.utils.skullcreator;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.bukkit.OfflinePlayer;
 import org.lushplugins.lushlib.utils.LushLogger;
 import org.lushplugins.lushlib.utils.SkullCreator;
 import org.bukkit.Bukkit;
@@ -49,7 +50,7 @@ public class NewSkullCreator implements SkullCreator.Interface {
         }
     }
 
-    public String getTexture(Player player) {
+    public String getTexture(OfflinePlayer player) {
         URL skinUrl = player.getPlayerProfile().getTextures().getSkin();
         return skinUrl != null ? getBase64FromUrl(skinUrl) : null;
     }

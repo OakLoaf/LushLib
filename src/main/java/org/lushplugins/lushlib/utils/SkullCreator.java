@@ -1,5 +1,6 @@
 package org.lushplugins.lushlib.utils;
 
+import org.bukkit.OfflinePlayer;
 import org.lushplugins.lushlib.utils.skullcreator.LegacySkullCreator;
 import org.lushplugins.lushlib.utils.skullcreator.NewSkullCreator;
 import org.bukkit.Bukkit;
@@ -43,6 +44,6 @@ public class SkullCreator {
 
         String getB64(ItemStack itemStack);
 
-        String getTexture(Player player);
+        String getTexture(OfflinePlayer player);
     }
 }

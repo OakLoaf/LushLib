@@ -2,6 +2,7 @@ package org.lushplugins.lushlib.utils.skullcreator;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
+import org.bukkit.OfflinePlayer;
 import org.lushplugins.lushlib.utils.LushLogger;
 import org.lushplugins.lushlib.utils.SkullCreator;
 import org.bukkit.Material;
@@ -74,7 +75,7 @@ public class LegacySkullCreator implements SkullCreator.Interface {
         }
     }
 
-    public String getTexture(Player player) {
+    public String getTexture(OfflinePlayer player) {
         GameProfile profile;
         try {
             Method getProfileMethod = player.getClass().getDeclaredMethod("getProfile");
