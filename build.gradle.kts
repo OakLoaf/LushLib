@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "org.lushplugins"
-version = "0.4.0"
+version = "0.4.1"
 
 repositories {
     mavenCentral()
@@ -22,7 +22,7 @@ dependencies {
         exclude("com.google.code.gson", "gson")
     }
 
-    api("org.lushplugins:ChatColorHandler:${findProperty("chatcolorhandlerVersion")}")
+    implementation("org.lushplugins:ChatColorHandler:${findProperty("chatcolorhandlerVersion")}")
     api("org.jetbrains:annotations:24.0.0")
 }
 
