@@ -1,5 +1,6 @@
 package org.lushplugins.lushlib.utils;
 
+import org.bukkit.Registry;
 import org.lushplugins.chatcolorhandler.ChatColorHandler;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -38,6 +39,104 @@ public class SimpleItemStack implements Cloneable {
     public SimpleItemStack(@Nullable Material material, int amount) {
         this.material = material;
         this.amount = new IntRange(amount);
+    }
+
+    public SimpleItemStack(ItemStack itemStack) {
+        material = itemStack.getType();
+        amount = new IntRange(itemStack.getAmount(), itemStack.getAmount());
+        enchantments = itemStack.getEnchantments();
+
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        if (itemMeta != null) {
+            if (itemMeta.hasDisplayName()) {
+                displayName = itemMeta.getDisplayName();
+            }
+            if (itemMeta.hasLore()) {
+                lore = itemMeta.getLore();
+            }
+            if (itemMeta.hasEnchants() && itemMeta.hasItemFlag(ItemFlag.HIDE_ENCHANTS)) {
+                enchantGlow = true;
+            }
+            if (itemMeta instanceof EnchantmentStorageMeta enchantmentMeta) {
+                enchantments = enchantmentMeta.getEnchants();
+            }
+            if (itemMeta.hasCustomModelData()) {
+                customModelData = itemMeta.getCustomModelData();
+            }
+            if (itemMeta instanceof SkullMeta) {
+                skullTexture = SkullCreator.getB64(itemStack);
+            }
+        }
+    }
+
+    public SimpleItemStack(ConfigurationSection configurationSection) {
+        if (configurationSection.contains("material")) {
+            material = RegistryUtils.fromString(Registry.MATERIAL, configurationSection.getString("material"));
+        }
+        if (configurationSection.contains("amount")) {
+            amount = IntRange.parseIntRange(configurationSection.getString("amount", "1"));
+        }
+        if (configurationSection.contains("display-name")) {
+            displayName = configurationSection.getString("display-name");
+        }
+        if (configurationSection.contains("lore")) {
+            lore = configurationSection.getStringList("lore");
+        }
+        if (configurationSection.contains("enchantments")) {
+            Map<Enchantment, Integer> enchantments = new HashMap<>();
+            configurationSection.getConfigurationSection("enchantments").getValues(false).forEach((enchantmentRaw, level) -> {
+                Enchantment enchantment = RegistryUtils.fromString(Registry.ENCHANTMENT, enchantmentRaw);
+                enchantments.put(enchantment, (int) level);
+            });
+
+            this.enchantments = enchantments;
+        }
+        if (configurationSection.contains("enchanted")) {
+            this.enchantGlow = configurationSection.getBoolean("enchanted");
+        }
+        if (configurationSection.contains("custom-model-data")) {
+            this.customModelData = configurationSection.getInt("custom-model-data");
+        }
+        if (configurationSection.contains("skull-texture")) {
+            this.skullTexture = configurationSection.getString("skull-texture");
+        }
+    }
+
+    public SimpleItemStack(@NotNull Map<?, ?> configurationMap) {
+        try {
+            if (configurationMap.containsKey("material")) {
+                material = RegistryUtils.fromString(Registry.MATERIAL, (String) configurationMap.get("material"));
+            }
+            if (configurationMap.containsKey("amount")) {
+                amount = IntRange.valueOf(configurationMap.get("amount"));
+            }
+            if (configurationMap.containsKey("display-name")) {
+                displayName = (String) configurationMap.get("display-name");
+            }
+            if (configurationMap.containsKey("lore")) {
+                lore = (List<String>) configurationMap.get("lore");
+            }
+            if (configurationMap.containsKey("enchantments")) {
+                Map<Enchantment, Integer> enchantments = new HashMap<>();
+                ((Map<String, Object>) configurationMap.get("enchantments")).forEach((enchantmentRaw, level) -> {
+                    Enchantment enchantment = Enchantment.getByKey(NamespacedKey.minecraft(enchantmentRaw));
+                    enchantments.put(enchantment, (int) level);
+                });
+
+                this.enchantments = enchantments;
+            }
+            if (configurationMap.containsKey("enchanted")) {
+                enchantGlow = (boolean) configurationMap.get("enchanted");
+            }
+            if (configurationMap.containsKey("custom-model-data")) {
+                customModelData = (int) configurationMap.get("custom-model-data");
+            }
+            if (configurationMap.containsKey("skull-texture")) {
+                skullTexture = (String) configurationMap.get("skull-texture");
+            }
+        } catch(ClassCastException exc) {
+            throw new IllegalArgumentException("Invalid format at '" + configurationMap + "', could not parse data", exc);
+        }
     }
 
     @Nullable
@@ -285,7 +384,7 @@ public class SimpleItemStack implements Cloneable {
         return map;
     }
 
-    public static SimpleItemStack overwrite(@NotNull SimpleItemStack original, @NotNull SimpleItemStack overwrite) {
+    public SimpleItemStack overwrite(@NotNull SimpleItemStack overwrite) {
         SimpleItemStack result = new SimpleItemStack();
 
         if (overwrite.hasType()) {
@@ -293,145 +392,43 @@ public class SimpleItemStack implements Cloneable {
             result.setCustomModelData(overwrite.getCustomModelData());
         }
         else {
-            result.setType(original.getType());
-            result.setCustomModelData(original.getCustomModelData());
+            result.setType(material);
+            result.setCustomModelData(customModelData);
         }
 
-        result.setAmountRange(overwrite.getAmount().getMin() != 1 && overwrite.getAmount().getMax() != 1 ? overwrite.getAmount() : original.getAmount());
-        result.setDisplayName(overwrite.hasDisplayName() ? overwrite.getDisplayName() : original.getDisplayName());
-        result.setLore(overwrite.hasLore() ? overwrite.getLore() : original.getLore());
-        result.setEnchantments(overwrite.hasEnchantments() ? overwrite.getEnchantments() : original.getEnchantments());
-        result.setEnchantGlow(overwrite.hasEnchantGlow() ? overwrite.getEnchantGlow() : original.getEnchantGlow());
-        result.setSkullTexture(overwrite.hasSkullTexture() ? overwrite.getSkullTexture() : original.getSkullTexture());
+        result.setAmountRange(overwrite.getAmount().getMin() != 1 && overwrite.getAmount().getMax() != 1 ? overwrite.getAmount() : amount);
+        result.setDisplayName(overwrite.hasDisplayName() ? overwrite.getDisplayName() : displayName);
+        result.setLore(overwrite.hasLore() ? overwrite.getLore() : lore);
+        result.setEnchantments(overwrite.hasEnchantments() ? overwrite.getEnchantments() : enchantments);
+        result.setEnchantGlow(overwrite.hasEnchantGlow() ? overwrite.getEnchantGlow() : enchantGlow);
+        result.setSkullTexture(overwrite.hasSkullTexture() ? overwrite.getSkullTexture() : skullTexture);
 
         return result;
     }
 
-    public static SimpleItemStack overwrite(@NotNull SimpleItemStack original, @NotNull SimpleItemStack... overwrites) {
-        SimpleItemStack result = original;
-
+    public SimpleItemStack overwrite(@NotNull SimpleItemStack... overwrites) {
+        SimpleItemStack result = this;
         for (SimpleItemStack overwrite : overwrites) {
-            result = overwrite(result, overwrite);
+            result = result.overwrite(overwrite);
         }
 
         return result;
-    }
-
-    public static SimpleItemStack from(@NotNull ItemStack itemStack) {
-        SimpleItemStack simpleItemStack = new SimpleItemStack();
-        simpleItemStack.setType(itemStack.getType());
-        simpleItemStack.setAmount(itemStack.getAmount());
-        simpleItemStack.setEnchantments(itemStack.getEnchantments());
-
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        if (itemMeta != null) {
-            if (itemMeta.hasDisplayName()) {
-                simpleItemStack.setDisplayName(itemMeta.getDisplayName());
-            }
-            if (itemMeta.hasLore()) {
-                simpleItemStack.setLore(itemMeta.getLore());
-            }
-            if (itemMeta.hasEnchants() && itemMeta.hasItemFlag(ItemFlag.HIDE_ENCHANTS)) {
-                simpleItemStack.setEnchantGlow(true);
-            }
-            if (itemMeta instanceof EnchantmentStorageMeta enchantmentMeta) {
-                enchantmentMeta.getEnchants().forEach(simpleItemStack::setEnchantment);
-            }
-            if (itemMeta.hasCustomModelData()) {
-                simpleItemStack.setCustomModelData(itemMeta.getCustomModelData());
-            }
-            if (itemMeta instanceof SkullMeta) {
-                simpleItemStack.setSkullTexture(SkullCreator.getB64(itemStack));
-            }
-        }
-        return simpleItemStack;
-    }
-
-    public static SimpleItemStack from(@NotNull ConfigurationSection configurationSection) {
-        SimpleItemStack simpleItemStack = new SimpleItemStack();
-
-        if (configurationSection.contains("material")) {
-            StringUtils.getEnum(configurationSection.getString("material", null), Material.class).ifPresent(simpleItemStack::setType);
-        }
-        if (configurationSection.contains("amount")) {
-            simpleItemStack.setAmountRange(IntRange.parseIntRange(configurationSection.getString("amount", "1")));
-        }
-        if (configurationSection.contains("display-name")) {
-            simpleItemStack.setDisplayName(configurationSection.getString("display-name", null));
-        }
-        if (configurationSection.contains("lore")) {
-            simpleItemStack.setLore(configurationSection.getStringList("lore"));
-        }
-        if (configurationSection.contains("enchantments")) {
-            Map<Enchantment, Integer> enchantments = new HashMap<>();
-
-            configurationSection.getConfigurationSection("enchantments").getValues(false).forEach((enchantmentRaw, level) -> {
-                Enchantment enchantment = Enchantment.getByKey(NamespacedKey.minecraft(enchantmentRaw));
-                enchantments.put(enchantment, (int) level);
-            });
-
-            simpleItemStack.setEnchantments(enchantments);
-        }
-        if (configurationSection.contains("enchanted")) {
-            simpleItemStack.setEnchantGlow(configurationSection.getBoolean("enchanted", false));
-        }
-        if (configurationSection.contains("custom-model-data")) {
-            simpleItemStack.setCustomModelData(configurationSection.getInt("custom-model-data"));
-        }
-        if (configurationSection.contains("skull-texture")) {
-            simpleItemStack.setSkullTexture(configurationSection.getString("skull-texture", null));
-        }
-
-        return simpleItemStack;
-    }
-
-    @SuppressWarnings("unchecked")
-    public static SimpleItemStack from(@NotNull Map<?, ?> configurationMap) {
-        SimpleItemStack simpleItemStack = new SimpleItemStack();
-
-        try {
-            if (configurationMap.containsKey("material")) {
-                StringUtils.getEnum((String) configurationMap.get("material"), Material.class).ifPresent(simpleItemStack::setType);
-            }
-            if (configurationMap.containsKey("amount")) {
-                simpleItemStack.setAmountRange(IntRange.valueOf(configurationMap.get("amount")));
-            }
-            if (configurationMap.containsKey("display-name")) {
-                simpleItemStack.setDisplayName((String) configurationMap.get("display-name"));
-            }
-            if (configurationMap.containsKey("lore")) {
-                simpleItemStack.setLore((List<String>) configurationMap.get("lore"));
-            }
-            if (configurationMap.containsKey("enchantments")) {
-                Map<Enchantment, Integer> enchantments = new HashMap<>();
-
-                ((Map<String, Object>) configurationMap.get("enchantments")).forEach((enchantmentRaw, level) -> {
-                    Enchantment enchantment = Enchantment.getByKey(NamespacedKey.minecraft(enchantmentRaw));
-                    enchantments.put(enchantment, (int) level);
-                });
-
-                simpleItemStack.setEnchantments(enchantments);
-            }
-            if (configurationMap.containsKey("enchanted")) {
-                simpleItemStack.setEnchantGlow((boolean) configurationMap.get("enchanted"));
-            }
-            if (configurationMap.containsKey("custom-model-data")) {
-                simpleItemStack.setCustomModelData((int) configurationMap.get("custom-model-data"));
-            }
-            if (configurationMap.containsKey("skull-texture")) {
-                simpleItemStack.setSkullTexture((String) configurationMap.get("skull-texture"));
-            }
-        } catch(ClassCastException exc) {
-            throw new IllegalArgumentException("Invalid format at '" + configurationMap + "', could not parse data", exc);
-        }
-
-        return simpleItemStack;
     }
 
     @Override
     public SimpleItemStack clone() {
         try {
-            return (SimpleItemStack) super.clone();
+            SimpleItemStack clone = (SimpleItemStack) super.clone();
+
+            clone.setType(material);
+            clone.setAmountRange(amount);
+            clone.setDisplayName(displayName);
+            clone.setLore(lore);
+            clone.setEnchantments(enchantments);
+            clone.setCustomModelData(customModelData);
+            clone.setSkullTexture(skullTexture);
+
+            return clone;
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
         }
