@@ -118,6 +118,13 @@ public abstract class Gui {
         return slotLockMap.getOrDefault(slot, true);
     }
 
+    public void refresh(int slot) {
+        Button button = buttons.get(slot);
+        if (button instanceof ItemButton itemButton) {
+            setItem(slot, itemButton.getItemStack(player));
+        }
+    }
+
     public void refresh() {
         buttons.forEach((slot, button) -> {
             if (button instanceof ItemButton itemButton) {
