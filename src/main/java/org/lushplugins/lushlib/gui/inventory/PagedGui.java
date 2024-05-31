@@ -12,7 +12,7 @@ public abstract class PagedGui extends Gui {
 
     public void setPage(int page) {
         this.page = page;
-        recalculateContents();
+        refresh();
     }
 
     public void nextPage() {

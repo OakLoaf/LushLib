@@ -140,7 +140,7 @@ public abstract class Gui {
     public void recalculateContents() {}
 
     public void open() {
-        recalculateContents();
+        refresh();
         player.openInventory(inventory);
         LushLib.getInstance().getPlugin().getManager(GuiManager.class).ifPresent(guiManager -> guiManager.addGui(player.getUniqueId(), this));
     }
