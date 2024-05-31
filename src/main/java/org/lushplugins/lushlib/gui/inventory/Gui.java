@@ -1,6 +1,11 @@
 package org.lushplugins.lushlib.gui.inventory;
 
+import com.google.common.collect.ImmutableMap;
+import org.jetbrains.annotations.Nullable;
 import org.lushplugins.lushlib.LushLib;
+import org.lushplugins.lushlib.gui.button.Button;
+import org.lushplugins.lushlib.gui.button.ItemButton;
+import org.lushplugins.lushlib.gui.button.SimpleItemButton;
 import org.lushplugins.lushlib.manager.GuiManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -8,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.lushplugins.lushlib.utils.SimpleItemStack;
 
 import java.util.List;
 import java.util.Map;
@@ -20,9 +26,9 @@ public abstract class Gui {
         LushLib.getInstance().getPlugin().registerManager(new GuiManager());
     }
 
-    protected final Inventory inventory;
-    protected final Player player;
-    protected final ConcurrentHashMap<Integer, Consumer<InventoryClickEvent>> buttons = new ConcurrentHashMap<>();
+    private final Inventory inventory;
+    private final Player player;
+    private final ConcurrentHashMap<Integer, Button> buttons = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<Integer, Boolean> slotLockMap = new ConcurrentHashMap<>();
 
     public Gui(int size, String title, Player player) {
@@ -43,7 +49,12 @@ public abstract class Gui {
         return player;
     }
 
-    protected void addItem(int slot, ItemStack item) {
+    @Deprecated(since = "0.7.0",forRemoval = true)
+    protected void addItem(int slot, @Nullable ItemStack item) {
+        setItem(slot, item);
+    }
+
+    protected void setItem(int slot, @Nullable ItemStack item) {
         if (item == null) {
             item = new ItemStack(Material.AIR);
         }
@@ -51,13 +62,24 @@ public abstract class Gui {
         inventory.setItem(slot, item);
     }
 
+    public ImmutableMap<Integer, Button> getButtons() {
+        return ImmutableMap.copyOf(buttons);
+    }
+
     public void addButton(int slot, ItemStack item, Consumer<InventoryClickEvent> task) {
-        addItem(slot, item);
-        buttons.put(slot, task);
+        addButton(slot, new SimpleItemButton(new SimpleItemStack(item), task));
+    }
+
+    public void addButton(int slot, SimpleItemStack item, Consumer<InventoryClickEvent> task) {
+        addButton(slot, new SimpleItemButton(item, task));
     }
 
     public void addButton(int slot, Consumer<InventoryClickEvent> task) {
-        buttons.put(slot, task);
+        addButton(slot, new SimpleItemButton(null, task));
+    }
+
+    public void addButton(int slot, Button button) {
+        buttons.put(slot, button);
     }
 
     public void removeButton(int slot) {
@@ -96,6 +118,14 @@ public abstract class Gui {
         return slotLockMap.getOrDefault(slot, true);
     }
 
+    public void refresh() {
+        buttons.forEach((slot, button) -> {
+            if (button instanceof ItemButton itemButton) {
+                setItem(slot, itemButton.getItemStack(player));
+            }
+        });
+    }
+
     public abstract void recalculateContents();
 
     public void open() {
@@ -128,9 +158,9 @@ public abstract class Gui {
 
         int slot = event.getRawSlot();
 
-        Consumer<InventoryClickEvent> button = buttons.get(slot);
+        Button button = buttons.get(slot);
         if (button != null) {
-            button.accept(event);
+            button.click(event);
         }
 
         if (cancelAll) {
