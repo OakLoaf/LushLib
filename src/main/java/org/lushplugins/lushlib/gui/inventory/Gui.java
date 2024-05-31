@@ -133,7 +133,11 @@ public abstract class Gui {
         });
     }
 
-    public abstract void recalculateContents();
+    /**
+     * @see Gui#refresh()
+     */
+    @Deprecated(since = "0.7.2")
+    public void recalculateContents() {}
 
     public void open() {
         recalculateContents();
