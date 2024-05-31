@@ -62,6 +62,11 @@ public abstract class Gui {
         inventory.setItem(slot, item);
     }
 
+    @Nullable
+    public Button getButton(int slot) {
+        return buttons.get(slot);
+    }
+
     public ImmutableMap<Integer, Button> getButtons() {
         return ImmutableMap.copyOf(buttons);
     }
