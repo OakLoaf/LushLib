@@ -14,7 +14,7 @@ public class RegistryUtils {
     }
 
     public static <T extends Keyed> T fromString(Registry<T> registry, String string) {
-        NamespacedKey namespacedKey = NamespacedKey.fromString(string);
+        NamespacedKey namespacedKey = NamespacedKey.fromString(string.toLowerCase());
         if (namespacedKey == null) {
             LushLogger.getLogger().warning("'" + string + "' contains invalid characters");
             return null;
