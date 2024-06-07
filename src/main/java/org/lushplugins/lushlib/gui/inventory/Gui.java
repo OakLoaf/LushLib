@@ -176,7 +176,11 @@ public abstract class Gui {
 
         Button button = buttons.get(slot);
         if (button != null) {
-            button.click(event);
+            try {
+                button.click(event);
+            } catch (Throwable e) {
+                e.printStackTrace();
+            }
         }
 
         if (cancelAll) {
