@@ -2,7 +2,7 @@ package org.lushplugins.lushlib.gui.inventory;
 
 import com.google.common.collect.TreeMultimap;
 import org.jetbrains.annotations.Nullable;
-import org.lushplugins.lushlib.utils.SimpleItemStack;
+import org.lushplugins.lushlib.utils.DisplayItemStack;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,7 +11,7 @@ import java.util.List;
 
 public class GuiFormat {
     private final List<String> rows;
-    private final HashMap<Character, SimpleItemStack> items = new HashMap<>();
+    private final HashMap<Character, DisplayItemStack> items = new HashMap<>();
 
     public GuiFormat() {
         this.rows = new ArrayList<>();
@@ -60,11 +60,11 @@ public class GuiFormat {
         return rows.size() * 9;
     }
 
-    public @Nullable SimpleItemStack getItemReference(char character) {
+    public @Nullable DisplayItemStack getItemReference(char character) {
         return items.get(character);
     }
 
-    public void setItemReference(char character, SimpleItemStack item) {
+    public void setItemReference(char character, DisplayItemStack item) {
         items.put(character, item);
     }
 

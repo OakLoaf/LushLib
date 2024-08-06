@@ -3,23 +3,23 @@ package org.lushplugins.lushlib.gui.button;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-import org.lushplugins.lushlib.utils.SimpleItemStack;
+import org.lushplugins.lushlib.utils.DisplayItemStack;
 
 import java.util.function.Consumer;
 
 public class SimpleItemButton extends ItemButton {
-    private SimpleItemStack item;
+    private DisplayItemStack item;
 
-    public SimpleItemButton(SimpleItemStack item, Consumer<InventoryClickEvent> onClick) {
+    public SimpleItemButton(DisplayItemStack item, Consumer<InventoryClickEvent> onClick) {
         super(onClick);
         this.item = item;
     }
 
-    public SimpleItemStack getItem() {
+    public DisplayItemStack getItem() {
         return item;
     }
 
-    public void setItem(SimpleItemStack item) {
+    public void setItem(DisplayItemStack item) {
         this.item = item;
     }
 

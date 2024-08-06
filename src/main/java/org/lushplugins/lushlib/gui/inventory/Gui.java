@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.lushplugins.lushlib.utils.SimpleItemStack;
+import org.lushplugins.lushlib.utils.DisplayItemStack;
 
 import java.util.List;
 import java.util.Map;
@@ -72,10 +72,10 @@ public abstract class Gui {
     }
 
     public void addButton(int slot, ItemStack item, Consumer<InventoryClickEvent> task) {
-        addButton(slot, new SimpleItemButton(new SimpleItemStack(item), task));
+        addButton(slot, new SimpleItemButton(DisplayItemStack.Builder.of(item).build(), task));
     }
 
-    public void addButton(int slot, SimpleItemStack item, Consumer<InventoryClickEvent> task) {
+    public void addButton(int slot, DisplayItemStack item, Consumer<InventoryClickEvent> task) {
         addButton(slot, new SimpleItemButton(item, task));
     }
 
