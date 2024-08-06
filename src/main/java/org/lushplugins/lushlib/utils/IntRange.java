@@ -3,7 +3,7 @@ package org.lushplugins.lushlib.utils;
 import java.util.Random;
 
 @SuppressWarnings("unused")
-public class IntRange {
+public class IntRange implements Cloneable {
     private static final Random RANDOM = new Random();
     private final int min;
     private final int max;
@@ -71,25 +71,20 @@ public class IntRange {
             return new IntRange((int) object);
         }
 
-        if (s == null) {
-            throw new NumberFormatException("Cannot parse null string");
-        }
-
-        String[] values = s.split("-");
-        switch (values.length) {
-            case 1 -> {
-                int value = Integer.parseInt(values[0]);
-                return new IntRange(value, value);
-            }
-            case 2 -> {
-                return new IntRange(Integer.parseInt(values[0]), Integer.parseInt(values[1]));
-            }
-            default -> throw new NumberFormatException("Cannot parse invalid range format");
-        }
+        return parseIntRange(s);
     }
 
     @Override
     public String toString() {
         return min + "-" + max;
+    }
+
+    @Override
+    public IntRange clone() {
+        try {
+            return (IntRange) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }
