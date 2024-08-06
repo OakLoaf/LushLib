@@ -356,7 +356,7 @@ public class DisplayItemStack {
                 Builder clone = (Builder) super.clone();
 
                 clone.setAmountRange(amount.clone());
-                clone.setLore(new ArrayList<>(lore));
+                clone.setLore(lore != null ? new ArrayList<>(lore) : null);
 
                 return clone;
             } catch (CloneNotSupportedException e) {
