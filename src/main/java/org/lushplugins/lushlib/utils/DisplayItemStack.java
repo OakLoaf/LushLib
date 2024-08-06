@@ -263,7 +263,7 @@ public class DisplayItemStack {
                 material,
                 amount,
                 displayName,
-                new ArrayList<>(lore),
+                lore != null ? new ArrayList<>(lore) : null,
                 enchantGlow,
                 customModelData,
                 skullTexture
