@@ -146,7 +146,13 @@ public abstract class Gui {
 
     public void open() {
         refresh();
-        player.openInventory(inventory);
+
+        if (!Bukkit.isPrimaryThread()) {
+            Bukkit.getScheduler().runTask(LushLib.getInstance().getPlugin(), () -> player.openInventory(inventory));
+        } else {
+            player.openInventory(inventory);
+        }
+
         LushLib.getInstance().getPlugin().getManager(GuiManager.class).ifPresent(guiManager -> guiManager.addGui(player.getUniqueId(), this));
     }
 
