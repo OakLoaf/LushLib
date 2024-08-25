@@ -8,7 +8,6 @@ import org.lushplugins.lushlib.utils.LushLogger;
 import org.lushplugins.lushlib.utils.SkullCreator;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.profile.PlayerProfile;
@@ -45,8 +44,6 @@ public class NewSkullCreator implements SkullCreator.Interface {
     }
 
     public @Nullable String getTextureValue(@NotNull ItemStack itemStack) {
-        LushLogger.getLogger().log(Level.INFO, itemStack.toString());
-
         if (!itemStack.hasItemMeta()) {
             return null;
         }
