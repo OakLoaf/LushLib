@@ -18,6 +18,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Base64;
 import java.util.UUID;
+import java.util.logging.Level;
 
 public class NewSkullCreator implements SkullCreator.Interface {
 
@@ -39,13 +40,17 @@ public class NewSkullCreator implements SkullCreator.Interface {
 
     @Nullable
     public String getB64(ItemStack itemStack) {
+        LushLogger.getLogger().log(Level.INFO, itemStack.toString());
+
         try {
             if (itemStack.hasItemMeta() && itemStack.getItemMeta() instanceof SkullMeta skullMeta && skullMeta.getOwnerProfile() != null) {
                 URL skinUrl = skullMeta.getOwnerProfile().getTextures().getSkin();
                 return skinUrl != null ? getBase64FromUrl(skinUrl) : null;
             }
+
             return null;
-        } catch (Exception exception) {
+        } catch (Exception e) {
+            LushLogger.getLogger().log(Level.WARNING, "Caught error whilst parsing skull item:", e);
             return null;
         }
     }
