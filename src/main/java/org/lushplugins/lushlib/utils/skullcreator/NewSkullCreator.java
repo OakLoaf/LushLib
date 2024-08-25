@@ -3,6 +3,7 @@ package org.lushplugins.lushlib.utils.skullcreator;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.bukkit.OfflinePlayer;
+import org.jetbrains.annotations.NotNull;
 import org.lushplugins.lushlib.utils.LushLogger;
 import org.lushplugins.lushlib.utils.SkullCreator;
 import org.bukkit.Bukkit;
@@ -38,17 +39,30 @@ public class NewSkullCreator implements SkullCreator.Interface {
         meta.setOwnerProfile(ownerProfile);
     }
 
-    @Nullable
-    public String getB64(ItemStack itemStack) {
+    @Deprecated
+    public @Nullable String getB64(@NotNull ItemStack itemStack) {
+        return getTextureValue(itemStack);
+    }
+
+    public @Nullable String getTextureValue(@NotNull ItemStack itemStack) {
         LushLogger.getLogger().log(Level.INFO, itemStack.toString());
 
-        try {
-            if (itemStack.hasItemMeta() && itemStack.getItemMeta() instanceof SkullMeta skullMeta && skullMeta.getOwnerProfile() != null) {
-                URL skinUrl = skullMeta.getOwnerProfile().getTextures().getSkin();
-                return skinUrl != null ? getBase64FromUrl(skinUrl) : null;
-            }
-
+        if (!itemStack.hasItemMeta()) {
             return null;
+        }
+
+        if (!(itemStack.getItemMeta() instanceof SkullMeta skullMeta)) {
+            return null;
+        }
+
+        PlayerProfile ownerProfile = skullMeta.getOwnerProfile();
+        if (ownerProfile == null) {
+            return null;
+        }
+
+        try {
+            URL skinUrl = skullMeta.getOwnerProfile().getTextures().getSkin();
+            return skinUrl != null ? getBase64FromUrl(skinUrl) : null;
         } catch (Exception e) {
             LushLogger.getLogger().log(Level.WARNING, "Caught error whilst parsing skull item:", e);
             return null;
