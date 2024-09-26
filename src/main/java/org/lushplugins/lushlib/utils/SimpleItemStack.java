@@ -15,10 +15,10 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 @Deprecated
 @SuppressWarnings("unused")
@@ -283,7 +283,7 @@ public class SimpleItemStack implements Cloneable {
 
     public ItemStack asItemStack(@Nullable Player player, boolean parseColors) {
         if (material == null && defaultMaterial != null) {
-            LushLogger.getLogger().warning("Material cannot be null, defaulting to '" + defaultMaterial + "':\n" + Arrays.toString(Thread.currentThread().getStackTrace()));
+            LushLogger.logCurrentStackTrace(Level.WARNING, "Material cannot be null, defaulting to '" + defaultMaterial + "':");
             material = defaultMaterial;
         }
 
