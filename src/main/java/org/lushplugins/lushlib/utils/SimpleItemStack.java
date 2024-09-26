@@ -22,6 +22,8 @@ import java.util.Map;
 @Deprecated
 @SuppressWarnings("unused")
 public class SimpleItemStack implements Cloneable {
+    private static Material defaultMaterial;
+
     private Material material = null;
     private IntRange amount = new IntRange(1);
     private String displayName = null;
@@ -279,6 +281,10 @@ public class SimpleItemStack implements Cloneable {
     }
 
     public ItemStack asItemStack(@Nullable Player player, boolean parseColors) {
+        if (material == null && defaultMaterial != null) {
+            material = defaultMaterial;
+        }
+
         ItemStack itemStack = new ItemStack(material, amount.next());
         ItemMeta itemMeta = itemStack.getItemMeta();
 
@@ -433,5 +439,9 @@ public class SimpleItemStack implements Cloneable {
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
         }
+    }
+
+    public static void setDefaultMaterial(Material material) {
+        defaultMaterial = material;
     }
 }
