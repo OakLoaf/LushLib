@@ -7,7 +7,7 @@ public class LushLogger {
 
     public static Logger getLogger() {
         if (logger == null) {
-            logger = Logger.getLogger("LushLub");
+            logger = Logger.getLogger("LushLib");
         }
 
         return logger;
