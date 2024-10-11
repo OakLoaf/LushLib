@@ -162,7 +162,7 @@ public class DisplayItemStack {
     }
 
     public static Builder builder(Material material) {
-        return new Builder();
+        return new Builder(material);
     }
 
     public static Builder builder(ItemStack item) {
