@@ -23,7 +23,7 @@ dependencies {
     }
 
     implementation("org.lushplugins:ChatColorHandler:${findProperty("chatcolorhandlerVersion")}")
-    api("org.jetbrains:annotations:24.0.0")
+    api("org.jetbrains:annotations:26.0.0")
 }
 
 java {
