@@ -91,6 +91,17 @@ public class DisplayItemStack {
         return skullTexture != null;
     }
 
+    public boolean isBlank() {
+        return material == null
+            && amount.getMin() == 1
+            && amount.getMax() == 1
+            && displayName == null
+            && lore == null
+            && enchantGlow == null
+            && customModelData == 0
+            && skullTexture == null;
+    }
+
     public ItemStack asItemStack() {
         return asItemStack(null, true);
     }
