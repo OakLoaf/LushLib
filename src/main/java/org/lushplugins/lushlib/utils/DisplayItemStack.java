@@ -15,7 +15,7 @@ import java.util.*;
 
 @SuppressWarnings("unused")
 public class DisplayItemStack {
-    public static final DisplayItemStack EMPTY = DisplayItemStack.builder().build();
+    private static final DisplayItemStack EMPTY = DisplayItemStack.builder().build();
 
     private final Material material;
     private final IntRange amount;
@@ -140,6 +140,10 @@ public class DisplayItemStack {
         }
 
         return itemStack;
+    }
+
+    public static DisplayItemStack empty() {
+        return EMPTY;
     }
 
     public static Builder builder() {
