@@ -72,7 +72,7 @@ public abstract class Gui {
     }
 
     public void addButton(int slot, ItemStack item, Consumer<InventoryClickEvent> task) {
-        addButton(slot, new SimpleItemButton(DisplayItemStack.Builder.of(item).build(), task));
+        addButton(slot, new SimpleItemButton(DisplayItemStack.builder(item).build(), task));
     }
 
     public void addButton(int slot, DisplayItemStack item, Consumer<InventoryClickEvent> task) {

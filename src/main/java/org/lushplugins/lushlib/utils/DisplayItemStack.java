@@ -15,6 +15,8 @@ import java.util.*;
 
 @SuppressWarnings("unused")
 public class DisplayItemStack {
+    public static final DisplayItemStack EMPTY = DisplayItemStack.builder().build();
+
     private final Material material;
     private final IntRange amount;
     private final String displayName;
@@ -27,7 +29,7 @@ public class DisplayItemStack {
         this.material = material;
         this.amount = amount;
         this.displayName = displayName;
-        this.lore = lore;
+        this.lore = lore != null ? Collections.unmodifiableList(lore) : null;
         this.enchantGlow = enchantGlow;
         this.customModelData = customModelData;
         this.skullTexture = skullTexture;
@@ -57,7 +59,7 @@ public class DisplayItemStack {
 
     @Nullable
     public List<String> getLore() {
-        return lore != null ? Collections.unmodifiableList(lore) : null;
+        return lore;
     }
 
     public boolean hasLore() {
@@ -141,11 +143,52 @@ public class DisplayItemStack {
     }
 
     public static Builder builder() {
-        return builder(null);
+        return builder((Material) null);
     }
 
     public static Builder builder(Material material) {
         return new Builder();
+    }
+
+    public static Builder builder(ItemStack item) {
+        Builder itemBuilder = builder(item.getType())
+            .setAmount(item.getAmount());
+
+        ItemMeta itemMeta = item.getItemMeta();
+        if (itemMeta != null) {
+            if (itemMeta.hasDisplayName()) {
+                itemBuilder.setDisplayName(itemMeta.getDisplayName());
+            }
+
+            if (itemMeta.hasLore()) {
+                itemBuilder.setLore(itemMeta.getLore());
+            }
+
+            if (itemMeta.hasEnchants()) {
+                itemBuilder.setEnchantGlow(true);
+            }
+
+            if (itemMeta.hasCustomModelData()) {
+                itemBuilder.setCustomModelData(itemMeta.getCustomModelData());
+            }
+
+            if (itemMeta instanceof SkullMeta) {
+                itemBuilder.setSkullTexture(SkullCreator.getB64(item));
+            }
+        }
+
+        return itemBuilder;
+    }
+
+    public static Builder builder(DisplayItemStack item) {
+        return builder()
+            .setType(item.getType())
+            .setAmountRange(item.getAmount())
+            .setDisplayName(item.getDisplayName())
+            .setLore(item.getLore())
+            .setEnchantGlow(item.getEnchantGlow())
+            .setCustomModelData(item.getCustomModelData())
+            .setSkullTexture(item.getSkullTexture());
     }
 
     public static class Builder implements Cloneable {
@@ -309,34 +352,6 @@ public class DisplayItemStack {
             return this;
         }
 
-//        public Map<String, Object> asMap() {
-//            Map<String, Object> map = new HashMap<>();
-//
-//            if (material != null) {
-//                map.put("material", material.name());
-//            }
-//            if (amount.getMin() != 1 && amount.getMax() != 1) {
-//                map.put("amount", amount);
-//            }
-//            if (displayName != null) {
-//                map.put("display-name", displayName);
-//            }
-//            if (lore != null) {
-//                map.put("lore", lore);
-//            }
-//            if (enchantGlow != null) {
-//                map.put("enchanted", enchantGlow);
-//            }
-//            if (customModelData != 0) {
-//                map.put("custom-model-data", customModelData);
-//            }
-//            if (skullTexture != null) {
-//                map.put("skull-texture", skullTexture);
-//            }
-//
-//            return map;
-//        }
-
         public Builder overwrite(@NotNull Builder overwrite) {
             Builder result = new Builder();
 
@@ -380,45 +395,20 @@ public class DisplayItemStack {
             }
         }
 
+        /**
+         * @see DisplayItemStack#builder(DisplayItemStack)
+         */
+        @Deprecated(forRemoval = true)
         public static Builder of(DisplayItemStack item) {
-            return new Builder()
-                .setType(item.getType())
-                .setAmountRange(item.getAmount())
-                .setDisplayName(item.getDisplayName())
-                .setLore(item.getLore())
-                .setEnchantGlow(item.getEnchantGlow())
-                .setCustomModelData(item.getCustomModelData())
-                .setSkullTexture(item.getSkullTexture());
+            return builder(item);
         }
 
+        /**
+         * @see DisplayItemStack#builder(ItemStack)
+         */
+        @Deprecated(forRemoval = true)
         public static Builder of(ItemStack item) {
-            Builder itemBuilder = new Builder(item.getType())
-                .setAmount(item.getAmount());
-
-            ItemMeta itemMeta = item.getItemMeta();
-            if (itemMeta != null) {
-                if (itemMeta.hasDisplayName()) {
-                    itemBuilder.setDisplayName(itemMeta.getDisplayName());
-                }
-
-                if (itemMeta.hasLore()) {
-                    itemBuilder.setLore(itemMeta.getLore());
-                }
-
-                if (itemMeta.hasEnchants()) {
-                    itemBuilder.setEnchantGlow(true);
-                }
-
-                if (itemMeta.hasCustomModelData()) {
-                    itemBuilder.setCustomModelData(itemMeta.getCustomModelData());
-                }
-
-                if (itemMeta instanceof SkullMeta) {
-                    itemBuilder.setSkullTexture(SkullCreator.getB64(item));
-                }
-            }
-
-            return itemBuilder;
+            return builder(item);
         }
     }
 }
