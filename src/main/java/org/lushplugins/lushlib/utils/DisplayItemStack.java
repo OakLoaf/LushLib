@@ -140,6 +140,14 @@ public class DisplayItemStack {
         return itemStack;
     }
 
+    public static Builder builder() {
+        return builder(null);
+    }
+
+    public static Builder builder(Material material) {
+        return new Builder();
+    }
+
     public static class Builder implements Cloneable {
         private Material material;
         private IntRange amount = new IntRange(1);
@@ -149,10 +157,18 @@ public class DisplayItemStack {
         private int customModelData = 0;
         private String skullTexture = null;
 
+        /**
+         * @see DisplayItemStack#builder()
+         */
+        @Deprecated(forRemoval = true)
         public Builder() {
             this(null);
         }
 
+        /**
+         * @see DisplayItemStack#builder(Material)
+         */
+        @Deprecated(forRemoval = true)
         public Builder(@Nullable Material material) {
             this.material = material;
         }
