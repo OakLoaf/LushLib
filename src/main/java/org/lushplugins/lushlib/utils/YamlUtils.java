@@ -8,7 +8,7 @@ import java.util.List;
 
 public class YamlUtils {
 
-    public static DisplayItemStack getDisplayItem(ConfigurationSection section) {
+    public static DisplayItemStack.Builder getDisplayItemBuilder(ConfigurationSection section) {
         DisplayItemStack.Builder itemBuilder = new DisplayItemStack.Builder();
 
         if (section.contains("material")) {
@@ -33,7 +33,11 @@ public class YamlUtils {
             itemBuilder.setSkullTexture(section.getString("skull-texture"));
         }
 
-        return itemBuilder.build();
+        return itemBuilder;
+    }
+
+    public static DisplayItemStack getDisplayItem(ConfigurationSection section) {
+        return getDisplayItemBuilder(section).build();
     }
 
     public static void setDisplayItem(ConfigurationSection section, DisplayItemStack item) {
