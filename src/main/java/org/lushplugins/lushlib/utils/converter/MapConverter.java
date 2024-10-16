@@ -56,7 +56,7 @@ public class MapConverter {
 
         IntRange amount = item.getAmount();
         if (amount.getMin() != 1 && amount.getMax() != 1) {
-            map.put("amount", amount);
+            map.put("amount", amount.toString());
         }
 
         String displayName = item.getDisplayName();
