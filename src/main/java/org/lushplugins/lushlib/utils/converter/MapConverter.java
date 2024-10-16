@@ -21,7 +21,14 @@ public class MapConverter {
             itemBuilder.setType(RegistryUtils.fromString(Registry.MATERIAL, getObject(map, "material", String.class)));
         }
         if (map.containsKey("amount")) {
-            itemBuilder.setAmountRange(IntRange.parseIntRange(getObjectOrDefault(map, "amount", "1", String.class)));
+            Object amountObj = map.get("amount");
+            if (amountObj instanceof String amountRaw) {
+                itemBuilder.setAmountRange(IntRange.parseIntRange(amountRaw));
+            } else if (amountObj instanceof Integer) {
+                itemBuilder.setAmount((Integer) amountObj);
+            } else {
+                itemBuilder.setAmount(1);
+            }
         }
         if (map.containsKey("display-name")) {
             itemBuilder.setDisplayName(getObject(map, "display-name", String.class));
