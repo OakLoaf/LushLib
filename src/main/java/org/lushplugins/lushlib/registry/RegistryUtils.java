@@ -55,6 +55,7 @@ public class RegistryUtils {
             }
         }
 
+        LushLogger.getLogger().warning("Could not find value in registry for '" + string + "'");
         return Collections.emptyList();
     }
 
