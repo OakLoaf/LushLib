@@ -25,7 +25,7 @@ public record TagType<T extends Keyed>(Registry<T> registry, String[] registries
         }
     }
 
-    public static <T extends Keyed> Tag<T> getTag(Registry<T> registry, NamespacedKey namespacedKey) {
+    public static <T extends Keyed> Tag<T> getTag(NamespacedKey namespacedKey, Registry<T> registry) {
         TagType<T> tagType = get(registry);
         return tagType != null ? tagType.getTag(namespacedKey) : null;
     }

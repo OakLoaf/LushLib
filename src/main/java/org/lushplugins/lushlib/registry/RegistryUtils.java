@@ -10,11 +10,11 @@ public class RegistryUtils {
 
     /**
      * Get registry value from a string
-     * @param registry registry to get values from
      * @param string string to parse
+     * @param registry registry to get values from
      * @return parsed value or null if none was found
      */
-    public static <T extends Keyed> @Nullable T parseString(Registry<T> registry, String string) {
+    public static <T extends Keyed> @Nullable T parseString(String string, Registry<T> registry) {
         NamespacedKey namespacedKey = NamespacedKey.fromString(string.toLowerCase());
         if (namespacedKey == null) {
             LushLogger.getLogger().warning("'" + string + "' contains invalid characters");
@@ -26,11 +26,11 @@ public class RegistryUtils {
 
     /**
      * Get registry and tag values from a string
-     * @param registry registry to get values from
      * @param string string to parse
+     * @param registry registry to get values from
      * @return collection of values
      */
-    public static <T extends Keyed> Collection<T> fromString(Registry<T> registry, String string) {
+    public static <T extends Keyed> Collection<T> fromString(String string, Registry<T> registry) {
         boolean isTag = string.charAt(0) == '#';
         NamespacedKey namespacedKey = NamespacedKey.fromString(isTag ? string.substring(1) : string.toLowerCase());
         if (namespacedKey == null) {
@@ -44,7 +44,7 @@ public class RegistryUtils {
                 return Collections.emptyList();
             }
 
-            Tag<T> tag = TagType.getTag(registry, namespacedKey);
+            Tag<T> tag = TagType.getTag(namespacedKey, registry);
             if (tag != null) {
                 return tag.getValues();
             }
@@ -61,13 +61,13 @@ public class RegistryUtils {
 
     /**
      * Get registry and tag values from a list of strings
-     * @param registry registry to get values from
      * @param stringList list of strings to parse, this can include registry values and tags
+     * @param registry registry to get values from
      * @return collection of values
      */
-    public static <T extends Keyed> List<T> fromStringList(Registry<T> registry, List<String> stringList) {
+    public static <T extends Keyed> List<T> fromStringList(List<String> stringList, Registry<T> registry) {
         return stringList.stream()
-            .flatMap(string -> fromString(registry, string).stream())
+            .flatMap(string -> fromString(string, registry).stream())
             .toList();
     }
 }
