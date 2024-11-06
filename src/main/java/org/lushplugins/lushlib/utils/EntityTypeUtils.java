@@ -16,11 +16,11 @@ public class EntityTypeUtils {
 
     @NotNull
     public static List<EntityType> from(List<String> stringList) {
-        return RegistryUtils.fromStringList(Registry.ENTITY_TYPE, stringList);
+        return RegistryUtils.fromStringList(stringList, Registry.ENTITY_TYPE);
     }
 
     @NotNull
     public static Collection<EntityType> from(String string) {
-        return RegistryUtils.fromString(Registry.ENTITY_TYPE, string);
+        return RegistryUtils.fromString(string, Registry.ENTITY_TYPE);
     }
 }

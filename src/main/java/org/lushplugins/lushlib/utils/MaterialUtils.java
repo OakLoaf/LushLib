@@ -16,11 +16,11 @@ public class MaterialUtils {
 
     @NotNull
     public static List<Material> from(List<String> stringList) {
-        return RegistryUtils.fromStringList(Registry.MATERIAL, stringList);
+        return RegistryUtils.fromStringList(stringList, Registry.MATERIAL);
     }
 
     @NotNull
     public static Collection<Material> from(String string) {
-        return RegistryUtils.fromString(Registry.MATERIAL, string);
+        return RegistryUtils.fromString(string, Registry.MATERIAL);
     }
 }
