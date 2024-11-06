@@ -1,12 +1,14 @@
 package org.lushplugins.lushlib.utils;
 
-import org.bukkit.Keyed;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Registry;
+import org.bukkit.*;
 
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * @see org.lushplugins.lushlib.registry.RegistryUtils
+ */
+@Deprecated(forRemoval = true)
 public class RegistryUtils {
 
     public static <T extends Keyed> List<T> fromStringList(Registry<T> registry, Collection<String> stringList) {

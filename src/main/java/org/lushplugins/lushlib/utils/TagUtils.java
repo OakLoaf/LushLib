@@ -3,11 +3,12 @@ package org.lushplugins.lushlib.utils;
 import org.bukkit.*;
 import org.bukkit.entity.EntityType;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
+/**
+ * @see org.lushplugins.lushlib.registry.RegistryUtils
+ */
+@Deprecated(forRemoval = true)
 public class TagUtils {
 
     public static <T extends Keyed> List<T> parseStringList(List<String> stringList, TagType<T> tagType) {
@@ -44,6 +45,7 @@ public class TagUtils {
     }
 
     public record TagType<T extends Keyed>(Registry<T> registry, String[] registries, Class<T> dataType) {
+
         public static final TagType<EntityType> ENTITY_TYPES = new TagType<>(Registry.ENTITY_TYPE, new String[]{Tag.REGISTRY_ENTITY_TYPES}, EntityType.class);
         public static final TagType<Fluid> FLUIDS = new TagType<>(Registry.FLUID, new String[]{Tag.REGISTRY_FLUIDS}, Fluid.class);
         public static final TagType<Material> MATERIALS = new TagType<>(Registry.MATERIAL, new String[]{Tag.REGISTRY_BLOCKS, Tag.REGISTRY_ITEMS}, Material.class);
