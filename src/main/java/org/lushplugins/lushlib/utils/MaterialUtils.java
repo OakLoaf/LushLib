@@ -1,20 +1,26 @@
 package org.lushplugins.lushlib.utils;
 
 import org.bukkit.Material;
+import org.bukkit.Registry;
 import org.jetbrains.annotations.NotNull;
+import org.lushplugins.lushlib.registry.RegistryUtils;
 
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * @see org.lushplugins.lushlib.registry.RegistryUtils
+ */
+@Deprecated(forRemoval = true)
 public class MaterialUtils {
 
     @NotNull
     public static List<Material> from(List<String> stringList) {
-        return TagUtils.parseStringList(stringList, TagUtils.TagType.MATERIALS);
+        return RegistryUtils.fromStringList(Registry.MATERIAL, stringList);
     }
 
     @NotNull
     public static Collection<Material> from(String string) {
-        return TagUtils.parseString(string, TagUtils.TagType.MATERIALS);
+        return RegistryUtils.fromString(Registry.MATERIAL, string);
     }
 }
