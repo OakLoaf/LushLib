@@ -8,6 +8,10 @@ import java.util.HashMap;
 public record TagType<T extends Keyed>(Registry<T> registry, String[] registries, Class<T> dataType) {
     private static final HashMap<Registry<?>, TagType<?>> TAG_TYPES = new HashMap<>();
 
+    public static final TagType<EntityType> ENTITY_TYPES = new TagType<>(Registry.ENTITY_TYPE, new String[]{Tag.REGISTRY_ENTITY_TYPES}, EntityType.class);
+    public static final TagType<Fluid> FLUIDS = new TagType<>(Registry.FLUID, new String[]{Tag.REGISTRY_FLUIDS}, Fluid.class);
+    public static final TagType<Material> MATERIALS = new TagType<>(Registry.MATERIAL, new String[]{Tag.REGISTRY_BLOCKS, Tag.REGISTRY_ITEMS}, Material.class);
+
     static {
         TAG_TYPES.put(Registry.ENTITY_TYPE, TagType.ENTITY_TYPES);
         TAG_TYPES.put(Registry.FLUID, TagType.FLUIDS);
@@ -40,8 +44,4 @@ public record TagType<T extends Keyed>(Registry<T> registry, String[] registries
 
         return null;
     }
-
-    public static final TagType<EntityType> ENTITY_TYPES = new TagType<>(Registry.ENTITY_TYPE, new String[]{Tag.REGISTRY_ENTITY_TYPES}, EntityType.class);
-    public static final TagType<Fluid> FLUIDS = new TagType<>(Registry.FLUID, new String[]{Tag.REGISTRY_FLUIDS}, Fluid.class);
-    public static final TagType<Material> MATERIALS = new TagType<>(Registry.MATERIAL, new String[]{Tag.REGISTRY_BLOCKS, Tag.REGISTRY_ITEMS}, Material.class);
 }
