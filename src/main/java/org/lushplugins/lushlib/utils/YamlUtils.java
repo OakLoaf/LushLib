@@ -4,7 +4,6 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.jetbrains.annotations.NotNull;
 import org.lushplugins.lushlib.utils.converter.YamlConverter;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -16,7 +15,7 @@ public class YamlUtils {
      * @param path path of the list to get
      * @return requested list of String by path.
      */
-    public static @NotNull Collection<String> getStringList(ConfigurationSection config, String path) {
+    public static @NotNull List<String> getStringList(ConfigurationSection config, String path) {
         if (!config.isList(path)) {
             String key = config.getString(path);
             return key != null ? List.of(key) : Collections.emptyList();
