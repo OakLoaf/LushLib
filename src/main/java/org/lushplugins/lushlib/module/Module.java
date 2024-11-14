@@ -1,6 +1,8 @@
 package org.lushplugins.lushlib.module;
 
-import org.lushplugins.lushlib.listener.EventListener;
+import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
+import org.lushplugins.lushlib.LushLib;
 import org.lushplugins.lushlib.utils.LushLogger;
 
 import java.util.logging.Level;
@@ -38,8 +40,8 @@ public abstract class Module {
                 return;
             }
 
-            if (enabled && this instanceof EventListener listener) {
-                listener.registerListeners();
+            if (enabled && this instanceof Listener listener) {
+                LushLib.getInstance().getPlugin().getServer().getPluginManager().registerEvents(listener, LushLib.getInstance().getPlugin());
             }
 
             LushLogger.getLogger().log(Level.INFO, "Successfully enabled module '" + id + "'");
@@ -58,8 +60,8 @@ public abstract class Module {
             e.printStackTrace();
         }
 
-        if (!enabled && this instanceof EventListener listener) {
-            listener.unregisterListeners();
+        if (!enabled && this instanceof Listener listener) {
+            HandlerList.unregisterAll(listener);
         }
     }
 

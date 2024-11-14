@@ -1,7 +1,9 @@
 package org.lushplugins.lushlib.plugin;
 
 import org.bukkit.command.PluginCommand;
+import org.bukkit.event.Listener;
 import org.jetbrains.annotations.Nullable;
+import org.lushplugins.lushlib.LushLib;
 import org.lushplugins.lushlib.command.Command;
 import org.lushplugins.lushlib.hook.Hook;
 import org.lushplugins.lushlib.manager.Manager;
@@ -136,6 +138,17 @@ public abstract class SpigotPlugin extends JavaPlugin {
 
     public Command getLushCommand(String name) {
         return commands.get(name);
+    }
+
+    public void registerListener(Listener listener) {
+        getServer().getPluginManager().registerEvents(listener, LushLib.getInstance().getPlugin());
+    }
+
+    public void registerListeners(Listener... listeners) {
+        PluginManager pluginManager = getServer().getPluginManager();
+        for (Listener listener : listeners) {
+            pluginManager.registerEvents(listener, LushLib.getInstance().getPlugin());
+        }
     }
 
     public void registerCommand(Command command) {

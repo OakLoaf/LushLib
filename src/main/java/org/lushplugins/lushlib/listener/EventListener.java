@@ -4,6 +4,7 @@ import org.lushplugins.lushlib.LushLib;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
+@Deprecated(forRemoval = true)
 public interface EventListener extends Listener {
 
     default void registerListeners() {

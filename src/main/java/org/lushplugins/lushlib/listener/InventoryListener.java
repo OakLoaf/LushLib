@@ -1,5 +1,6 @@
 package org.lushplugins.lushlib.listener;
 
+import org.bukkit.event.Listener;
 import org.lushplugins.lushlib.LushLib;
 import org.lushplugins.lushlib.gui.inventory.Gui;
 import org.lushplugins.lushlib.manager.GuiManager;
@@ -13,7 +14,7 @@ import org.bukkit.inventory.Inventory;
 
 import java.util.UUID;
 
-public class InventoryListener implements EventListener {
+public class InventoryListener implements Listener {
 
     @EventHandler
     public void onInventoryOpen(InventoryOpenEvent event) {

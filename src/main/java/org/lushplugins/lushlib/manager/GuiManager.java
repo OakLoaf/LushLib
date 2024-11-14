@@ -1,5 +1,6 @@
 package org.lushplugins.lushlib.manager;
 
+import org.lushplugins.lushlib.LushLib;
 import org.lushplugins.lushlib.gui.inventory.Gui;
 import org.lushplugins.lushlib.listener.InventoryListener;
 import org.bukkit.Bukkit;
@@ -14,7 +15,7 @@ public class GuiManager extends Manager {
     @Override
     public void onEnable() {
         playerGuiMap = new ConcurrentHashMap<>();
-        new InventoryListener().registerListeners();
+        LushLib.getInstance().getPlugin().getServer().getPluginManager().registerEvents(new InventoryListener(), LushLib.getInstance().getPlugin());
     }
 
     @Override
