@@ -36,4 +36,8 @@ public class RandomCollection<E> {
     public NavigableMap<Double, E> getMap() {
         return map;
     }
+
+    public double getTotalWeight() {
+        return total;
+    }
 }
