@@ -141,7 +141,7 @@ public abstract class SpigotPlugin extends JavaPlugin {
     }
 
     public void registerListener(Listener listener) {
-        getServer().getPluginManager().registerEvents(listener, LushLib.getInstance().getPlugin());
+        getServer().getPluginManager().registerEvents(listener, this);
     }
 
     public void registerListeners(Listener... listeners) {
