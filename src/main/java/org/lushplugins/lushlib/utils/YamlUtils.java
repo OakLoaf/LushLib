@@ -4,8 +4,8 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.jetbrains.annotations.NotNull;
 import org.lushplugins.lushlib.utils.converter.YamlConverter;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class YamlUtils {
 
@@ -22,6 +22,28 @@ public class YamlUtils {
         } else {
             return config.getStringList(path);
         }
+    }
+
+    /**
+     * Get a list of configuration sections by path
+     * @param config config section
+     * @param path path of the list to get
+     * @return requested list of configuration sections by path
+     */
+    public static List<ConfigurationSection> getConfigurationSections(ConfigurationSection config, String path) {
+        Collection<Object> rawSections;
+        if (config.isList(path)) {
+            rawSections = config.getMapList(path).stream()
+                .flatMap(map -> map.values().stream())
+                .collect(Collectors.toList());
+        } else {
+            rawSections = config.getValues(false).values();
+        }
+
+        return rawSections.stream()
+            .map(rawSection -> rawSection instanceof ConfigurationSection configSection ? configSection : null)
+            .filter(Objects::nonNull)
+            .toList();
     }
 
     /**
