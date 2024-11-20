@@ -37,7 +37,12 @@ public class YamlUtils {
                 .flatMap(map -> map.values().stream())
                 .collect(Collectors.toList());
         } else {
-            rawSections = config.getValues(false).values();
+            ConfigurationSection pathSection = config.getConfigurationSection(path);
+            if (pathSection == null) {
+                return Collections.emptyList();
+            }
+
+            rawSections = pathSection.getValues(false).values();
         }
 
         return rawSections.stream()
