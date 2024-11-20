@@ -33,9 +33,16 @@ public class YamlUtils {
     public static List<ConfigurationSection> getConfigurationSections(ConfigurationSection config, String path) {
         Collection<Object> rawSections;
         if (config.isList(path)) {
-            rawSections = config.getMapList(path).stream()
-                .flatMap(map -> map.values().stream())
-                .collect(Collectors.toList());
+            rawSections = new ArrayList<>();
+            List<Map<?, ?>> mapList = config.getMapList(path);
+
+            for (Map<?, ?> map : mapList) {
+                rawSections.addAll(map.values());
+            }
+
+//            rawSections = config.getMapList(path).stream()
+//                .flatMap(map -> map.values().stream())
+//                .collect(Collectors.toList());
         } else {
             ConfigurationSection pathSection = config.getConfigurationSection(path);
             if (pathSection == null) {
