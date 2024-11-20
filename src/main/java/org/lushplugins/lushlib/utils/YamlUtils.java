@@ -2,10 +2,10 @@ package org.lushplugins.lushlib.utils;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.jetbrains.annotations.NotNull;
+import org.lushplugins.lushlib.config.ConfigSection;
 import org.lushplugins.lushlib.utils.converter.YamlConverter;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class YamlUtils {
 
@@ -31,31 +31,34 @@ public class YamlUtils {
      * @return requested list of configuration sections by path
      */
     public static List<ConfigurationSection> getConfigurationSections(ConfigurationSection config, String path) {
-        Collection<Object> rawSections;
         if (config.isList(path)) {
-            rawSections = new ArrayList<>();
-            List<Map<?, ?>> mapList = config.getMapList(path);
-
-            for (Map<?, ?> map : mapList) {
-                rawSections.addAll(map.values());
-            }
-
-//            rawSections = config.getMapList(path).stream()
-//                .flatMap(map -> map.values().stream())
-//                .collect(Collectors.toList());
+            return config.getMapList(path).stream()
+                .map(map -> fromMap(config, path, map))
+                .toList();
         } else {
             ConfigurationSection pathSection = config.getConfigurationSection(path);
             if (pathSection == null) {
                 return Collections.emptyList();
             }
 
-            rawSections = pathSection.getValues(false).values();
+            return pathSection.getValues(false).values().stream()
+                .map(rawSection -> rawSection instanceof ConfigurationSection configSection ? configSection : null)
+                .filter(Objects::nonNull)
+                .toList();
         }
+    }
 
-        return rawSections.stream()
-            .map(rawSection -> rawSection instanceof ConfigurationSection configSection ? configSection : null)
-            .filter(Objects::nonNull)
-            .toList();
+    /**
+     * Creates a configuration section from a map, mainly for use in map lists. Note that
+     * the current path will be set to "list"
+     *
+     * @param parent the parent section
+     * @param path the path
+     * @param map the map of data
+     * @return a compiled configuration section
+     */
+    private static ConfigurationSection fromMap(ConfigurationSection parent, String path, Map<?, ?> map) {
+        return new ConfigSection(parent, path).createSection("list", map);
     }
 
     /**
