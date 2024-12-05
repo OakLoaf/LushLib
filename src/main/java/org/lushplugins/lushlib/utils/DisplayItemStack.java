@@ -103,12 +103,12 @@ public class DisplayItemStack {
     }
 
     public boolean isSimilar(@NotNull ItemStack itemStack) {
-        Material material = this.itemStack.getType();
+        Material material = this.getType();
         if (material != null && itemStack.getType() != material) {
             return false;
         }
 
-        IntRange amount = this.itemStack.getAmount();
+        IntRange amount = this.getAmount();
         // TODO: Add IntRange#contains(int)
         if (itemStack.getAmount() < amount.getMin() || itemStack.getAmount() > amount.getMax()) {
             return false;
@@ -117,25 +117,25 @@ public class DisplayItemStack {
         ItemMeta itemMeta = itemStack.getItemMeta();
         // TODO: Add DisplayItemStack#hasMeta
         if (itemMeta == null) {
-            return !this.itemStack.hasDisplayName() && !this.itemStack.hasLore() && !this.itemStack.hasEnchantGlow() && !this.itemStack.hasCustomModelData() && !this.itemStack.hasSkullTexture();
+            return !this.hasDisplayName() && !this.hasLore() && !this.hasEnchantGlow() && !this.hasCustomModelData() && !this.hasSkullTexture();
         }
 
-        String displayName = this.itemStack.getDisplayName();
+        String displayName = this.getDisplayName();
         if (displayName != null && !itemMeta.getDisplayName().equals(displayName)) {
             return false;
         }
 
-        List<String> lore = this.itemStack.getLore();
+        List<String> lore = this.getLore();
         if (lore != null && (itemMeta.getLore() == null || !itemMeta.getLore().equals(lore))) {
             return false;
         }
 
-        Boolean enchantGlow = this.itemStack.getEnchantGlow();
+        Boolean enchantGlow = this.getEnchantGlow();
         if (enchantGlow != null && !itemMeta.getDisplayName().equals(displayName)) {
             return false;
         }
 
-        int customModelData = this.itemStack.getCustomModelData();
+        int customModelData = this.getCustomModelData();
         if (customModelData != 0 && (!itemMeta.hasCustomModelData() || itemMeta.getCustomModelData() != customModelData)) {
             return false;
         }
