@@ -102,6 +102,47 @@ public class DisplayItemStack {
             && skullTexture == null;
     }
 
+    public boolean isSimilar(@NotNull ItemStack itemStack) {
+        Material material = this.itemStack.getType();
+        if (material != null && itemStack.getType() != material) {
+            return false;
+        }
+
+        IntRange amount = this.itemStack.getAmount();
+        // TODO: Add IntRange#contains(int)
+        if (itemStack.getAmount() < amount.getMin() || itemStack.getAmount() > amount.getMax()) {
+            return false;
+        }
+
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        // TODO: Add DisplayItemStack#hasMeta
+        if (itemMeta == null) {
+            return !this.itemStack.hasDisplayName() && !this.itemStack.hasLore() && !this.itemStack.hasEnchantGlow() && !this.itemStack.hasCustomModelData() && !this.itemStack.hasSkullTexture();
+        }
+
+        String displayName = this.itemStack.getDisplayName();
+        if (displayName != null && !itemMeta.getDisplayName().equals(displayName)) {
+            return false;
+        }
+
+        List<String> lore = this.itemStack.getLore();
+        if (lore != null && (itemMeta.getLore() == null || !itemMeta.getLore().equals(lore))) {
+            return false;
+        }
+
+        Boolean enchantGlow = this.itemStack.getEnchantGlow();
+        if (enchantGlow != null && !itemMeta.getDisplayName().equals(displayName)) {
+            return false;
+        }
+
+        int customModelData = this.itemStack.getCustomModelData();
+        if (customModelData != 0 && (!itemMeta.hasCustomModelData() || itemMeta.getCustomModelData() != customModelData)) {
+            return false;
+        }
+
+        return true;
+    }
+
     public ItemStack asItemStack() {
         return asItemStack(null, true);
     }
