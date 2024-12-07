@@ -33,8 +33,16 @@ public class IntRange implements Cloneable {
         return max;
     }
 
-    public boolean inRange(int number) {
+    public boolean contains(int number) {
         return number >= min && number <= max;
+    }
+
+    /**
+     * @see IntRange#contains(int)
+     */
+    @Deprecated
+    public boolean inRange(int number) {
+        return contains(number);
     }
 
     public int next() {

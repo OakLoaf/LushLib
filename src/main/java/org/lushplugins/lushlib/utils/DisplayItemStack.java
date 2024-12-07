@@ -108,10 +108,10 @@ public class DisplayItemStack {
             return false;
         }
 
-        IntRange amount = this.getAmount();
-        // TODO: Add IntRange#contains(int)
-        if (itemStack.getAmount() < amount.getMin() || itemStack.getAmount() > amount.getMax()) {
-            return false;
+        if (amount.getMin() != 1 || amount.getMax() != 1) {
+            if (!this.getAmount().contains(itemStack.getAmount())) {
+                return false;
+            }
         }
 
         ItemMeta itemMeta = itemStack.getItemMeta();
