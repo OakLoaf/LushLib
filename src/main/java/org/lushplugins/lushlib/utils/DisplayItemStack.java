@@ -102,6 +102,10 @@ public class DisplayItemStack {
             && skullTexture == null;
     }
 
+    public boolean hasMeta() {
+        return this.hasDisplayName() || this.hasLore() || this.hasEnchantGlow() || this.hasCustomModelData() || this.hasSkullTexture();
+    }
+
     public boolean isSimilar(@NotNull ItemStack itemStack) {
         Material material = this.getType();
         if (material != null && itemStack.getType() != material) {
@@ -115,9 +119,8 @@ public class DisplayItemStack {
         }
 
         ItemMeta itemMeta = itemStack.getItemMeta();
-        // TODO: Add DisplayItemStack#hasMeta
         if (itemMeta == null) {
-            return !this.hasDisplayName() && !this.hasLore() && !this.hasEnchantGlow() && !this.hasCustomModelData() && !this.hasSkullTexture();
+            return !this.hasMeta();
         }
 
         String displayName = this.getDisplayName();
