@@ -324,7 +324,7 @@ public class DisplayItemStack {
 
         @Nullable
         public List<String> getLore() {
-            return Collections.unmodifiableList(lore);
+            return lore != null ? Collections.unmodifiableList(lore) : null;
         }
 
         public boolean hasLore() {
