@@ -128,7 +128,7 @@ public abstract class SpigotPlugin extends JavaPlugin {
         hooks.clear();
     }
 
-    protected void addHook(String pluginName, Runnable runnable) {
+    public void addHook(String pluginName, Runnable runnable) {
         PluginManager pluginManager = getServer().getPluginManager();
         if (pluginManager.getPlugin(pluginName) instanceof JavaPlugin hookPlugin && hookPlugin.isEnabled()) {
             getLogger().info("Found plugin \"" + pluginName +"\". Enabling " + pluginName + " support.");
