@@ -306,7 +306,7 @@ public class SimpleItemStack implements Cloneable {
             if (lore != null) {
                 itemMeta.setLore(parseColors ? lore.stream().map(line -> ChatColorHandler.translate(line, player)).toList() : lore);
             }
-            if (itemMeta instanceof EnchantmentStorageMeta enchantmentMeta) {
+            if (itemMeta instanceof EnchantmentStorageMeta enchantmentMeta && !enchantments.isEmpty()) {
                 enchantments.forEach((enchantment, level) -> enchantmentMeta.addStoredEnchant(enchantment, level, true));
             } else if (enchantments.isEmpty() && enchantGlow != null && enchantGlow) {
                 itemMeta.addEnchant(Enchantment.DURABILITY, 1, false);
