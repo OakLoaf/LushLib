@@ -14,6 +14,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.lushplugins.lushlib.registry.RegistryUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -75,7 +76,7 @@ public class SimpleItemStack implements Cloneable {
 
     public SimpleItemStack(ConfigurationSection configurationSection) {
         if (configurationSection.contains("material")) {
-            material = RegistryUtils.fromString(Registry.MATERIAL, configurationSection.getString("material"));
+            material = RegistryUtils.parseString(configurationSection.getString("material"), Registry.MATERIAL);
         }
         if (configurationSection.contains("amount")) {
             amount = IntRange.parseIntRange(configurationSection.getString("amount", "1"));
@@ -89,7 +90,7 @@ public class SimpleItemStack implements Cloneable {
         if (configurationSection.contains("enchantments")) {
             Map<Enchantment, Integer> enchantments = new HashMap<>();
             configurationSection.getConfigurationSection("enchantments").getValues(false).forEach((enchantmentRaw, level) -> {
-                Enchantment enchantment = RegistryUtils.fromString(Registry.ENCHANTMENT, enchantmentRaw);
+                Enchantment enchantment = RegistryUtils.parseString(enchantmentRaw, Registry.ENCHANTMENT);
                 enchantments.put(enchantment, (int) level);
             });
 
@@ -109,7 +110,7 @@ public class SimpleItemStack implements Cloneable {
     public SimpleItemStack(@NotNull Map<?, ?> configurationMap) {
         try {
             if (configurationMap.containsKey("material")) {
-                material = RegistryUtils.fromString(Registry.MATERIAL, (String) configurationMap.get("material"));
+                material = RegistryUtils.parseString((String) configurationMap.get("material"), Registry.MATERIAL);
             }
             if (configurationMap.containsKey("amount")) {
                 amount = IntRange.valueOf(configurationMap.get("amount"));
@@ -346,7 +347,7 @@ public class SimpleItemStack implements Cloneable {
         }
         if (!enchantments.isEmpty()) {
             Map<String, Object> enchantmentMap = new HashMap<>();
-            enchantments.forEach((enchantment, level) -> enchantmentMap.put(enchantment.toString().toLowerCase(), level));
+            enchantments.forEach((enchantment, level) -> enchantmentMap.put(enchantment.getKey().toString().toLowerCase(), level));
             configurationSection.set("enchantments", enchantmentMap);
         }
         if (enchantGlow != null) {
@@ -377,7 +378,7 @@ public class SimpleItemStack implements Cloneable {
         }
         if (!enchantments.isEmpty()) {
             Map<String, Object> enchantmentMap = new HashMap<>();
-            enchantments.forEach((enchantment, level) -> enchantmentMap.put(enchantment.toString().toLowerCase(), level));
+            enchantments.forEach((enchantment, level) -> enchantmentMap.put(enchantment.getKey().toString().toLowerCase(), level));
             map.put("enchantments", enchantmentMap);
         }
         if (enchantGlow != null) {
