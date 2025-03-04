@@ -27,7 +27,7 @@ public class BossBarTimer extends Timer {
         bossBar = Bukkit.createBossBar(new NamespacedKey(plugin, id), title, barColor, barStyle);
 
         // No need to reparse if there are no placeholders
-        if (title.contains("%current_duration%") || title.contains("%total_duration%")) {
+        if (title.contains("%current_duration%") || title.contains("%remaining_duration%") || title.contains("%total_duration%")) {
             this.unparsedTitle = title;
         } else {
             this.unparsedTitle = null;
@@ -66,6 +66,7 @@ public class BossBarTimer extends Timer {
         if (this.unparsedTitle != null) {
             bossBar.setTitle(this.unparsedTitle
                 .replace("%current_duration%", String.valueOf(duration))
+                .replace("%remaining_duration%", String.valueOf(totalDuration - duration))
                 .replace("%total_duration%", String.valueOf(totalDuration))
             );
         }
