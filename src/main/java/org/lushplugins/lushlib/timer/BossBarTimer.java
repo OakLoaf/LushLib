@@ -12,7 +12,7 @@ import org.bukkit.plugin.Plugin;
 public class BossBarTimer extends Timer {
     private static int currId = 0;
     private final KeyedBossBar bossBar;
-    private final boolean containsPlaceholders;
+    private final String unparsedTitle;
 
     /**
      * @param id            A unique id for this boss bar
@@ -25,7 +25,13 @@ public class BossBarTimer extends Timer {
     public BossBarTimer(String id, String title, BarColor barColor, BarStyle barStyle, Plugin plugin, int totalDuration) {
         super(plugin, totalDuration);
         bossBar = Bukkit.createBossBar(new NamespacedKey(plugin, id), title, barColor, barStyle);
-        containsPlaceholders = title.contains("%current_duration%") || title.contains("%total_duration%");
+
+        // No need to reparse if there are no placeholders
+        if (title.contains("%current_duration%") || title.contains("%total_duration%")) {
+            this.unparsedTitle = title;
+        } else {
+            this.unparsedTitle = null;
+        }
     }
 
     /**
@@ -57,8 +63,8 @@ public class BossBarTimer extends Timer {
             progress = 1;
         }
 
-        if (containsPlaceholders) {
-            bossBar.setTitle(bossBar.getTitle()
+        if (this.unparsedTitle != null) {
+            bossBar.setTitle(this.unparsedTitle
                 .replace("%current_duration%", String.valueOf(duration))
                 .replace("%total_duration%", String.valueOf(totalDuration))
             );
