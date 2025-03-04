@@ -75,6 +75,10 @@ public class BossBarTimer extends Timer {
         Bukkit.removeBossBar(bossBar.getKey());
     }
 
+    public KeyedBossBar getBossBar() {
+        return bossBar;
+    }
+
     public void addPlayer(Player player) {
         bossBar.addPlayer(player);
     }
