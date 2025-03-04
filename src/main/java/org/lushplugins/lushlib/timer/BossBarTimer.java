@@ -24,7 +24,14 @@ public class BossBarTimer extends Timer {
      */
     public BossBarTimer(String id, String title, BarColor barColor, BarStyle barStyle, Plugin plugin, int totalDuration) {
         super(plugin, totalDuration);
-        bossBar = Bukkit.createBossBar(new NamespacedKey(plugin, id), title, barColor, barStyle);
+        bossBar = Bukkit.createBossBar(
+            new NamespacedKey(plugin, id),
+            title
+                .replace("%current_duration%", String.valueOf(duration))
+                .replace("%remaining_duration%", String.valueOf(totalDuration - duration))
+                .replace("%total_duration%", String.valueOf(totalDuration)),
+            barColor,
+            barStyle);
 
         // No need to reparse if there are no placeholders
         if (title.contains("%current_duration%") || title.contains("%remaining_duration%") || title.contains("%total_duration%")) {
