@@ -33,7 +33,7 @@ public abstract class Timer {
      * @param tick Current tick
      */
     public void setTick(int tick) {
-        this.tick = tick * 20;
+        this.tick = tick;
         onTick();
     }
 
