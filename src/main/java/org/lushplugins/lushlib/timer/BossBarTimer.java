@@ -8,7 +8,6 @@ import org.bukkit.boss.KeyedBossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.lushplugins.chatcolorhandler.ChatColorHandler;
-import org.lushplugins.chatcolorhandler.parsers.ParserTypes;
 
 @SuppressWarnings("unused")
 public class BossBarTimer extends Timer {
@@ -62,8 +61,13 @@ public class BossBarTimer extends Timer {
     }
 
     @Override
-    protected void onDurationChange() {
-        super.onDurationChange();
+    protected void onTick() {
+        super.onTick();
+
+        // Updates bar progress every 5 ticks
+        if (this.tick % 5 != 0) {
+            return;
+        }
 
         double progress = (double) duration / totalDuration;
         if (progress < 0) {
@@ -72,14 +76,19 @@ public class BossBarTimer extends Timer {
             progress = 1;
         }
 
+        bossBar.setProgress(1 - progress);
+    }
+
+    @Override
+    protected void onDurationChange() {
+        super.onDurationChange();
+
         if (this.unparsedTitle != null) {
             bossBar.setTitle(ChatColorHandler.translate(this.unparsedTitle
                     .replace("%current_duration%", String.valueOf(duration))
                     .replace("%remaining_duration%", String.valueOf(totalDuration - duration))
                     .replace("%total_duration%", String.valueOf(totalDuration))));
         }
-
-        bossBar.setProgress(1 - progress);
     }
 
     @Override
