@@ -19,7 +19,7 @@ public abstract class Timer {
      */
     public Timer(Plugin plugin, int totalDuration) {
         this.plugin = plugin;
-        this.totalDuration = totalDuration;
+        this.totalDuration = totalDuration * 20;
     }
 
     /**
