@@ -15,6 +15,7 @@ public class BossBarTimer extends Timer {
     private final KeyedBossBar bossBar;
     private final String unparsedTitle;
 
+    // TODO: Add animation speed option
     /**
      * @param id            A unique id for this boss bar
      * @param title         Title of boss bar
