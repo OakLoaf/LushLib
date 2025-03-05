@@ -25,12 +25,13 @@ public class BossBarTimer extends Timer {
      */
     public BossBarTimer(String id, String title, BarColor barColor, BarStyle barStyle, Plugin plugin, int totalDuration) {
         super(plugin, totalDuration);
+
         bossBar = Bukkit.createBossBar(
             new NamespacedKey(plugin, id),
             ChatColorHandler.translate(title
-                    .replace("%current_duration%", String.valueOf(tick / 20))
-                    .replace("%remaining_duration%", String.valueOf((totalDuration - tick) / 20))
-                    .replace("%total_duration%", String.valueOf(totalDuration / 20))),
+                    .replace("%current_duration%", String.valueOf(this.tick / 20))
+                    .replace("%remaining_duration%", String.valueOf((this.totalDuration - this.tick) / 20))
+                    .replace("%total_duration%", String.valueOf(this.totalDuration / 20))),
             barColor,
             barStyle);
 
@@ -64,16 +65,16 @@ public class BossBarTimer extends Timer {
     protected void onTick() {
         super.onTick();
 
-        // Updates bar progress every 5 ticks
-        if (this.tick % 5 != 0) {
-            return;
-        }
-
         if (this.unparsedTitle != null && this.tick % 20 == 0) {
             bossBar.setTitle(ChatColorHandler.translate(this.unparsedTitle
                 .replace("%current_duration%", String.valueOf(tick / 20))
                 .replace("%remaining_duration%", String.valueOf((totalDuration - tick) / 20))
                 .replace("%total_duration%", String.valueOf(totalDuration / 20))));
+        }
+
+        // Updates bar progress every 3 ticks
+        if (this.tick % 3 != 0) {
+            return;
         }
 
         double progress = (double) this.tick / totalDuration;
