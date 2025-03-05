@@ -7,6 +7,8 @@ import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.KeyedBossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import org.lushplugins.chatcolorhandler.ChatColorHandler;
+import org.lushplugins.chatcolorhandler.parsers.ParserTypes;
 
 @SuppressWarnings("unused")
 public class BossBarTimer extends Timer {
@@ -26,10 +28,10 @@ public class BossBarTimer extends Timer {
         super(plugin, totalDuration);
         bossBar = Bukkit.createBossBar(
             new NamespacedKey(plugin, id),
-            title
-                .replace("%current_duration%", String.valueOf(duration))
-                .replace("%remaining_duration%", String.valueOf(totalDuration - duration))
-                .replace("%total_duration%", String.valueOf(totalDuration)),
+            ChatColorHandler.translate(title
+                    .replace("%current_duration%", String.valueOf(duration))
+                    .replace("%remaining_duration%", String.valueOf(totalDuration - duration))
+                    .replace("%total_duration%", String.valueOf(totalDuration))),
             barColor,
             barStyle);
 
@@ -71,11 +73,10 @@ public class BossBarTimer extends Timer {
         }
 
         if (this.unparsedTitle != null) {
-            bossBar.setTitle(this.unparsedTitle
-                .replace("%current_duration%", String.valueOf(duration))
-                .replace("%remaining_duration%", String.valueOf(totalDuration - duration))
-                .replace("%total_duration%", String.valueOf(totalDuration))
-            );
+            bossBar.setTitle(ChatColorHandler.translate(this.unparsedTitle
+                    .replace("%current_duration%", String.valueOf(duration))
+                    .replace("%remaining_duration%", String.valueOf(totalDuration - duration))
+                    .replace("%total_duration%", String.valueOf(totalDuration))));
         }
 
         bossBar.setProgress(1 - progress);
