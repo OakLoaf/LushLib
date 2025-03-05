@@ -11,7 +11,6 @@ public abstract class Timer {
     private BukkitTask task;
     private final HashMultimap<TaskType, Runnable> runnables = HashMultimap.create();
     protected int tick = 0;
-    protected int duration = 0;
     protected int totalDuration;
 
     /**
@@ -23,27 +22,62 @@ public abstract class Timer {
         this.totalDuration = totalDuration;
     }
 
-    public int getDuration() {
-        return duration;
+    /**
+     * @return Current tick
+     */
+    public int getTick() {
+        return tick;
     }
 
     /**
-     * @param duration Sets current duration of timer
+     * @param tick Current tick
+     */
+    public void setTick(int tick) {
+        this.tick = tick * 20;
+        onTick();
+    }
+
+    /**
+     * @return Current duration in seconds
+     */
+    public int getDuration() {
+        return tick / 20;
+    }
+
+    /**
+     * @param duration Current duration in seconds
      */
     public void setDuration(int duration) {
-        this.duration = duration;
+        this.tick = duration * 20;
         onDurationChange();
     }
 
-    public int getTotalDuration() {
+    /**
+     * @return Total duration in ticks
+     */
+    public int getTotalDurationTicks() {
         return totalDuration;
+    }
+
+    /**
+     * @param totalDuration Total duration of timer in ticks
+     */
+    public void setTotalDurationTicks(int totalDuration) {
+        this.totalDuration = totalDuration;
+    }
+
+    /**
+     * @return Total duration in seconds
+     */
+    public int getTotalDuration() {
+        return totalDuration / 20;
     }
 
     /**
      * @param totalDuration Total duration of timer in seconds
      */
     public void setTotalDuration(int totalDuration) {
-        this.totalDuration = totalDuration;
+        this.totalDuration = totalDuration * 20;
     }
 
     public boolean isActive() {
@@ -65,8 +99,9 @@ public abstract class Timer {
     }
 
     /**
-     * Ran when the timer's duration changes
+     * Ran once per second for the duration of the timer
      */
+    @Deprecated
     protected void onDurationChange() {
         runnables.get(TaskType.DURATION_CHANGE).forEach(Runnable::run);
     }
@@ -82,10 +117,11 @@ public abstract class Timer {
         runnables.put(TaskType.START, runnable);
     }
 
-    public void tick(Runnable runnable) {
+    public void onTick(Runnable runnable) {
         runnables.put(TaskType.TICK, runnable);
     }
 
+    @Deprecated
     public void onDurationChange(Runnable runnable) {
         runnables.put(TaskType.DURATION_CHANGE, runnable);
     }
@@ -99,14 +135,13 @@ public abstract class Timer {
             onStart();
 
             task = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
-                tick++;
-                onTick();
+                setTick(tick + 1);
 
                 if (tick % 20 == 0) {
-                    setDuration(duration + 1);
+                    onDurationChange();
                 }
 
-                if (duration >= totalDuration) {
+                if (tick >= totalDuration) {
                     remove();
                 }
             }, 1, 1);
@@ -125,7 +160,7 @@ public abstract class Timer {
             stop();
         }
 
-        duration = 0;
+        tick = 0;
         start();
     }
 

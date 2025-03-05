@@ -28,9 +28,9 @@ public class BossBarTimer extends Timer {
         bossBar = Bukkit.createBossBar(
             new NamespacedKey(plugin, id),
             ChatColorHandler.translate(title
-                    .replace("%current_duration%", String.valueOf(duration))
-                    .replace("%remaining_duration%", String.valueOf(totalDuration - duration))
-                    .replace("%total_duration%", String.valueOf(totalDuration))),
+                    .replace("%current_duration%", String.valueOf(tick / 20))
+                    .replace("%remaining_duration%", String.valueOf((totalDuration - tick) / 20))
+                    .replace("%total_duration%", String.valueOf(totalDuration / 20))),
             barColor,
             barStyle);
 
@@ -69,7 +69,14 @@ public class BossBarTimer extends Timer {
             return;
         }
 
-        double progress = (double) duration / totalDuration;
+        if (this.unparsedTitle != null && this.tick % 20 == 0) {
+            bossBar.setTitle(ChatColorHandler.translate(this.unparsedTitle
+                .replace("%current_duration%", String.valueOf(tick / 20))
+                .replace("%remaining_duration%", String.valueOf((totalDuration - tick) / 20))
+                .replace("%total_duration%", String.valueOf(totalDuration / 20))));
+        }
+
+        double progress = (double) this.tick / totalDuration;
         if (progress < 0) {
             progress = 0;
         } else if (progress > 1) {
@@ -77,18 +84,6 @@ public class BossBarTimer extends Timer {
         }
 
         bossBar.setProgress(1 - progress);
-    }
-
-    @Override
-    protected void onDurationChange() {
-        super.onDurationChange();
-
-        if (this.unparsedTitle != null) {
-            bossBar.setTitle(ChatColorHandler.translate(this.unparsedTitle
-                    .replace("%current_duration%", String.valueOf(duration))
-                    .replace("%remaining_duration%", String.valueOf(totalDuration - duration))
-                    .replace("%total_duration%", String.valueOf(totalDuration))));
-        }
     }
 
     @Override
