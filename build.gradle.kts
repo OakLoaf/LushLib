@@ -10,9 +10,9 @@ version = "0.10.46"
 repositories {
     mavenCentral()
     mavenLocal()
-    maven(url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/") // Spigot
-    maven(url = "https://repo.lushplugins.org/releases") // ChatColorHandler
-    maven(url = "https://repo.opencollab.dev/main/") // Floodgate
+    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/") // Spigot
+    maven("https://repo.lushplugins.org/releases") // ChatColorHandler
+    maven("https://repo.opencollab.dev/main/") // Floodgate
 }
 
 dependencies {
