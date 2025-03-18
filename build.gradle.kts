@@ -16,15 +16,18 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot:${findProperty("minecraftVersion")}-R0.1-SNAPSHOT")
-    compileOnly("com.google.code.gson:gson:2.12.1")
+    // Dependencies
+    compileOnly("org.spigotmc:spigot:1.20.1-R0.1-SNAPSHOT")
+    compileOnly("com.google.code.gson:gson:2.12.1") // TODO: Consider moving fully to jackson
+
+    // Soft Dependencies
     compileOnly("org.geysermc.floodgate:api:${findProperty("floodgateVersion")}-SNAPSHOT") {
         exclude("com.google.code.gson", "gson")
     }
 
-    // Library
+    // Libraries
     compileOnlyApi("org.jetbrains:annotations:26.0.2") // JetBrains Annotations
-    implementation("org.lushplugins:ChatColorHandler:${findProperty("chatcolorhandlerVersion")}")
+    implementation("org.lushplugins:ChatColorHandler:5.1.3")
     implementation("com.fasterxml.jackson.core:jackson-core:2.15.2") // Jackson
     implementation("com.fasterxml.jackson.core:jackson-annotations:2.15.2") // Jackson
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.15.2") // Jackson
