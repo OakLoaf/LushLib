@@ -33,9 +33,8 @@ public abstract class Module {
             try {
                 this.onEnable();
             } catch (Throwable e) {
-                LushLogger.getLogger().log(Level.SEVERE, "Error when enabling module '" + id + "' at:");
-                e.printStackTrace();
-                LushLogger.getLogger().log(Level.SEVERE, "Disabling module '" + id + "'");
+                LushLogger.getLogger().log(Level.SEVERE, "Error when enabling module '%s' at: ".formatted(id), e);
+                LushLogger.getLogger().log(Level.SEVERE, "Disabling module '%s'".formatted(id));
                 disable();
                 return;
             }
@@ -44,7 +43,7 @@ public abstract class Module {
                 LushLib.getInstance().getPlugin().getServer().getPluginManager().registerEvents(listener, LushLib.getInstance().getPlugin());
             }
 
-            LushLogger.getLogger().log(Level.INFO, "Successfully enabled module '" + id + "'");
+            LushLogger.getLogger().log(Level.INFO, "Successfully enabled module '%s'".formatted(id));
         }
     }
 
@@ -56,8 +55,7 @@ public abstract class Module {
         try {
             this.onDisable();
         } catch (Throwable e) {
-            LushLogger.getLogger().log(Level.SEVERE, "Error when disabling module '" + id + "' at:");
-            e.printStackTrace();
+            LushLogger.getLogger().log(Level.SEVERE, "Error when disabling module '%s' at: ".formatted(id), e);
         }
 
         if (!enabled && this instanceof Listener listener) {
