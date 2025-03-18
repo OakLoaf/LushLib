@@ -18,7 +18,7 @@ public abstract class TextDeserializer<T> extends JsonDeserializer<T> {
         if (deserialized == null) {
             JsonLocation location = jsonParser.currentLocation();
             LushLogger.getLogger().severe("%s cannot deserialize %s at: %s:%s".formatted(
-                getClass().getSimpleName().toLowerCase(),
+                getClass().getSimpleName(),
                 text,
                 location.getLineNr(),
                 location.getColumnNr()

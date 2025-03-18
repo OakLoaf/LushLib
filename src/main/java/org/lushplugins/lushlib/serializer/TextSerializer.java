@@ -15,7 +15,7 @@ public abstract class TextSerializer<T> extends JsonSerializer<T> {
 
         if (serialized == null) {
             LushLogger.getLogger().severe("%s cannot serialize %s".formatted(
-                getClass().getSimpleName().toLowerCase(),
+                getClass().getSimpleName(),
                 t
             ));
         }
