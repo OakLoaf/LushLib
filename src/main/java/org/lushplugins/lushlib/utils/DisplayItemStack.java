@@ -1,9 +1,6 @@
 package org.lushplugins.lushlib.utils;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -22,6 +19,7 @@ import java.util.*;
     getterVisibility = JsonAutoDetect.Visibility.NONE,
     fieldVisibility = JsonAutoDetect.Visibility.ANY
 )
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @SuppressWarnings("unused")
 public class DisplayItemStack {
     private static final DisplayItemStack EMPTY = DisplayItemStack.builder().build();
