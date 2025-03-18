@@ -20,27 +20,41 @@ import java.util.*;
 public class DisplayItemStack {
     private static final DisplayItemStack EMPTY = DisplayItemStack.builder().build();
 
-    @JsonProperty("material")
     private final Material material;
-    @JsonProperty("amount")
     private final IntRange amount;
-    @JsonProperty("displayName")
-    @JsonAlias("display-name")
     private final String displayName;
-    @JsonProperty("lore")
     private final List<String> lore;
-    @JsonProperty("enchantGlow")
-    @JsonAlias({"enchant-glow", "enchanted"})
     private final Boolean enchantGlow;
-    @JsonProperty("customModelData")
-    @JsonAlias("custom-model-data")
     private final int customModelData;
-    @JsonProperty("skullTexture")
-    @JsonAlias("skull-texture")
     private final String skullTexture;
 
     @JsonCreator
-    public DisplayItemStack(@Nullable Material material, @NotNull IntRange amount, @Nullable String displayName, @Nullable List<String> lore, @Nullable Boolean enchantGlow, int customModelData, @Nullable String skullTexture) {
+    public DisplayItemStack(
+        @JsonProperty("material")
+        @Nullable Material material,
+
+        @JsonProperty("amount")
+        @NotNull IntRange amount,
+
+        @JsonProperty("displayName")
+        @JsonAlias("display-name")
+        @Nullable String displayName,
+
+        @JsonProperty("lore")
+        @Nullable List<String> lore,
+
+        @JsonProperty("enchantGlow")
+        @JsonAlias({"enchant-glow", "enchanted"})
+        @Nullable Boolean enchantGlow,
+
+        @JsonProperty("customModelData")
+        @JsonAlias("custom-model-data")
+        int customModelData,
+
+        @JsonProperty("skullTexture")
+        @JsonAlias("skull-texture")
+        @Nullable String skullTexture
+    ) {
         this.material = material;
         this.amount = amount;
         this.displayName = displayName;
