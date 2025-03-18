@@ -2,7 +2,7 @@ package org.lushplugins.lushlib;
 
 import org.lushplugins.lushlib.plugin.SpigotPlugin;
 import org.jetbrains.annotations.NotNull;
-import org.lushplugins.lushlib.utils.LushLogger;
+import org.lushplugins.lushlib.LushLogger;
 
 @SuppressWarnings("unused")
 public final class LushLib {

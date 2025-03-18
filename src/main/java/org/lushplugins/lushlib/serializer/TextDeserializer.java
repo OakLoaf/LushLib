@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonLocation;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
-import org.lushplugins.lushlib.utils.LushLogger;
+import org.lushplugins.lushlib.LushLogger;
 
 import java.io.IOException;
 

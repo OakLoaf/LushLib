@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
-import org.lushplugins.lushlib.utils.LushLogger;
+import org.lushplugins.lushlib.LushLogger;
 import org.lushplugins.lushlib.utils.SkullCreator;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

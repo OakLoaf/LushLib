@@ -2,7 +2,7 @@ package org.lushplugins.lushlib.registry;
 
 import org.bukkit.*;
 import org.jetbrains.annotations.Nullable;
-import org.lushplugins.lushlib.utils.LushLogger;
+import org.lushplugins.lushlib.LushLogger;
 
 import java.util.*;
 

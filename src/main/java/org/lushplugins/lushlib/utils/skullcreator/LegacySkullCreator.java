@@ -3,7 +3,7 @@ package org.lushplugins.lushlib.utils.skullcreator;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import org.bukkit.OfflinePlayer;
-import org.lushplugins.lushlib.utils.LushLogger;
+import org.lushplugins.lushlib.LushLogger;
 import org.lushplugins.lushlib.utils.SkullCreator;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

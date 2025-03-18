@@ -3,7 +3,7 @@ package org.lushplugins.lushlib.module;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.lushplugins.lushlib.LushLib;
-import org.lushplugins.lushlib.utils.LushLogger;
+import org.lushplugins.lushlib.LushLogger;
 
 import java.util.logging.Level;
 

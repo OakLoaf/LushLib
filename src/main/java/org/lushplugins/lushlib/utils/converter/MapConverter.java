@@ -4,7 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.Registry;
 import org.lushplugins.lushlib.utils.DisplayItemStack;
 import org.lushplugins.lushlib.utils.IntRange;
-import org.lushplugins.lushlib.utils.LushLogger;
+import org.lushplugins.lushlib.LushLogger;
 import org.lushplugins.lushlib.registry.RegistryUtils;
 
 import java.util.HashMap;
