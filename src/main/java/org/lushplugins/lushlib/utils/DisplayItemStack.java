@@ -18,8 +18,9 @@ import org.lushplugins.chatcolorhandler.ChatColorHandler;
 import java.util.*;
 
 @JsonAutoDetect(
-    fieldVisibility = JsonAutoDetect.Visibility.ANY,
-    getterVisibility = JsonAutoDetect.Visibility.NONE
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    getterVisibility = JsonAutoDetect.Visibility.NONE,
+    fieldVisibility = JsonAutoDetect.Visibility.ANY
 )
 @SuppressWarnings("unused")
 public class DisplayItemStack {
