@@ -3,7 +3,6 @@ package org.lushplugins.lushlib.plugin;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.Nullable;
-import org.lushplugins.lushlib.LushLib;
 import org.lushplugins.lushlib.command.Command;
 import org.lushplugins.lushlib.hook.Hook;
 import org.lushplugins.lushlib.manager.Manager;
