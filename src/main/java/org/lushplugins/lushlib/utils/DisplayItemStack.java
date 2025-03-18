@@ -1,6 +1,7 @@
 package org.lushplugins.lushlib.utils;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.bukkit.Material;
@@ -16,6 +17,10 @@ import org.lushplugins.chatcolorhandler.ChatColorHandler;
 
 import java.util.*;
 
+@JsonAutoDetect(
+    fieldVisibility = JsonAutoDetect.Visibility.ANY,
+    getterVisibility = JsonAutoDetect.Visibility.NONE
+)
 @SuppressWarnings("unused")
 public class DisplayItemStack {
     private static final DisplayItemStack EMPTY = DisplayItemStack.builder().build();
