@@ -6,32 +6,25 @@ import org.jetbrains.annotations.Nullable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * @see org.lushplugins.lushlib.LushLogger
+ */
+@Deprecated(forRemoval = true)
 public class LushLogger {
-    private static Logger logger;
 
     public static Logger getLogger() {
-        if (logger == null) {
-            logger = Logger.getLogger("LushLib");
-        }
-
-        return logger;
+        return org.lushplugins.lushlib.LushLogger.getLogger();
     }
 
     public static void setLogger(Logger logger) {
-        LushLogger.logger = logger;
+        org.lushplugins.lushlib.LushLogger.setLogger(logger);
     }
 
     public static void logCurrentStackTrace(@NotNull Level level) {
-        logCurrentStackTrace(level, null);
+        org.lushplugins.lushlib.LushLogger.logCurrentStackTrace(level);
     }
 
     public static void logCurrentStackTrace(@NotNull Level level, @Nullable String message) {
-        if (message != null) {
-            getLogger().log(level, message);
-        }
-
-        for (StackTraceElement stackTrace : Thread.currentThread().getStackTrace()) {
-            getLogger().log(level, stackTrace.toString());
-        }
+        org.lushplugins.lushlib.LushLogger.logCurrentStackTrace(level, message);
     }
 }
