@@ -1,5 +1,6 @@
 package org.lushplugins.lushlib.plugin;
 
+import org.bukkit.NamespacedKey;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.Nullable;
@@ -172,6 +173,10 @@ public abstract class SpigotPlugin extends JavaPlugin {
         } else {
             return true;
         }
+    }
+
+    public NamespacedKey namespacedKey(String key) {
+        return new NamespacedKey(this, key);
     }
 
     public FileConfiguration getConfigResource(String path) {
