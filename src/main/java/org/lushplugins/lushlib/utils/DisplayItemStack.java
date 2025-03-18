@@ -26,24 +26,37 @@ public class DisplayItemStack {
 
     private final Material material;
     private final IntRange amount;
-    @JsonAlias("display-name")
     private final String displayName;
     private final List<String> lore;
-    @JsonAlias({"enchant-glow", "enchanted"})
     private final Boolean enchantGlow;
-    @JsonAlias("custom-model-data")
     private final int customModelData;
-    @JsonAlias("skull-texture")
     private final String skullTexture;
 
     @JsonCreator
     public DisplayItemStack(
+        @JsonProperty("material")
         @Nullable Material material,
+
+        @JsonProperty("amount")
         @NotNull IntRange amount,
+
+        @JsonProperty("displayName")
+        @JsonAlias("display-name")
         @Nullable String displayName,
+
+        @JsonProperty("lore")
         @Nullable List<String> lore,
+
+        @JsonProperty("enchantGlow")
+        @JsonAlias({"enchant-glow", "enchanted"})
         @Nullable Boolean enchantGlow,
+
+        @JsonProperty("customModelData")
+        @JsonAlias("custom-model-data")
         int customModelData,
+
+        @JsonProperty("skullTexture")
+        @JsonAlias("skull-texture")
         @Nullable String skullTexture
     ) {
         this.material = material;
