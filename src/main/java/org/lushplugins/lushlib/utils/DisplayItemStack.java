@@ -1,5 +1,8 @@
 package org.lushplugins.lushlib.utils;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -17,14 +20,26 @@ import java.util.*;
 public class DisplayItemStack {
     private static final DisplayItemStack EMPTY = DisplayItemStack.builder().build();
 
+    @JsonProperty("material")
     private final Material material;
+    @JsonProperty("amount")
     private final IntRange amount;
+    @JsonProperty("displayName")
+    @JsonAlias("display-name")
     private final String displayName;
+    @JsonProperty("lore")
     private final List<String> lore;
+    @JsonProperty("enchantGlow")
+    @JsonAlias({"enchant-glow", "enchanted"})
     private final Boolean enchantGlow;
+    @JsonProperty("customModelData")
+    @JsonAlias("custom-model-data")
     private final int customModelData;
+    @JsonProperty("skullTexture")
+    @JsonAlias("skull-texture")
     private final String skullTexture;
 
+    @JsonCreator
     public DisplayItemStack(@Nullable Material material, @NotNull IntRange amount, @Nullable String displayName, @Nullable List<String> lore, @Nullable Boolean enchantGlow, int customModelData, @Nullable String skullTexture) {
         this.material = material;
         this.amount = amount;
