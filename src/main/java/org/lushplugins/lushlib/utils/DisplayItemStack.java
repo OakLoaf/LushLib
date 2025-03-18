@@ -31,7 +31,6 @@ public class DisplayItemStack {
     private final String displayName;
     private final List<String> lore;
     private final Boolean enchantGlow;
-    @JsonSerialize(using = ExcludeZeroSerializer.class)
     private final int customModelData;
     private final String skullTexture;
 
