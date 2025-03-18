@@ -5,7 +5,7 @@ import org.bukkit.Registry;
 import org.bukkit.configuration.ConfigurationSection;
 import org.lushplugins.lushlib.utils.DisplayItemStack;
 import org.lushplugins.lushlib.utils.IntRange;
-import org.lushplugins.lushlib.utils.RegistryUtils;
+import org.lushplugins.lushlib.registry.RegistryUtils;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public class YamlConverter {
         DisplayItemStack.Builder itemBuilder = DisplayItemStack.builder();
 
         if (section.contains("material")) {
-            itemBuilder.setType(RegistryUtils.fromString(Registry.MATERIAL, section.getString("material")));
+            itemBuilder.setType(RegistryUtils.parseString(section.getString("material"), Registry.MATERIAL));
         }
         if (section.contains("amount")) {
             itemBuilder.setAmountRange(IntRange.parseIntRange(section.getString("amount", "1")));

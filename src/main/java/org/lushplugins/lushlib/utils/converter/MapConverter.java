@@ -5,7 +5,7 @@ import org.bukkit.Registry;
 import org.lushplugins.lushlib.utils.DisplayItemStack;
 import org.lushplugins.lushlib.utils.IntRange;
 import org.lushplugins.lushlib.utils.LushLogger;
-import org.lushplugins.lushlib.utils.RegistryUtils;
+import org.lushplugins.lushlib.registry.RegistryUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +18,7 @@ public class MapConverter {
         DisplayItemStack.Builder itemBuilder = DisplayItemStack.builder();
 
         if (map.containsKey("material")) {
-            itemBuilder.setType(RegistryUtils.fromString(Registry.MATERIAL, getObject(map, "material", String.class)));
+            itemBuilder.setType(RegistryUtils.parseString(getObject(map, "material", String.class), Registry.MATERIAL));
         }
         if (map.containsKey("amount")) {
             Object amountObj = map.get("amount");
