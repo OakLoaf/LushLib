@@ -1,6 +1,7 @@
 package org.lushplugins.lushlib.utils;
 
 import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -11,6 +12,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.lushplugins.chatcolorhandler.ChatColorHandler;
+import org.lushplugins.lushlib.serializer.ExcludeZeroSerializer;
 
 import java.util.*;
 
@@ -29,6 +31,7 @@ public class DisplayItemStack {
     private final String displayName;
     private final List<String> lore;
     private final Boolean enchantGlow;
+    @JsonSerialize(using = ExcludeZeroSerializer.class)
     private final int customModelData;
     private final String skullTexture;
 
