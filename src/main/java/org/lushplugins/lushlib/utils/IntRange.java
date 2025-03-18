@@ -1,10 +1,18 @@
 package org.lushplugins.lushlib.utils;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.lushplugins.lushlib.serializer.IntRangeDeserializer;
+import org.lushplugins.lushlib.serializer.IntRangeSerializer;
+
 import java.util.Random;
 
+@JsonSerialize(using = IntRangeSerializer.class)
+@JsonDeserialize(using = IntRangeDeserializer.class)
 @SuppressWarnings("unused")
 public class IntRange implements Cloneable {
     private static final Random RANDOM = new Random();
+
     private final int min;
     private final int max;
 

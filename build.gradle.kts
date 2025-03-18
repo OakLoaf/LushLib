@@ -22,8 +22,12 @@ dependencies {
         exclude("com.google.code.gson", "gson")
     }
 
+    // Library
+    compileOnlyApi("org.jetbrains:annotations:26.0.2") // JetBrains Annotations
     implementation("org.lushplugins:ChatColorHandler:${findProperty("chatcolorhandlerVersion")}")
-    api("org.jetbrains:annotations:26.0.2")
+    implementation("com.fasterxml.jackson.core:jackson-core:2.15.2") // Jackson
+    implementation("com.fasterxml.jackson.core:jackson-annotations:2.15.2") // Jackson
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.15.2") // Jackson
 }
 
 java {
@@ -43,6 +47,8 @@ tasks {
 
     shadowJar {
         relocate("org.lushplugins.chatcolorhandler", "org.lushplugins.lushlib.libraries.chatcolor")
+        relocate("com.fasterxml.jackson", "org.lushplugins.lushlib.libraries.jackson")
+        relocate("org.yaml", "org.lushplugins.lushlib.libraries.yaml")
 
         archiveFileName.set("${project.name}-${project.version}.jar")
     }
