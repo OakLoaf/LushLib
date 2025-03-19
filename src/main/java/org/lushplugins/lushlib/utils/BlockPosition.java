@@ -3,6 +3,7 @@ package org.lushplugins.lushlib.utils;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 
 import java.util.Objects;
 
@@ -23,6 +24,10 @@ public record BlockPosition(World world, int x, int y, int z) {
 
     public static BlockPosition from(Block block) {
         return new BlockPosition(block.getWorld(), block.getX(), block.getY(), block.getZ());
+    }
+
+    public static BlockPosition from(BlockState blockState) {
+        return new BlockPosition(blockState.getWorld(), blockState.getX(), blockState.getY(), blockState.getZ());
     }
 
     public static BlockPosition adapt(Location location) {
