@@ -35,7 +35,19 @@ public record BlockPosition(World world, int x, int y, int z) {
         return new BlockPosition(blockState.getWorld(), blockState.getX(), blockState.getY(), blockState.getZ());
     }
 
-    public static BlockPosition adapt(Location location) {
+    public static BlockPosition from(Location location) {
         return new BlockPosition(location.getWorld(), location.getBlockX(), location.getBlockY(), location.getBlockZ());
+    }
+
+    /**
+     * @see BlockPosition#from(Location)
+     */
+    @Deprecated
+    public static BlockPosition adapt(Location location) {
+        return BlockPosition.from(location);
+    }
+
+    public static BlockPosition from(World world, Vector3i position) {
+        return new BlockPosition(world, position.x(), position.y(), position.z());
     }
 }
