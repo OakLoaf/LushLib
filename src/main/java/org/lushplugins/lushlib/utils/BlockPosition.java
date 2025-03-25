@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
+import org.joml.Vector3i;
 
 import java.util.Objects;
 
@@ -20,6 +21,10 @@ public record BlockPosition(World world, int x, int y, int z) {
         if (o == null || getClass() != o.getClass()) return false;
         BlockPosition that = (BlockPosition) o;
         return Double.compare(that.x, x) == 0 && Double.compare(that.y, y) == 0 && Double.compare(that.z, z) == 0 && Objects.equals(world, that.world);
+    }
+
+    public Vector3i asVector() {
+        return new Vector3i(x, y, z);
     }
 
     public static BlockPosition from(Block block) {
