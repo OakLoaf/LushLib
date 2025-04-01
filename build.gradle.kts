@@ -27,7 +27,7 @@ dependencies {
 
     // Libraries
     compileOnlyApi("org.jetbrains:annotations:26.0.2") // JetBrains Annotations
-    implementation("org.lushplugins:ChatColorHandler:5.1.3")
+    implementation("org.lushplugins:ChatColorHandler:5.1.5")
     implementation("com.fasterxml.jackson.core:jackson-core:2.15.2") // Jackson
     implementation("com.fasterxml.jackson.core:jackson-annotations:2.15.2") // Jackson
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.15.2") // Jackson
