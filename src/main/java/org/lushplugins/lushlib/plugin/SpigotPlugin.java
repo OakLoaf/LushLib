@@ -34,13 +34,39 @@ public abstract class SpigotPlugin extends JavaPlugin {
     protected ConcurrentHashMap<String, Hook> hooks = new ConcurrentHashMap<>();
     protected ConcurrentHashMap<String, Command> commands = new ConcurrentHashMap<>();
 
-    public void debug(@NotNull String message, @NotNull Throwable... throwable) {
+    public void debug(@NotNull String message) {
+        log(Level.FINE, message);
+    }
+
+    public void debug(@NotNull String message, @NotNull Throwable throwable) {
         log(Level.FINE, message, throwable);
     }
 
-    public void log(@NotNull Level level, @NotNull String message, @NotNull Throwable... throwable) {
-        if (throwable.length > 0) {
-            getLogger().log(level, message, throwable);
+    /**
+     * @see SpigotPlugin#debug(String, Throwable)
+     */
+    @Deprecated
+    public void debug(@NotNull String message, @NotNull Throwable... throwables) {
+        log(Level.FINE, message, throwables);
+    }
+
+    public void log(@NotNull Level level, @NotNull String message) {
+        getLogger().log(level, message);
+    }
+
+    public void log(@NotNull Level level, @NotNull String message, @NotNull Throwable throwable) {
+        getLogger().log(level, message, throwable);
+    }
+
+    /**
+     * @see SpigotPlugin#log(Level, String, Throwable)
+     */
+    @Deprecated
+    public void log(@NotNull Level level, @NotNull String message, @NotNull Throwable... throwables) {
+        if (throwables.length > 0) {
+            for (Throwable throwable : throwables) {
+                getLogger().log(level, message, throwable);
+            }
         } else {
             getLogger().log(level, message);
         }
