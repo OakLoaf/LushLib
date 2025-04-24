@@ -42,36 +42,6 @@ public abstract class SpigotPlugin extends JavaPlugin {
         log(Level.FINE, message, throwable);
     }
 
-    /**
-     * @see SpigotPlugin#debug(String, Throwable)
-     */
-    @Deprecated
-    public void debug(@NotNull String message, @NotNull Throwable... throwables) {
-        log(Level.FINE, message, throwables);
-    }
-
-    public void log(@NotNull Level level, @NotNull String message) {
-        getLogger().log(level, message);
-    }
-
-    public void log(@NotNull Level level, @NotNull String message, @NotNull Throwable throwable) {
-        getLogger().log(level, message, throwable);
-    }
-
-    /**
-     * @see SpigotPlugin#log(Level, String, Throwable)
-     */
-    @Deprecated
-    public void log(@NotNull Level level, @NotNull String message, @NotNull Throwable... throwables) {
-        if (throwables.length > 0) {
-            for (Throwable throwable : throwables) {
-                getLogger().log(level, message, throwable);
-            }
-        } else {
-            getLogger().log(level, message);
-        }
-    }
-
     public Collection<Module> getModules() {
         return modules.values();
     }
@@ -225,6 +195,44 @@ public abstract class SpigotPlugin extends JavaPlugin {
 
         if (!file.renameTo(new File(parent, FilenameUtils.removeExtension(name) + "-old-" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy--HH-mm-ss")) + ".yml"))) {
             this.getLogger().severe("Failed to rename file '" + name + "'");
+        }
+    }
+
+    public void debug(@NotNull String message) {
+        log(Level.FINE, message);
+    }
+
+    public void debug(@NotNull String message, @NotNull Throwable throwable) {
+        log(Level.FINE, message, throwable);
+    }
+
+    /**
+     * @see SpigotPlugin#debug(String, Throwable)
+     */
+    @Deprecated
+    public void debug(@NotNull String message, @NotNull Throwable... throwables) {
+        log(Level.FINE, message, throwables);
+    }
+
+    public void log(@NotNull Level level, @NotNull String message) {
+        getLogger().log(level, message);
+    }
+
+    public void log(@NotNull Level level, @NotNull String message, @NotNull Throwable throwable) {
+        getLogger().log(level, message, throwable);
+    }
+
+    /**
+     * @see SpigotPlugin#log(Level, String, Throwable)
+     */
+    @Deprecated
+    public void log(@NotNull Level level, @NotNull String message, @NotNull Throwable... throwables) {
+        if (throwables.length > 0) {
+            for (Throwable throwable : throwables) {
+                getLogger().log(level, message, throwable);
+            }
+        } else {
+            getLogger().log(level, message);
         }
     }
 }
