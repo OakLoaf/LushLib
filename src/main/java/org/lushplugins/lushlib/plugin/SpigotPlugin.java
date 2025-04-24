@@ -34,12 +34,18 @@ public abstract class SpigotPlugin extends JavaPlugin {
     protected ConcurrentHashMap<String, Hook> hooks = new ConcurrentHashMap<>();
     protected ConcurrentHashMap<String, Command> commands = new ConcurrentHashMap<>();
 
-    public void debug(@NotNull String message) {
-        log(Level.FINE, message);
+    public void ifPluginPresent(String pluginName, Runnable runnable) {
+        if (getServer().getPluginManager().getPlugin(pluginName) != null) {
+            getLogger().info("Found plugin \"" + pluginName +"\". Enabling " + pluginName + " support.");
+            runnable.run();
+        }
     }
 
-    public void debug(@NotNull String message, @NotNull Throwable throwable) {
-        log(Level.FINE, message, throwable);
+    public void ifPluginEnabled(String pluginName, Runnable runnable) {
+        if (getServer().getPluginManager().getPlugin(pluginName) instanceof JavaPlugin plugin && plugin.isEnabled()) {
+            getLogger().info("Found plugin \"" + pluginName +"\". Enabling " + pluginName + " support.");
+            runnable.run();
+        }
     }
 
     public Collection<Module> getModules() {
@@ -124,12 +130,13 @@ public abstract class SpigotPlugin extends JavaPlugin {
         hooks.clear();
     }
 
+    /**
+     * @see SpigotPlugin#ifPluginEnabled(String, Runnable)
+     * @see SpigotPlugin#ifPluginPresent(String, Runnable)
+     */
+    @Deprecated
     public void addHook(String pluginName, Runnable runnable) {
-        PluginManager pluginManager = getServer().getPluginManager();
-        if (pluginManager.getPlugin(pluginName) instanceof JavaPlugin hookPlugin && hookPlugin.isEnabled()) {
-            getLogger().info("Found plugin \"" + pluginName +"\". Enabling " + pluginName + " support.");
-            runnable.run();
-        }
+        this.ifPluginPresent(pluginName, runnable);
     }
 
     public Command getLushCommand(String name) {
