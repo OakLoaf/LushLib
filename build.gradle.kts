@@ -21,7 +21,7 @@ dependencies {
     compileOnly("com.google.code.gson:gson:2.12.1") // TODO: Consider moving fully to jackson
 
     // Soft Dependencies
-    compileOnly("org.geysermc.floodgate:api:${findProperty("floodgateVersion")}-SNAPSHOT") {
+    compileOnly("org.geysermc.floodgate:api:2.2.2-SNAPSHOT") {
         exclude("com.google.code.gson", "gson")
     }
 
