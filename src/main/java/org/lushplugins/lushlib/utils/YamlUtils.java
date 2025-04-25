@@ -97,7 +97,7 @@ public class YamlUtils {
      * Load all yaml files in a directory
      * @param directory directory to read from
      */
-    private List<Pair<String, YamlConfiguration>> readConfigsInDirectory(File directory) {
+    public static List<Pair<String, YamlConfiguration>> readConfigsInDirectory(File directory) {
         List<Pair<String, YamlConfiguration>> configFiles = new ArrayList<>();
 
         try (
