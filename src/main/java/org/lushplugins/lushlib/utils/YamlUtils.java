@@ -1,11 +1,19 @@
 package org.lushplugins.lushlib.utils;
 
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
+import org.lushplugins.lushlib.LushLogger;
 import org.lushplugins.lushlib.config.ConfigSection;
 import org.lushplugins.lushlib.utils.converter.YamlConverter;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
+import java.util.logging.Level;
 
 public class YamlUtils {
 
@@ -83,5 +91,29 @@ public class YamlUtils {
     @Deprecated(forRemoval = true)
     public static void setDisplayItem(ConfigurationSection section, DisplayItemStack item) {
         YamlConverter.setDisplayItem(section, item);
+    }
+
+    /**
+     * Load all yaml files in a directory
+     * @param directory directory to read from
+     */
+    private List<Pair<String, YamlConfiguration>> readConfigsInDirectory(File directory) {
+        List<Pair<String, YamlConfiguration>> configFiles = new ArrayList<>();
+
+        try (
+            DirectoryStream<Path> fileStream = Files.newDirectoryStream(directory.toPath(), "*.yml")
+        ) {
+            for (Path filePath : fileStream) {
+                File file = filePath.toFile();
+                configFiles.add(new Pair<>(
+                    file.getName(),
+                    YamlConfiguration.loadConfiguration(file)
+                ));
+            }
+        } catch (IOException e) {
+            LushLogger.getLogger().log(Level.WARNING, "Caught error whilst loading config files: ", e);
+        }
+
+        return configFiles;
     }
 }
