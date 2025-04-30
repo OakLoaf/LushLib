@@ -2,6 +2,8 @@ package org.lushplugins.lushlib.gui.inventory;
 
 import com.google.common.collect.TreeMultimap;
 import org.jetbrains.annotations.Nullable;
+import org.lushplugins.lushlib.gui.button.Button;
+import org.lushplugins.lushlib.gui.button.SimpleItemButton;
 import org.lushplugins.lushlib.utils.DisplayItemStack;
 
 import java.util.ArrayList;
@@ -9,9 +11,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+// TODO: Refactor to GuiLayer
 public class GuiFormat {
     private final List<String> rows;
-    private final HashMap<Character, DisplayItemStack> items = new HashMap<>();
+    private final HashMap<Character, Button> buttons = new HashMap<>();
 
     public GuiFormat() {
         this.rows = new ArrayList<>();
@@ -60,12 +63,32 @@ public class GuiFormat {
         return rows.size() * 9;
     }
 
-    public @Nullable DisplayItemStack getItemReference(char character) {
-        return items.get(character);
+    public Button getButton(char character) {
+        return buttons.get(character);
     }
 
+    public void setButton(char character, Button button) {
+        buttons.put(character, button);
+    }
+
+    /**
+     * @see GuiFormat#getButton(char)
+     */
+    @Deprecated
+    public @Nullable DisplayItemStack getItemReference(char character) {
+        if (buttons.get(character) instanceof SimpleItemButton button) {
+            return button.getItem();
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * @see GuiFormat#setButton(char, Button)
+     */
+    @Deprecated
     public void setItemReference(char character, DisplayItemStack item) {
-        items.put(character, item);
+        buttons.put(character, new SimpleItemButton(item, (ignored) -> {}));
     }
 
     public TreeMultimap<Character, Integer> getSlotMap() {

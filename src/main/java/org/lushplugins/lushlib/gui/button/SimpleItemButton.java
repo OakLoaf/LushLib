@@ -3,6 +3,7 @@ package org.lushplugins.lushlib.gui.button;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Nullable;
 import org.lushplugins.lushlib.utils.DisplayItemStack;
 
 import java.util.function.Consumer;
@@ -24,7 +25,7 @@ public class SimpleItemButton extends ItemButton {
     }
 
     @Override
-    public ItemStack getItemStack(Player player) {
-        return item.asItemStack();
+    public ItemStack getItemStack(@Nullable Player player) {
+        return item.asItemStack(player);
     }
 }

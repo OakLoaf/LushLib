@@ -2,30 +2,32 @@ package org.lushplugins.lushlib.gui.inventory;
 
 import com.google.common.collect.TreeMultimap;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.lushplugins.lushlib.utils.DisplayItemStack;
+import org.jetbrains.annotations.NotNull;
+import org.lushplugins.lushlib.gui.button.Button;
+
+import java.util.Collections;
+import java.util.List;
 
 public class SimpleGui extends Gui {
-    private final GuiFormat format;
 
-    public SimpleGui(GuiFormat format, String title, Player player) {
-        super(format.getSize(), title, player);
-        this.format = format;
+    public SimpleGui(@NotNull List<GuiFormat> layers, String title, Player player) {
+        super(layers.get(0).getSize(), title, player);
+        layers.forEach(this::applyLayer);
     }
 
-    @Override
-    public void refresh() {
-        super.refresh();
+    public SimpleGui(GuiFormat layer, String title, Player player) {
+        this(Collections.singletonList(layer), title, player);
+    }
 
-        TreeMultimap<Character, Integer> slotMap = format.getSlotMap();
+    public void applyLayer(GuiFormat layer) {
+        TreeMultimap<Character, Integer> slotMap = layer.getSlotMap();
         for (char character : slotMap.keySet()) {
-            DisplayItemStack displayItem = format.getItemReference(character);
-            if (displayItem == null) {
+            Button button = layer.getButton(character);
+            if (button == null) {
                 continue;
             }
 
-            ItemStack itemStack = displayItem.asItemStack(this.getPlayer());
-            slotMap.get(character).forEach(slot -> this.getInventory().setItem(slot, itemStack));
+            slotMap.get(character).forEach(slot -> this.addButton(slot, button));
         }
     }
 }

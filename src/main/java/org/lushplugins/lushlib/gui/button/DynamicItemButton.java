@@ -3,6 +3,7 @@ package org.lushplugins.lushlib.gui.button;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.Callable;
 import java.util.function.Consumer;
@@ -16,7 +17,7 @@ public class DynamicItemButton extends ItemButton {
     }
 
     @Override
-    public ItemStack getItemStack(Player player) {
+    public ItemStack getItemStack(@Nullable Player player) {
         try {
             return callableItem.call();
         } catch (Exception e) {

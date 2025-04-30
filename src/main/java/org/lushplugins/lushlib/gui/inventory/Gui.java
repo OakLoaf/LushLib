@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
+// TODO: Refactor out of 'inventory' package
 @SuppressWarnings("unused")
 public abstract class Gui {
     static {
