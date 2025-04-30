@@ -10,16 +10,16 @@ import java.util.List;
 
 public class SimpleGui extends Gui {
 
-    public SimpleGui(@NotNull List<GuiFormat> layers, String title, Player player) {
+    public SimpleGui(@NotNull List<GuiLayer> layers, String title, Player player) {
         super(layers.get(0).getSize(), title, player);
         layers.forEach(this::applyLayer);
     }
 
-    public SimpleGui(GuiFormat layer, String title, Player player) {
+    public SimpleGui(GuiLayer layer, String title, Player player) {
         this(Collections.singletonList(layer), title, player);
     }
 
-    public void applyLayer(GuiFormat layer) {
+    public void applyLayer(GuiLayer layer) {
         TreeMultimap<Character, Integer> slotMap = layer.getSlotMap();
         for (char character : slotMap.keySet()) {
             Button button = layer.getButton(character);
