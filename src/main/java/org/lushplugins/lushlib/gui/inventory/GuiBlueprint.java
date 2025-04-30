@@ -1,0 +1,37 @@
+package org.lushplugins.lushlib.gui.inventory;
+
+import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class GuiBlueprint {
+    private final String title;
+    private final List<GuiLayer> layers;
+
+    public GuiBlueprint(String title, List<GuiLayer> layers) {
+        this.title = title;
+        this.layers = new ArrayList<>(layers);
+    }
+
+    public GuiBlueprint(String title) {
+        this.title = title;
+        this.layers = new ArrayList<>();
+    }
+
+    public String getTitle() {
+        return this.title;
+    }
+
+    public List<GuiLayer> getLayers() {
+        return this.layers;
+    }
+
+    public void addLayer(GuiLayer layer) {
+        this.layers.add(layer);
+    }
+
+    public SimpleGui constructFor(Player player) {
+        return new SimpleGui(this.layers, this.title, player);
+    }
+}
