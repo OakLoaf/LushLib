@@ -18,7 +18,7 @@ repositories {
 dependencies {
     // Dependencies
     compileOnly("org.spigotmc:spigot:1.20.1-R0.1-SNAPSHOT")
-    compileOnly("com.google.code.gson:gson:2.12.1") // TODO: Consider moving fully to jackson
+    compileOnly("com.google.code.gson:gson:2.13.1") // TODO: Consider moving fully to jackson
 
     // Soft Dependencies
     compileOnly("org.geysermc.floodgate:api:2.2.2-SNAPSHOT") {
