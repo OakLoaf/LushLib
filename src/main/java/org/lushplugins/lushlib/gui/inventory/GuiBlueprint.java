@@ -3,6 +3,7 @@ package org.lushplugins.lushlib.gui.inventory;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class GuiBlueprint {
@@ -14,9 +15,12 @@ public class GuiBlueprint {
         this.layers = new ArrayList<>(layers);
     }
 
+    public GuiBlueprint(String title, GuiLayer layer) {
+        this(title, Collections.singletonList(layer));
+    }
+
     public GuiBlueprint(String title) {
-        this.title = title;
-        this.layers = new ArrayList<>();
+        this(title, Collections.emptyList());
     }
 
     public String getTitle() {
