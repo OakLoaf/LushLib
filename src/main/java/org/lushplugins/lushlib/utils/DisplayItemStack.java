@@ -1,7 +1,6 @@
 package org.lushplugins.lushlib.utils;
 
 import com.fasterxml.jackson.annotation.*;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -14,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import org.lushplugins.chatcolorhandler.ChatColorHandler;
 
 import java.util.*;
+import java.util.function.Function;
 
 @JsonAutoDetect(
     isGetterVisibility = JsonAutoDetect.Visibility.NONE,
@@ -407,6 +407,24 @@ public class DisplayItemStack {
 
         public Builder setSkullTexture(@Nullable String texture) {
             this.skullTexture = texture;
+            return this;
+        }
+
+        public Builder replace(CharSequence target, CharSequence replacement) {
+            this.displayName = this.displayName.replace(target, replacement);
+            this.lore = this.lore.stream()
+                .map(line -> line.replace(target, replacement))
+                .toList();
+
+            return this;
+        }
+
+        public Builder replace(Function<String, String> replacer) {
+            this.displayName = replacer.apply(this.displayName);
+            this.lore = this.lore.stream()
+                .map(replacer)
+                .toList();
+
             return this;
         }
 

@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 
 public class GuiBlueprint {
     private final String title;
@@ -33,6 +34,10 @@ public class GuiBlueprint {
 
     public void addLayer(GuiLayer layer) {
         this.layers.add(layer);
+    }
+
+    public SimpleGui constructFor(Player player, Function<String, String> parser) {
+        return new SimpleGui(this.layers, this.title, player);
     }
 
     public SimpleGui constructFor(Player player) {
