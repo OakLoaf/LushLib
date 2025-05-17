@@ -11,6 +11,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Deprecated in favour of using <a href="https://github.com/Revxrsal/Lamp">https://github.com/Revxrsal/Lamp</a>
+ */
+@Deprecated
 public abstract class Command extends SubCommand implements CommandExecutor, TabCompleter {
 
     public Command(String name) {

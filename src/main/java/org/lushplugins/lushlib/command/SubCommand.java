@@ -12,6 +12,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Callable;
 
+/**
+ * Deprecated in favour of using <a href="https://github.com/Revxrsal/Lamp">https://github.com/Revxrsal/Lamp</a>
+ */
+@Deprecated
 @SuppressWarnings("unused")
 public abstract class SubCommand {
     private final String name;
