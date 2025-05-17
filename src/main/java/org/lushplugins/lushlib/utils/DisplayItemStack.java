@@ -11,9 +11,12 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.lushplugins.chatcolorhandler.ChatColorHandler;
+import org.lushplugins.lushlib.LushLogger;
 
 import java.util.*;
+import java.util.concurrent.Callable;
 import java.util.function.Function;
+import java.util.logging.Level;
 
 @JsonAutoDetect(
     isGetterVisibility = JsonAutoDetect.Visibility.NONE,
@@ -415,6 +418,21 @@ public class DisplayItemStack {
             this.lore = this.lore.stream()
                 .map(line -> line.replace(target, replacement))
                 .toList();
+
+            return this;
+        }
+
+        public Builder replace(CharSequence target, Callable<String> callableReplacement) {
+            if (!this.displayName.contains(target) && this.lore.stream().noneMatch(str -> str.contains(target))) {
+                return this;
+            }
+
+            try {
+                String replacement = callableReplacement.call();
+                return replace(target, replacement);
+            } catch (Exception e) {
+                LushLogger.getLogger().log(Level.SEVERE, "Caught exception whilst parsing replacement: ", e);
+            }
 
             return this;
         }
