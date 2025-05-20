@@ -80,7 +80,7 @@ public class Gui {
         return buttons.get(slot);
     }
 
-    public ImmutableMap<Integer, Button> getButtons() {
+    public Map<Integer, Button> getButtons() {
         return ImmutableMap.copyOf(buttons);
     }
 
