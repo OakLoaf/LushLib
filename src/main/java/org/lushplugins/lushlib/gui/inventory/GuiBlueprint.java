@@ -36,11 +36,12 @@ public class GuiBlueprint {
         this.layers.add(layer);
     }
 
-    public SimpleGui constructFor(Player player, Function<String, String> parser) {
-        return new SimpleGui(this.layers, this.title, player);
+    // TODO
+    public Gui constructFor(Player player, Function<String, String> parser) {
+        return new Gui(this.layers, this.title, player);
     }
 
-    public SimpleGui constructFor(Player player) {
-        return new SimpleGui(this.layers, this.title, player);
+    public Gui constructFor(Player player) {
+        return new Gui(this.layers, this.title, player);
     }
 }

@@ -1,6 +1,8 @@
 package org.lushplugins.lushlib.gui.inventory;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.TreeMultimap;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.lushplugins.lushlib.LushLib;
 import org.lushplugins.lushlib.gui.button.Button;
@@ -15,6 +17,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.lushplugins.lushlib.utils.DisplayItemStack;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -22,7 +25,7 @@ import java.util.function.Consumer;
 
 // TODO: Refactor out of 'inventory' package
 @SuppressWarnings("unused")
-public abstract class Gui {
+public class Gui {
     static {
         LushLib.getInstance().getPlugin().registerManager(new GuiManager());
     }
@@ -40,6 +43,15 @@ public abstract class Gui {
     public Gui(InventoryType inventoryType, String title, Player player) {
         inventory = Bukkit.getServer().createInventory(null, inventoryType, title);
         this.player = player;
+    }
+
+    public Gui(@NotNull List<GuiLayer> layers, String title, Player player) {
+        this(layers.get(0).getSize(), title, player);
+        layers.forEach(this::applyLayer);
+    }
+
+    public Gui(GuiLayer layer, String title, Player player) {
+        this(Collections.singletonList(layer), title, player);
     }
 
     public Inventory getInventory() {
@@ -94,6 +106,18 @@ public abstract class Gui {
 
     public void clearButtons() {
         buttons.clear();
+    }
+
+    public void applyLayer(GuiLayer layer) {
+        TreeMultimap<Character, Integer> slotMap = layer.getSlotMap();
+        for (char character : slotMap.keySet()) {
+            Button button = layer.getButton(character);
+            if (button == null) {
+                continue;
+            }
+
+            slotMap.get(character).forEach(slot -> this.addButton(slot, button));
+        }
     }
 
     public void lockSlot(int slot) {
