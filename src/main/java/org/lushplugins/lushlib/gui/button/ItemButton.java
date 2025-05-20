@@ -9,6 +9,10 @@ import java.util.function.Consumer;
 
 public abstract class ItemButton extends Button {
 
+    public ItemButton() {
+        super();
+    }
+
     public ItemButton(Consumer<InventoryClickEvent> onClick) {
         super(onClick);
     }

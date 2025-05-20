@@ -11,6 +11,11 @@ import java.util.function.Consumer;
 public class SimpleItemButton extends ItemButton {
     private DisplayItemStack item;
 
+    public SimpleItemButton(DisplayItemStack item) {
+        super();
+        this.item = item;
+    }
+
     public SimpleItemButton(DisplayItemStack item, Consumer<InventoryClickEvent> onClick) {
         super(onClick);
         this.item = item;

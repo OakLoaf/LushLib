@@ -184,7 +184,7 @@ public abstract class Gui {
         Button button = buttons.get(slot);
         if (button != null) {
             try {
-                button.click(event);
+                button.onClick(event);
             } catch (Throwable e) {
                 e.printStackTrace();
             }
