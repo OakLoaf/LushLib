@@ -4,6 +4,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 import java.util.function.Consumer;
 
+// TODO: Look into Lamp's Factory implementations for Buttons
 public class Button {
     private Consumer<InventoryClickEvent> onClick;
 
