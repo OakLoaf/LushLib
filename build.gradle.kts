@@ -73,7 +73,7 @@ subprojects {
         publications {
             create<MavenPublication>("maven") {
                 groupId = rootProject.group.toString() + ".lushlib"
-                artifactId = rootProject.name + "-" + project.name
+                artifactId = project.name
                 version = rootProject.version.toString()
                 from(project.components["java"])
             }
