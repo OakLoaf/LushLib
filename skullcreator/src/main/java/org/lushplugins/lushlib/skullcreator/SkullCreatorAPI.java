@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 @SuppressWarnings("unused")
 public class SkullCreatorAPI {
     private static final SkullCreator INSTANCE;
-    protected static final Logger LOGGER = Logger.getLogger("SkullCreator");
+    public static final Logger LOGGER = Logger.getLogger("SkullCreator");
 
     static {
         String version = Bukkit.getBukkitVersion();
