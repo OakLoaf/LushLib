@@ -3,9 +3,15 @@ package org.lushplugins.lushlib.utils.converter;
 import org.bukkit.Material;
 import org.bukkit.Registry;
 import org.bukkit.configuration.ConfigurationSection;
+import org.jetbrains.annotations.NotNull;
+import org.lushplugins.lushlib.gui.button.Button;
+import org.lushplugins.lushlib.gui.button.SimpleItemButton;
+import org.lushplugins.lushlib.gui.inventory.GuiBlueprint;
+import org.lushplugins.lushlib.gui.inventory.GuiLayer;
 import org.lushplugins.lushlib.utils.DisplayItemStack;
 import org.lushplugins.lushlib.utils.IntRange;
 import org.lushplugins.lushlib.registry.RegistryUtils;
+import org.lushplugins.lushlib.utils.YamlUtils;
 
 import java.util.List;
 
@@ -78,5 +84,21 @@ public class YamlConverter {
         if (skullTexture != null) {
             section.set("skull-texture", skullTexture);
         }
+    }
+
+    public static GuiBlueprint getGuiBlueprint(@NotNull ConfigurationSection guiConfig) {
+        GuiLayer layer = new GuiLayer(guiConfig.getStringList("format"));
+
+        for (ConfigurationSection buttonSection : YamlUtils.getConfigurationSections(guiConfig, "buttons")) {
+            DisplayItemStack item = YamlConverter.getDisplayItem(buttonSection);
+            Button button = new SimpleItemButton(item, (ignored) -> {});
+
+            layer.setButton(buttonSection.getName().charAt(0), button);
+        }
+
+        return new GuiBlueprint(
+            guiConfig.getString("title"),
+            layer
+        );
     }
 }

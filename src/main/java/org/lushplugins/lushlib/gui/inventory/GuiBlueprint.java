@@ -1,5 +1,6 @@
 package org.lushplugins.lushlib.gui.inventory;
 
+import org.apache.commons.lang3.function.TriFunction;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -41,7 +42,19 @@ public class GuiBlueprint {
         return new Gui(this.layers, this.title, player);
     }
 
+    /**
+     * @see GuiBlueprint#constructSimple(Player)
+     */
+    @Deprecated
     public Gui constructFor(Player player) {
         return new Gui(this.layers, this.title, player);
+    }
+
+    public <T extends Gui> T construct(Player player, TriFunction<List<GuiLayer>, String, Player, T> constructor) {
+        return constructor.apply(this.layers, this.title, player);
+    }
+
+    public Gui constructSimple(Player player) {
+        return construct(player, Gui::new);
     }
 }

@@ -8,8 +8,8 @@ allprojects {
     apply(plugin = "java-library")
     apply(plugin = "maven-publish")
 
-    group = "org.lushplugins"
-    version = "0.10.71"
+group = "org.lushplugins"
+version = "0.10.73"
 
     repositories {
         mavenLocal()
@@ -83,7 +83,7 @@ subprojects {
 
 dependencies {
     // Dependencies
-    compileOnly("com.google.code.gson:gson:2.12.1") // TODO: Consider moving fully to jackson
+    compileOnly("com.google.code.gson:gson:2.13.1") // TODO: Consider moving fully to jackson
 
     // Soft Dependencies
     compileOnly("org.geysermc.floodgate:api:2.2.2-SNAPSHOT") {
@@ -95,9 +95,9 @@ dependencies {
 
     // Libraries
     implementation("org.lushplugins:ChatColorHandler:5.1.3")
-    implementation("com.fasterxml.jackson.core:jackson-core:2.15.2") // Jackson
-    implementation("com.fasterxml.jackson.core:jackson-annotations:2.15.2") // Jackson
-    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.15.2") // Jackson
+    implementation("com.fasterxml.jackson.core:jackson-core:2.19.0") // Jackson
+    implementation("com.fasterxml.jackson.core:jackson-annotations:2.19.0") // Jackson
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.19.0") // Jackson
 }
 
 tasks {
