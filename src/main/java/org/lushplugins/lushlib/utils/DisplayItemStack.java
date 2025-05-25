@@ -12,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.lushplugins.chatcolorhandler.ChatColorHandler;
 import org.lushplugins.lushlib.LushLogger;
+import org.lushplugins.lushlib.skullcreator.SkullCreatorAPI;
 
 import java.util.*;
 import java.util.concurrent.Callable;
@@ -219,12 +220,12 @@ public class DisplayItemStack {
 
             if (itemMeta instanceof SkullMeta skullMeta && skullTexture != null) {
                 if (skullTexture.equals("mirror") && player != null) {
-                    String playerB64 = SkullCreator.getTexture(player);
+                    String playerB64 = SkullCreatorAPI.getTexture(player);
                     if (playerB64 != null) {
-                        SkullCreator.mutateItemMeta(skullMeta, playerB64);
+                        SkullCreatorAPI.mutateItemMeta(skullMeta, playerB64);
                     }
                 } else {
-                    SkullCreator.mutateItemMeta(skullMeta, skullTexture);
+                    SkullCreatorAPI.mutateItemMeta(skullMeta, skullTexture);
                 }
             }
 
@@ -269,7 +270,7 @@ public class DisplayItemStack {
             }
 
             if (itemMeta instanceof SkullMeta) {
-                itemBuilder.setSkullTexture(SkullCreator.getB64(item));
+                itemBuilder.setSkullTexture(SkullCreatorAPI.getB64(item));
             }
         }
 

@@ -1,22 +1,23 @@
-package org.lushplugins.lushlib.utils.skullcreator;
+package org.lushplugins.lushlib.skullcreator.type;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-import org.bukkit.OfflinePlayer;
-import org.lushplugins.lushlib.LushLogger;
-import org.lushplugins.lushlib.utils.SkullCreator;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.Nullable;
+import org.lushplugins.lushlib.skullcreator.SkullCreator;
+import org.lushplugins.lushlib.skullcreator.SkullCreatorAPI;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.UUID;
+import java.util.logging.Level;
 
-public class LegacySkullCreator implements SkullCreator.Interface {
+public class LegacySkullCreator implements SkullCreator {
     private Method skullMetaSetProfileMethod;
     private Field skullMetaProfileField;
 
@@ -39,7 +40,7 @@ public class LegacySkullCreator implements SkullCreator.Interface {
             }
 
             skullMetaSetProfileMethod.invoke(meta, makeProfile(b64));
-        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException var5) {
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             try {
                 if (skullMetaProfileField == null) {
                     skullMetaProfileField = meta.getClass().getDeclaredField("profile");
@@ -47,8 +48,8 @@ public class LegacySkullCreator implements SkullCreator.Interface {
                 }
 
                 skullMetaProfileField.set(meta, makeProfile(b64));
-            } catch (IllegalAccessException | NoSuchFieldException var4) {
-                var4.printStackTrace();
+            } catch (IllegalAccessException | NoSuchFieldException e2) {
+                SkullCreatorAPI.LOGGER.log(Level.SEVERE, "Caught error whilst mutating skull meta: ", e);
             }
         }
     }
@@ -68,6 +69,7 @@ public class LegacySkullCreator implements SkullCreator.Interface {
                     return property.getValue();
                 }
             }
+
             return null;
         } catch (Exception exception) {
             return null;
@@ -100,11 +102,12 @@ public class LegacySkullCreator implements SkullCreator.Interface {
             id = new UUID(b64.substring(b64.length() - 20).hashCode(), b64.substring(b64.length() - 10).hashCode());
         } catch (StringIndexOutOfBoundsException ex) {
             if (b64.length() == 0) {
-                LushLogger.getLogger().warning("Missing base64 texture found - check your config");
+                SkullCreatorAPI.LOGGER.warning("Missing base64 texture found - check your config");
             } else {
-                LushLogger.getLogger().warning("Invalid base64 texture (" + b64 + ") found - check your config");
+                SkullCreatorAPI.LOGGER.warning("Invalid base64 texture (" + b64 + ") found - check your config");
             }
         }
+
         GameProfile profile = new GameProfile(id, "Player");
         profile.getProperties().put("textures", new Property("textures", b64));
         return profile;

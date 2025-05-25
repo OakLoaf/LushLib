@@ -15,6 +15,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.lushplugins.lushlib.registry.RegistryUtils;
+import org.lushplugins.lushlib.skullcreator.SkullCreatorAPI;
 
 import java.util.HashMap;
 import java.util.List;
@@ -69,7 +70,7 @@ public class SimpleItemStack implements Cloneable {
                 customModelData = itemMeta.getCustomModelData();
             }
             if (itemMeta instanceof SkullMeta) {
-                skullTexture = SkullCreator.getB64(itemStack);
+                skullTexture = SkullCreatorAPI.getB64(itemStack);
             }
         }
     }
@@ -323,12 +324,12 @@ public class SimpleItemStack implements Cloneable {
             }
             if (itemMeta instanceof SkullMeta skullMeta && skullTexture != null) {
                 if (skullTexture.equals("mirror") && player != null) {
-                    String playerB64 = SkullCreator.getTexture(player);
+                    String playerB64 = SkullCreatorAPI.getTexture(player);
                     if (playerB64 != null) {
-                        SkullCreator.mutateItemMeta(skullMeta, playerB64);
+                        SkullCreatorAPI.mutateItemMeta(skullMeta, playerB64);
                     }
                 } else {
-                    SkullCreator.mutateItemMeta(skullMeta, skullTexture);
+                    SkullCreatorAPI.mutateItemMeta(skullMeta, skullTexture);
                 }
             }
 

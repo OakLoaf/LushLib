@@ -1,18 +1,18 @@
-package org.lushplugins.lushlib.utils.skullcreator;
+package org.lushplugins.lushlib.skullcreator.type;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import org.bukkit.OfflinePlayer;
-import org.jetbrains.annotations.NotNull;
-import org.lushplugins.lushlib.LushLogger;
-import org.lushplugins.lushlib.utils.SkullCreator;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.profile.PlayerProfile;
 import org.bukkit.profile.PlayerTextures;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.lushplugins.lushlib.skullcreator.SkullCreator;
+import org.lushplugins.lushlib.skullcreator.SkullCreatorAPI;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -20,7 +20,7 @@ import java.util.Base64;
 import java.util.UUID;
 import java.util.logging.Level;
 
-public class NewSkullCreator implements SkullCreator.Interface {
+public class ModernSkullCreator implements SkullCreator {
 
     public ItemStack getCustomSkull(String texture) {
         ItemStack item = new ItemStack(Material.PLAYER_HEAD);
@@ -61,7 +61,7 @@ public class NewSkullCreator implements SkullCreator.Interface {
             URL skinUrl = skullMeta.getOwnerProfile().getTextures().getSkin();
             return skinUrl != null ? getBase64FromUrl(skinUrl) : null;
         } catch (Exception e) {
-            LushLogger.getLogger().log(Level.WARNING, "Caught error whilst parsing skull item:", e);
+            SkullCreatorAPI.LOGGER.log(Level.WARNING, "Caught error whilst parsing skull item:", e);
             return null;
         }
     }
@@ -77,9 +77,9 @@ public class NewSkullCreator implements SkullCreator.Interface {
             id = new UUID(b64.substring(b64.length() - 20).hashCode(), b64.substring(b64.length() - 10).hashCode());
         } catch (StringIndexOutOfBoundsException ex) {
             if (b64.length() == 0) {
-                LushLogger.getLogger().warning("Missing base64 texture found - check your config");
+                SkullCreatorAPI.LOGGER.warning("Missing base64 texture found - check your config");
             } else {
-                LushLogger.getLogger().warning("Invalid base64 texture (" + b64 + ") found - check your config");
+                SkullCreatorAPI.LOGGER.warning("Invalid base64 texture (" + b64 + ") found - check your config");
             }
         }
 
@@ -103,7 +103,7 @@ public class NewSkullCreator implements SkullCreator.Interface {
         try {
             decoded = data.get("textures").getAsJsonObject().get("skin").getAsJsonObject().get("url").getAsString();
         } catch (NullPointerException e) {
-            LushLogger.getLogger().severe(base64 + " does not appear to be a valid texture.");
+            SkullCreatorAPI.LOGGER.severe(base64 + " does not appear to be a valid texture.");
             return null;
         }
 
