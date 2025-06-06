@@ -94,7 +94,7 @@ dependencies {
     api(project(":skullcreator"))
 
     // Libraries
-    implementation("org.lushplugins:ChatColorHandler:5.1.3")
+    implementation("org.lushplugins:ChatColorHandler:5.1.6")
     implementation("com.fasterxml.jackson.core:jackson-core:2.19.0") // Jackson
     implementation("com.fasterxml.jackson.core:jackson-annotations:2.19.0") // Jackson
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.19.0") // Jackson
