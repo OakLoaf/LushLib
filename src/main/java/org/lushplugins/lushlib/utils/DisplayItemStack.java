@@ -43,7 +43,7 @@ public class DisplayItemStack {
         @Nullable Material material,
 
         @JsonProperty("amount")
-        @NotNull IntRange amount,
+        @Nullable IntRange amount,
 
         @JsonProperty("displayName")
         @JsonAlias("display-name")
@@ -65,7 +65,7 @@ public class DisplayItemStack {
         @Nullable String skullTexture
     ) {
         this.material = material;
-        this.amount = amount;
+        this.amount = amount != null ? amount : new IntRange(1);
         this.displayName = displayName;
         this.lore = lore != null ? Collections.unmodifiableList(lore) : null;
         this.enchantGlow = enchantGlow;
