@@ -95,8 +95,8 @@ dependencies {
 
     // Libraries
     implementation("org.lushplugins:ChatColorHandler:5.1.6")
-    implementation("com.fasterxml.jackson.core:jackson-core:2.19.0") // Jackson
-    implementation("com.fasterxml.jackson.core:jackson-annotations:2.19.0") // Jackson
+    implementation("com.fasterxml.jackson.core:jackson-core:2.19.1") // Jackson
+    implementation("com.fasterxml.jackson.core:jackson-annotations:2.19.1") // Jackson
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.19.0") // Jackson
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.17.1") // Jackson (DataTypes)
 }
