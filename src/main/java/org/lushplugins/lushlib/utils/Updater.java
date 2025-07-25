@@ -22,6 +22,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Use <a href="https://github.com/OakLoaf/PluginUpdater">PluginUpdater</a> instead
+ */
+@Deprecated
 @SuppressWarnings("unused")
 public class Updater {
     private static final ScheduledExecutorService updateExecutor = Executors.newScheduledThreadPool(1);
