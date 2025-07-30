@@ -51,6 +51,14 @@ public abstract class UserCache<T> {
         userCache.remove(uuid);
     }
 
+    public void onUserConnect(PlayerJoinEvent event) {
+        this.loadUser(event.getPlayer().getUniqueId(), true);
+    }
+
+    public void onUserDisconnect(PlayerQuitEvent event) {
+        this.unloadUser(event.getPlayer().getUniqueId());
+    }
+
     public static class Listener<T> implements org.bukkit.event.Listener {
         private final UserCache<T> cache;
 
@@ -60,12 +68,12 @@ public abstract class UserCache<T> {
 
         @EventHandler
         public void onPlayerJoin(PlayerJoinEvent event) {
-            this.cache.loadUser(event.getPlayer().getUniqueId(), true);
+            this.cache.onUserConnect(event);
         }
 
         @EventHandler
         public void onPlayerQuit(PlayerQuitEvent event) {
-            this.cache.unloadUser(event.getPlayer().getUniqueId());
+            this.cache.onUserDisconnect(event);
         }
     }
 }
