@@ -12,10 +12,15 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 public abstract class UserCache<T> {
-    private final Map<UUID, T> userCache = new HashMap<>();
+    private final Map<UUID, T> userCache;
+
+    public UserCache(JavaPlugin plugin, Map<UUID, T> cache) {
+        this.userCache = cache;
+        plugin.getServer().getPluginManager().registerEvents(new Listener<>(this), plugin);
+    }
 
     public UserCache(JavaPlugin plugin) {
-        plugin.getServer().getPluginManager().registerEvents(new Listener<>(this), plugin);
+        this(plugin, new HashMap<>());
     }
 
     public @Nullable T getCachedUser(UUID uuid) {
