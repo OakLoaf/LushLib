@@ -12,7 +12,7 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 public abstract class UserCache<T> {
-    private final Map<UUID, T> userCache;
+    protected final Map<UUID, T> userCache;
 
     public UserCache(JavaPlugin plugin, Map<UUID, T> cache, @Nullable org.bukkit.event.Listener listener) {
         this.userCache = cache;
