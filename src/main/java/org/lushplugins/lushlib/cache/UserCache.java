@@ -14,9 +14,20 @@ import java.util.concurrent.CompletableFuture;
 public abstract class UserCache<T> {
     private final Map<UUID, T> userCache;
 
+    public UserCache(JavaPlugin plugin, Map<UUID, T> cache, @Nullable org.bukkit.event.Listener listener) {
+        this.userCache = cache;
+        if (listener != null) {
+            plugin.getServer().getPluginManager().registerEvents(listener, plugin);
+        }
+    }
+
     public UserCache(JavaPlugin plugin, Map<UUID, T> cache) {
         this.userCache = cache;
         plugin.getServer().getPluginManager().registerEvents(new Listener<>(this), plugin);
+    }
+
+    public UserCache(JavaPlugin plugin, org.bukkit.event.Listener listener) {
+        this(plugin, new HashMap<>(), listener);
     }
 
     public UserCache(JavaPlugin plugin) {
