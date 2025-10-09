@@ -83,7 +83,7 @@ subprojects {
 
 dependencies {
     // Dependencies
-    compileOnly("com.google.code.gson:gson:2.13.1") // TODO: Consider moving fully to jackson
+    compileOnly("com.google.code.gson:gson:2.13.2") // TODO: Consider moving fully to jackson
 
     // Soft Dependencies
     compileOnly("org.geysermc.floodgate:api:2.2.4-SNAPSHOT") {
