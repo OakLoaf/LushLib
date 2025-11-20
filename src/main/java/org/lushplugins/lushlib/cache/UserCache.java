@@ -6,6 +6,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -36,6 +37,10 @@ public abstract class UserCache<T> {
 
     public @Nullable T getCachedUser(UUID uuid) {
         return this.userCache.get(uuid);
+    }
+
+    public Collection<T> getCachedUsers() {
+        return this.userCache.values();
     }
 
     public CompletableFuture<T> getUser(UUID uuid) {
