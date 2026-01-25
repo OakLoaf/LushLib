@@ -416,15 +416,18 @@ public class DisplayItemStack {
 
         public Builder replace(CharSequence target, CharSequence replacement) {
             this.displayName = this.displayName.replace(target, replacement);
-            this.lore = this.lore.stream()
-                .map(line -> line.replace(target, replacement))
-                .toList();
+
+            if (this.lore != null) {
+                this.lore = this.lore.stream()
+                    .map(line -> line.replace(target, replacement))
+                    .toList();
+            }
 
             return this;
         }
 
         public Builder replace(CharSequence target, Callable<String> callableReplacement) {
-            if (!this.displayName.contains(target) && this.lore.stream().noneMatch(str -> str.contains(target))) {
+            if (!this.displayName.contains(target) && (this.lore == null || this.lore.stream().noneMatch(str -> str.contains(target)))) {
                 return this;
             }
 
@@ -440,9 +443,12 @@ public class DisplayItemStack {
 
         public Builder replace(Function<String, String> replacer) {
             this.displayName = replacer.apply(this.displayName);
+
+            if (this.lore != null) {
             this.lore = this.lore.stream()
                 .map(replacer)
                 .toList();
+            }
 
             return this;
         }
