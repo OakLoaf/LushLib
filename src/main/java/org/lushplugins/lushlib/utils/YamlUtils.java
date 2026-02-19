@@ -35,6 +35,18 @@ public class YamlUtils {
     /**
      * Get a list of configuration sections by path
      * @param config config section
+     * @return requested list of configuration sections by path
+     */
+    public static List<ConfigurationSection> getConfigurationSections(ConfigurationSection config) {
+        return config.getValues(false).values().stream()
+            .map(rawSection -> rawSection instanceof ConfigurationSection configSection ? configSection : null)
+            .filter(Objects::nonNull)
+            .toList();
+    }
+
+    /**
+     * Get a list of configuration sections by path
+     * @param config config section
      * @param path path of the list to get
      * @return requested list of configuration sections by path
      */
@@ -49,10 +61,7 @@ public class YamlUtils {
                 return Collections.emptyList();
             }
 
-            return pathSection.getValues(false).values().stream()
-                .map(rawSection -> rawSection instanceof ConfigurationSection configSection ? configSection : null)
-                .filter(Objects::nonNull)
-                .toList();
+            return getConfigurationSections(pathSection);
         }
     }
 
