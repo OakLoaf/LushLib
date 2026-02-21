@@ -106,11 +106,11 @@ public class YamlUtils {
      * Load all yaml files in a directory
      * @param directory directory to read from
      */
-    public static List<Pair<String, YamlConfiguration>> readConfigsInDirectory(File directory) {
+    public static List<Pair<String, YamlConfiguration>> readConfigsInDirectory(Path directory) {
         List<Pair<String, YamlConfiguration>> configFiles = new ArrayList<>();
 
         try (
-            DirectoryStream<Path> fileStream = Files.newDirectoryStream(directory.toPath(), "*.yml")
+            DirectoryStream<Path> fileStream = Files.newDirectoryStream(directory, "*.yml")
         ) {
             for (Path filePath : fileStream) {
                 File file = filePath.toFile();
@@ -124,5 +124,13 @@ public class YamlUtils {
         }
 
         return configFiles;
+    }
+
+    /**
+     * Load all yaml files in a directory
+     * @param directory directory to read from
+     */
+    public static List<Pair<String, YamlConfiguration>> readConfigsInDirectory(File directory) {
+        return readConfigsInDirectory(directory.toPath());
     }
 }
