@@ -14,6 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 public class YamlUtils {
 
@@ -30,6 +31,19 @@ public class YamlUtils {
         } else {
             return config.getStringList(path);
         }
+    }
+
+    public static <T> @NotNull Map<String, T> getMap(ConfigurationSection config, Class<T> clazz) {
+        return config.getValues(false).entrySet().stream()
+            .collect(Collectors.toMap(
+                Map.Entry::getKey,
+                entry -> clazz.cast(entry.getValue())
+            ));
+    }
+
+    public static <T> @NotNull Map<String, T> getMap(ConfigurationSection config, String path, Class<T> clazz) {
+        ConfigurationSection section = config.getConfigurationSection(path);
+        return section != null ? getMap(section, clazz) : Collections.emptyMap();
     }
 
     /**
