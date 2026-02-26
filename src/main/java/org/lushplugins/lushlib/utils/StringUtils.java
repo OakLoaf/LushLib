@@ -3,9 +3,22 @@ package org.lushplugins.lushlib.utils;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
+import java.util.concurrent.Callable;
 
 @SuppressWarnings("unused")
 public class StringUtils {
+
+    public static String replace(String string, String target, Callable<String> replacement) {
+        if (string.contains(target)) {
+            try {
+                return string.replace(string, replacement.call());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            return string;
+        }
+    }
 
     public static String makeFriendly(String string) {
         StringBuilder output = new StringBuilder();
