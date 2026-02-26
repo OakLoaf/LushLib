@@ -15,6 +15,7 @@ public class TimeFormatter {
 
             switch (formatType) {
                 case LONG_FORM -> result.append(" hours ");
+                case ABBREVIATED_FORM -> result.append("hrs ");
                 case SHORT_FORM -> result.append("h ");
             }
         }
@@ -24,6 +25,7 @@ public class TimeFormatter {
 
             switch (formatType) {
                 case LONG_FORM -> result.append(" minutes ");
+                case ABBREVIATED_FORM -> result.append("mins ");
                 case SHORT_FORM -> result.append("m ");
             }
         }
@@ -33,6 +35,7 @@ public class TimeFormatter {
 
             switch (formatType) {
                 case LONG_FORM -> result.append(" seconds ");
+                case ABBREVIATED_FORM -> result.append("secs ");
                 case SHORT_FORM -> result.append("s ");
             }
         }
@@ -42,6 +45,7 @@ public class TimeFormatter {
 
     public enum FormatType {
         LONG_FORM,
+        ABBREVIATED_FORM,
         SHORT_FORM
     }
 }
