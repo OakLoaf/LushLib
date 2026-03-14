@@ -1,4 +1,5 @@
 dependencies {
+    compileOnly(project(":common"))
     compileOnly(project(":utils"))
 
     implementation("com.fasterxml.jackson.core:jackson-core:2.20.0") // Jackson
