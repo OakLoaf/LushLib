@@ -9,7 +9,7 @@ allprojects {
     apply(plugin = "maven-publish")
 
     group = "org.lushplugins"
-    version = "1.0.0-alpha.2"
+    version = "1.0.0-alpha.3"
 
     repositories {
         mavenLocal()
@@ -43,6 +43,14 @@ allprojects {
 
         withType<JavaCompile> {
             options.encoding = "UTF-8"
+        }
+
+        shadowJar {
+            relocate("org.lushplugins.chatcolorhandler", "org.lushplugins.lushlib.libraries.chatcolor")
+            relocate("com.fasterxml.jackson", "org.lushplugins.lushlib.libraries.jackson")
+            relocate("org.yaml", "org.lushplugins.lushlib.libraries.yaml")
+
+            archiveFileName.set("${project.name}-${project.version}.jar")
         }
     }
 
@@ -93,16 +101,6 @@ dependencies {
     api(project(":config"))
     api(project(":item"))
     api(project(":utils"))
-}
-
-tasks {
-    shadowJar {
-        relocate("org.lushplugins.chatcolorhandler", "org.lushplugins.lushlib.libraries.chatcolor")
-        relocate("com.fasterxml.jackson", "org.lushplugins.lushlib.libraries.jackson")
-        relocate("org.yaml", "org.lushplugins.lushlib.libraries.yaml")
-
-        archiveFileName.set("${project.name}-${project.version}.jar")
-    }
 }
 
 publishing {
