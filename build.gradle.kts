@@ -7,6 +7,7 @@ plugins {
 allprojects {
     apply(plugin = "java-library")
     apply(plugin = "maven-publish")
+    apply(plugin = "com.gradleup.shadow")
 
     group = "org.lushplugins"
     version = "1.0.0-alpha.3"
