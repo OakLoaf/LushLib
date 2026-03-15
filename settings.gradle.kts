@@ -1,2 +1,6 @@
 rootProject.name = "LushLib"
-include("skullcreator")
+include("common")
+include("config")
+include("item")
+include("jackson")
+include("utils")
