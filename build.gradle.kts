@@ -50,8 +50,6 @@ allprojects {
             relocate("org.lushplugins.chatcolorhandler", "org.lushplugins.lushlib.libraries.chatcolor")
             relocate("com.fasterxml.jackson", "org.lushplugins.lushlib.libraries.jackson")
             relocate("org.yaml", "org.lushplugins.lushlib.libraries.yaml")
-
-            archiveFileName.set("${project.name}-${project.version}.jar")
         }
     }
 
@@ -102,6 +100,13 @@ dependencies {
     api(project(":config"))
     api(project(":item"))
     api(project(":utils"))
+}
+
+tasks {
+    shadowJar {
+        dependsOn(":common:shadowJar")
+        dependsOn(":config:shadowJar")
+    }
 }
 
 publishing {
