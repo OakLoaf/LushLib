@@ -92,10 +92,6 @@ subprojects {
 }
 
 dependencies {
-    // Dependencies
-    compileOnly("com.google.code.gson:gson:2.13.1")
-
-    // Modules
     api(project(":common"))
     api(project(":config"))
     api(project(":item"))
