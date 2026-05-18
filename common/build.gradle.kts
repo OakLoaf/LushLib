@@ -1,4 +1,4 @@
 dependencies {
     // Libraries
-    api("org.lushplugins.chatcolorhandler:paper:8.1.0")
+    api("org.lushplugins.chatcolorhandler:paper:8.1.1")
 }
