@@ -21,7 +21,7 @@ allprojects {
 
     dependencies {
         // Dependencies
-        compileOnly("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
+        compileOnly("io.papermc.paper:paper-api:26.1.2.build.65-stable")
 
         // Libraries
         compileOnly("org.jetbrains:annotations:26.1.0")
