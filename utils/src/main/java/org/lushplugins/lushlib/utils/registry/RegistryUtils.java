@@ -1,5 +1,7 @@
 package org.lushplugins.lushlib.utils.registry;
 
+import io.papermc.paper.registry.RegistryAccess;
+import io.papermc.paper.registry.RegistryKey;
 import org.bukkit.*;
 import org.jetbrains.annotations.Nullable;
 import org.lushplugins.lushlib.common.logger.LushLogger;
@@ -22,6 +24,16 @@ public class RegistryUtils {
         }
 
         return registry.get(namespacedKey);
+    }
+
+    /**
+     * Get registry value from a string
+     * @param string string to parse
+     * @param registryKey registry key of registry to get values from
+     * @return parsed value or null if none was found
+     */
+    public static <T extends Keyed> @Nullable T parseString(String string, RegistryKey<T> registryKey) {
+        return parseString(string, RegistryAccess.registryAccess().getRegistry(registryKey));
     }
 
     /**
@@ -60,6 +72,16 @@ public class RegistryUtils {
     }
 
     /**
+     * Get registry and tag values from a string
+     * @param string string to parse
+     * @param registryKey registry key of registry to get values from
+     * @return collection of values
+     */
+    public static <T extends Keyed> Collection<T> fromString(String string, RegistryKey<T> registryKey) {
+        return fromString(string, RegistryAccess.registryAccess().getRegistry(registryKey));
+    }
+
+    /**
      * Get registry and tag values from a list of strings
      * @param stringList list of strings to parse, this can include registry values and tags
      * @param registry registry to get values from
@@ -69,5 +91,15 @@ public class RegistryUtils {
         return stringList.stream()
             .flatMap(string -> fromString(string, registry).stream())
             .toList();
+    }
+
+    /**
+     * Get registry and tag values from a list of strings
+     * @param stringList list of strings to parse, this can include registry values and tags
+     * @param registryKey registry key of registry to get values from
+     * @return collection of values
+     */
+    public static <T extends Keyed> List<T> fromStringList(List<String> stringList, RegistryKey<T> registryKey) {
+        return fromStringList(stringList, RegistryAccess.registryAccess().getRegistry(registryKey));
     }
 }
