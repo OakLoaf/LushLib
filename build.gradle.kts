@@ -1,7 +1,7 @@
 plugins {
     `java-library`
     `maven-publish`
-    id("com.gradleup.shadow") version("8.3.0")
+    id("com.gradleup.shadow") version("9.3.1")
 }
 
 allprojects {
@@ -24,7 +24,7 @@ allprojects {
         compileOnly("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
 
         // Libraries
-        compileOnly("org.jetbrains:annotations:26.0.2")
+        compileOnly("org.jetbrains:annotations:26.1.0")
     }
 
     java {
