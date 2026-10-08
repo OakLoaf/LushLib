@@ -19,8 +19,9 @@ import java.util.function.Function;
 import java.util.logging.Level;
 
 @JsonAutoDetect(
-    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
     getterVisibility = JsonAutoDetect.Visibility.NONE,
+    isGetterVisibility = JsonAutoDetect.Visibility.NONE,
+    setterVisibility = JsonAutoDetect.Visibility.NONE,
     fieldVisibility = JsonAutoDetect.Visibility.ANY
 )
 @JsonInclude(JsonInclude.Include.NON_NULL)
